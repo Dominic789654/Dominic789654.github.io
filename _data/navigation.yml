@@ -5,5 +5,5 @@ main:
   - title: "CV"
     url: /cv/
     
-  # - title: "Service"
-  #   url: /service/
+  - title: "Competition"
+    url: /competition/

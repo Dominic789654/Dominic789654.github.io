@@ -17,13 +17,9 @@ Xiang Liu is an incoming Master student at The University of Hong Kong(HKU). He 
 Check out my [CV](https://dominic789654.github.io/cv/)
 and [English pdf](https://dominic789654.github.io/files/cv_en.pdf), [Chinese pdf](https://dominic789654.github.io/files/cv_cn.pdf).
 
+
 <!-- **Research Interests**
-  * Molecule Generation
-  * Molecule Design
-  * AI for Science (Biology/Physics/etc)
-  * Natural Language Processing
-  * Deep Graph Learning
-  * Machine Learning for Discovery  -->
+  * AI4Code -->
   
 
 
