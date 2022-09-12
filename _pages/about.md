@@ -20,8 +20,6 @@ and [PDF](https://dominic789654.github.io/files/cv_en.pdf).
 <!-- , [Chinese pdf](https://dominic789654.github.io/files/cv_cn.pdf) -->
 **Research Interests**
   * Fine-tunning
-  * Prompt Learning
-  * Kaggle
-  
+  * Prompt Learning  
 
 
