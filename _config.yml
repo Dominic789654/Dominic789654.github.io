@@ -82,12 +82,12 @@ analytics:
 author:
   name             : "Xiang Liu"
   avatar           : "profile.jpg"
-  bio              : "Master Student in HK, xliu29@gmu.edu"
+  bio              : "Master Student in HK, xiang.liu@connect.hku.hk"
   location         : "Hong Kong"
-  employer         :
+  employer         : "The University of Hong Kong"
   pubmed           : 
   googlescholar    : 
-  email            : "xliu29@gmu.edu"
+  email            : "xiang.liu@connect.hku.hk"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
   bitbucket        :
