@@ -17,11 +17,11 @@ Education
 
 Work experience
 ======
-* Dec 2021 - Jun 2022: Research Intern
-  * Baidu Research Cognitive Computing Lab
 * Dec 2022 - present: Research Intern
   * HKUST Statistics and Machine Learning Research Group
-  
+* Dec 2021 - Jun 2022: Research Intern
+  * Baidu Research Cognitive Computing Lab
+
 Skills
 ======
 * Programming (Python, LaTeX, Java, C++)
