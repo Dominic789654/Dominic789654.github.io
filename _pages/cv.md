@@ -12,7 +12,6 @@ redirect_from:
 Education
 ======
 * B.S. in Computer Science, George Mason University, 2018-2022
-* B.S. in Network Engineering, Henan University, 2017-2022
 * M.S. in Computer Science, The University of Hong Kong, 2022-2023
 
 Work experience
