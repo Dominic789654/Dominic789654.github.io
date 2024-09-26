@@ -1413,6 +1413,9 @@ td.rdtMonth:hover, td.rdtYear:hover {
 * {
     box-sizing: border-box
     }
+foreignObject > * {
+    isolation: auto
+    }
 table > tr {
     vertical-align: top
     }
