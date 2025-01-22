@@ -25,9 +25,10 @@ jobs:
       - name: Download and install chromedriver
         run: sudo apt install chromium-chromedriver
       - name: Install Loconotion dependencies
-        run: pip uninstall urllib3
-        run: pip install urllib3
-        run: pip install -r loconotion/requirements.txt
+        run: |
+          pip uninstall urllib3
+          pip install urllib3
+          pip install -r loconotion/requirements.txt
       - name: Run Loconotion
         run: |
           python3 loconotion/loconotion --chromedriver chromedriver "pages_repo/site.toml"
