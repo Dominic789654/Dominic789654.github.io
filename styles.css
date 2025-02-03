@@ -50,6 +50,8 @@ header {
     margin-top: 1rem;
     display: flex;
     gap: 1rem;
+    justify-content: center;
+    align-items: center;
 }
 
 .contact-links a {
@@ -193,32 +195,4 @@ footer {
     .contact-links {
         justify-content: center;
     }
-}
-
-/* WeChat QR Code Popup Styles */
-.wechat-link {
-    position: relative;
-}
-
-.qr-popup {
-    display: none;
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    z-index: 1000;
-}
-
-.qr-code {
-    width: 150px;
-    height: 150px;
-    display: block;
-}
-
-.wechat-link:hover .qr-popup {
-    display: block;
 } 
