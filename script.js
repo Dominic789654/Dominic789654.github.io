@@ -33,15 +33,4 @@ window.addEventListener('scroll', () => {
 // 添加暗色模式切换功能（可选）
 const toggleDarkMode = () => {
     document.body.classList.toggle('dark-mode');
-};
-
-// WeChat QR Code popup handling
-document.addEventListener('DOMContentLoaded', () => {
-    const wechatLink = document.querySelector('.wechat-link');
-    
-    if (wechatLink) {
-        wechatLink.addEventListener('click', (e) => {
-            e.preventDefault();
-        });
-    }
-}); 
+}; 
