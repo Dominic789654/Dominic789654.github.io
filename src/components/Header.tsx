@@ -1,5 +1,7 @@
 import React from 'react';
 import { Mail, FileText, Twitter, Github, GraduationCap } from 'lucide-react';
+import avatar from '../assets/images/profile/avatar.png';
+import cv from '../assets/cv/Xiang_Liu_Resume.pdf';
 
 export const Header: React.FC = () => {
   return (
@@ -8,7 +10,7 @@ export const Header: React.FC = () => {
         <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
           <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-lg">
             <img 
-              src="images/profile/avatar.png" 
+              src={avatar} 
               alt="Profile" 
               className="w-full h-full object-cover"
             />
@@ -33,7 +35,7 @@ export const Header: React.FC = () => {
               <a href="https://github.com/Dominic789654" className="bg-white/10 hover:bg-white/20 transition-colors p-2 rounded-full" title="GitHub">
                 <Github size={20} />
               </a>
-              <a href="cv/Xiang_Liu_Resume.pdf" className="bg-white/10 hover:bg-white/20 transition-colors p-2 rounded-full" title="CV">
+              <a href={cv} className="bg-white/10 hover:bg-white/20 transition-colors p-2 rounded-full" title="CV">
                 <FileText size={20} />
               </a>
             </div>
