@@ -12,13 +12,13 @@ export const News: React.FC = () => {
   const newsItems: NewsItem[] = [
     {
       id: 1,
-      date: 'January 2024',
+      date: 'January 2025',
       content: 'One paper accepted by AAAI 2024 Oral !!',
       isNew: true
     },
     {
       id: 2,
-      date: 'December 2023',
+      date: 'December 2024',
       content: 'Selected as the Top Reviewer of NeurIPS 2024 for both main and D&B tracks',
       isNew: true
     }
