@@ -35,7 +35,7 @@ export const Footer: React.FC = () => {
           <div className="mb-4 md:mb-0">
             <p>© {currentYear} Xiang Liu. All rights reserved.</p>
             <p className="text-sm mt-1 text-gray-400">
-              Last updated: {currentDay} {currentMonth} {currentYear}
+              Last updated: {currentYear}/{currentMonth+1}/{currentDay}
             </p>
           </div>
         </div>
