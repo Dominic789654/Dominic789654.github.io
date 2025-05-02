@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const currentDay = new Date().getDate();
   const mapRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -33,7 +35,7 @@ export const Footer: React.FC = () => {
           <div className="mb-4 md:mb-0">
             <p>© {currentYear} Xiang Liu. All rights reserved.</p>
             <p className="text-sm mt-1 text-gray-400">
-              Last updated: April {currentYear}
+              Last updated: {currentDay} {currentMonth} {currentYear}
             </p>
           </div>
         </div>
