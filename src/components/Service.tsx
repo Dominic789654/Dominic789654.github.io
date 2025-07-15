@@ -12,7 +12,7 @@ export const Service: React.FC = () => {
     {
       id: 2,
       title: "Journal Reviewer",
-      items: "TMLR"
+      items: "TMLR, Neural Networks"
     }
   ];
 

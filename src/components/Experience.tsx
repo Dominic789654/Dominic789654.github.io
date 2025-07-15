@@ -12,6 +12,12 @@ export const Experience: React.FC = () => {
   const experiences: ExperienceItem[] = [
     {
       id: 1,
+      organization: "NYU Center for Data Science",
+      period: "07/2025–01/2026",
+      description: "Visiting Student, supervised by Prof. Eunsol Choi"
+    },
+    {
+      id: 2,
       organization: "HKUST(GZ)",
       period: "09/2023–Present",
       description: "Ph.D. student, supervised by Prof. Xiaowen Chu and Prof. Xuming HU"
@@ -30,6 +36,21 @@ export const Experience: React.FC = () => {
     }
   ];
 
+  const teachingExperiences: ExperienceItem[] = [
+    {
+      id: 1,
+      organization: "HKUST(GZ)",
+      period: "Fall 2024",
+      description: "TA - AIAA 5088 Natural Language Processing and Its Applications"
+    },
+    {
+      id: 2,
+      organization: "HKUST(GZ)",
+      period: "Summer 2024",
+      description: "TA - RBCC Red Bird Challenge Camp"
+    }
+  ];
+
   return (
     <section id="experience" className="py-8">
       <SectionTitle icon="🔬" title="Research Experience" />
@@ -44,6 +65,22 @@ export const Experience: React.FC = () => {
             <p className="mt-2 text-gray-700">{exp.description}</p>
           </div>
         ))}
+      </div>
+
+      <div className="mt-12">
+        <SectionTitle icon="👨‍🏫" title="Teaching Experience" />
+        <div className="mt-6 space-y-8">
+          {teachingExperiences.map(exp => (
+            <div key={exp.id} className="relative pl-8 pb-4 border-l-2 border-blue-300 group">
+              <div className="absolute left-[-8px] top-0 w-4 h-4 bg-blue-500 rounded-full"></div>
+              <h3 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+                {exp.organization}
+              </h3>
+              <p className="mt-1 text-gray-500 font-mono">{exp.period}</p>
+              <p className="mt-2 text-gray-700">{exp.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
