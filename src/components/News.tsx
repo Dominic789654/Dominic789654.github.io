@@ -13,7 +13,7 @@ export const News: React.FC = () => {
     {
       id: 1,
       date: 'July 2025 - Jan 2026',
-      content: 'Visiting Student at NYU with Prof. Eunsol Choi</a>',
+      content: 'Visiting Student at NYU with Prof. Eunsol Choi',
       isNew: true
     },
     {
