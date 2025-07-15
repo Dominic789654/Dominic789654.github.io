@@ -12,6 +12,12 @@ export const News: React.FC = () => {
   const newsItems: NewsItem[] = [
     {
       id: 1,
+      date: 'July 2025 - Jan 2026',
+      content: 'Visiting Student at NYU with <a href="https://eunsol.github.io/" className="text-blue-600 hover:underline">Prof. Eunsol Choi</a>',
+      isNew: true
+    },
+    {
+      id: 1,
       date: 'May 2025',
       content: 'One paper accepted by ICML 2025 !!',
       isNew: true
@@ -22,12 +28,7 @@ export const News: React.FC = () => {
       content: 'One paper accepted by AAAI 2024 Oral !!',
       isNew: true
     },
-    {
-      id: 3,
-      date: 'December 2024',
-      content: 'Selected as the Top Reviewer of NeurIPS 2024 for both main and D&B tracks',
-      isNew: true
-    }
+
   ];
 
   return (

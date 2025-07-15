@@ -6,18 +6,28 @@ export const Awards: React.FC = () => {
   const awards = [
     {
       id: 1,
+      title: "HKUST Overseas Research Award",
+      description: "2025"
+    },
+    {
+      id: 2,
+      title: "HKUST(GZ) Info Hub & DSA Thrust Research Travel Award",
+      description: "2024, 2025"
+    },
+    {
+      id: 3,
       title: "AAAI 2024 Oral Award",
       description: "Paper: ParZC: Parametric Zero-Cost Proxies for Efficient NAS"
     },
     {
-      id: 2,
+      id: 4,
       title: "NeurIPS 2024 Top Reviewer",
       description: "Selected as top reviewer for both main and D&B tracks"
     },
     {
-      id: 3,
+      id: 5,
       title: "OpenAI’s Researcher Access Program ",
-      description: ""
+      description: "2024"
     }
   ];
 

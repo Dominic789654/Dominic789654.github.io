@@ -6,6 +6,16 @@ export const Publications: React.FC = () => {
   const selectedPublications = [
     {
       id: 1,
+      title: "Can Compressed LLMs Truly Act? An Empirical Evaluation of Agentic Capabilities in LLM Compression",
+      authors: "Peijie Dong*, Zhenheng Tang*, Xiang Liu, Lujun Li, Xiaowen Chu, Bo Li",
+      venue: "ICML 2025",
+      links: {
+        paper: "https://arxiv.org/abs/2505.19433",
+        code:"https://github.com/pprp/ACBench"
+      }
+    },
+    {
+      id: 2,
       title: "ParZC: Parametric Zero-Cost Proxies for Efficient NAS",
       authors: "Peijie Dong*, Lujun Li*, Xinglin Pan, Zimian Wei, Xiang Liu, Qiang Wang, Xiaowen Chu",
       venue: "AAAI 2024. Oral Award.",
@@ -39,15 +49,24 @@ export const Publications: React.FC = () => {
   const preprints = [
     {
       id: 4,
+      title: "FlowKV: Enhancing Multi-Turn Conversational Coherence in LLMs via Isolated Key-Value Cache Management",
+      authors: "Xiang Liu*, Hong Chen*, Xuming Hu, Xiaowen Chu",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/abs/2505.15347"
+      }
+    },
+    {
+      id: 5,
       title: "ChunkKV: Semantic-Preserving KV Cache Compression for Efficient Long-Context LLM Inference",
-      authors: "Xiang Liu, Zhenheng Tang, Peijie Dong, Zeyu Li, Bo Li, Xuming Hu, Xiaowen Chu",
+      authors: "Xiang Liu*, Zhenheng Tang*, Peijie Dong, Zeyu Li, Bo Li, Xuming Hu, Xiaowen Chu",
       venue: "arXiv preprint",
       links: {
         paper: "https://arxiv.org/abs/2502.00299"
       }
     },
     {
-      id: 5,
+      id: 6,
       title: "Can LLMs Maintain Fundamental Abilities under KV Cache Compression?",
       authors: "Xiang Liu, Zhenheng Tang, Hong Chen, Peijie Dong, Zeyu Li, Xiuze Zhou, Bo Li, Xuming Hu, Xiaowen Chu",
       venue: "arXiv preprint",
