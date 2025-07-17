@@ -11,7 +11,7 @@ export const Awards: React.FC = () => {
     },
     {
       id: 2,
-      title: "HKUST(GZ) Info Hub & DSA Thrust Research Travel Award",
+      title: "HKUST(GZ) Info Hub & DSA Thrust Research Travel Grant",
       description: "2024, 2025"
     },
     {
