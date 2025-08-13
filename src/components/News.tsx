@@ -18,6 +18,12 @@ export const News: React.FC = () => {
     },
     {
       id: 1,
+      date: 'July 2025',
+      content: 'OracleKV was accepted by ICML 2025 Workshop on Long-Context Foundation Models as Oral Presentation',
+      isNew: true
+    },
+    {
+      id: 1,
       date: 'May 2025',
       content: 'One paper accepted by ICML 2025 !!',
       isNew: true
