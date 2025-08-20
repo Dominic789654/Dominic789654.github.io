@@ -147,7 +147,7 @@ export const Publications: React.FC = () => {
       id: 15,
       title: "Perovskite-llm: Knowledge-enhanced large language models for perovskite solar cell research",
       authors: "Xiang Liu*, Penglei Sun*, Shuyan Chen, Longhan Zhang, Peijie Dong, Huajie You, Yongqi Zhang, Chang Yan, Xiaowen Chu, Tong-yi Zhang",
-      venue: "arXiv preprint",
+      venue: "EMNLP 2025 Findings",
       links: {
         paper: "https://arxiv.org/pdf/2502.12669"
       }

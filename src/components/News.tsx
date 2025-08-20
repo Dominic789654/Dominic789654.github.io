@@ -12,6 +12,12 @@ export const News: React.FC = () => {
   const newsItems: NewsItem[] = [
     {
       id: 1,
+      date: 'Aug 2025',
+      content: 'One paper accepted by EMNLP 2025 !!',
+      isNew: true
+    },
+    {
+      id: 1,
       date: 'July 2025 - Jan 2026',
       content: 'Visiting Student at NYU with Prof. Eunsol Choi',
       isNew: true
