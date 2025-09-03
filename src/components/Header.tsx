@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mail, FileText, Twitter, Github, GraduationCap } from 'lucide-react';
-import avatar from '../assets/images/profile/avatar.png';
-import cv from '../assets/cv/Xiang_Liu_Resume.pdf';
+import avatar from '../assets/images/profile/avatar.jpeg';
+import cv from '../assets/cv/XiangLiu_resume_2025_08.pdf';
 
 export const Header: React.FC = () => {
   return (
