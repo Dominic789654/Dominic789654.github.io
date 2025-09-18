@@ -7,6 +7,15 @@ export const Publications: React.FC = () => {
 
   const selectedPublications = [
     {
+      id: 6,
+      title: "ChunkKV: Semantic-Preserving KV Cache Compression for Efficient Long-Context LLM Inference",
+      authors: "Xiang Liu*, Zhenheng Tang*, Peijie Dong, Zeyu Li, Bo Li, Xuming Hu, Xiaowen Chu",
+      venue: "NeurIPS 2025",
+      links: {
+        paper: "https://arxiv.org/abs/2502.00299"
+      }
+    },
+    {
       id: 1,
       title: "Can Compressed LLMs Truly Act? An Empirical Evaluation of Agentic Capabilities in LLM Compression",
       authors: "Peijie Dong*, Zhenheng Tang*, Xiang Liu, Lujun Li, Xiaowen Chu, Bo Li",
@@ -56,15 +65,6 @@ export const Publications: React.FC = () => {
       venue: "arXiv preprint",
       links: {
         paper: "https://arxiv.org/abs/2505.15347"
-      }
-    },
-    {
-      id: 6,
-      title: "ChunkKV: Semantic-Preserving KV Cache Compression for Efficient Long-Context LLM Inference",
-      authors: "Xiang Liu*, Zhenheng Tang*, Peijie Dong, Zeyu Li, Bo Li, Xuming Hu, Xiaowen Chu",
-      venue: "arXiv preprint",
-      links: {
-        paper: "https://arxiv.org/abs/2502.00299"
       }
     },
     {
@@ -183,7 +183,7 @@ export const Publications: React.FC = () => {
       id: 19,
       title: "ChunkKV: Semantic-Preserving KV Cache Compression for Efficient Long-Context LLM Inference",
       authors: "Xiang Liu*, Zhenheng Tang*, Peijie Dong, Zeyu Li, Bo Li, Xuming Hu, Xiaowen Chu",
-      venue: "arXiv preprint",
+      venue: "NeurIPS 2025",
       links: {
         paper: "https://arxiv.org/abs/2502.00299"
       }
