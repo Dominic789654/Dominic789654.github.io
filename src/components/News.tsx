@@ -13,7 +13,7 @@ export const News: React.FC = () => {
     {
       id: 1,
       date: 'Oct 2025',
-      content: 'FlowKV was accepted by NeurIPS 2025 Multi-Turn Workshop',
+      content: 'FlowKV was accepted by NeurIPS 2025 Multi-Turn Interactions in Large Language Models Workshop',
       isNew: true
     },
     {
