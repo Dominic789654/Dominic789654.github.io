@@ -12,41 +12,35 @@ export const News: React.FC = () => {
   const newsItems: NewsItem[] = [
     {
       id: 1,
+      date: 'Oct 2025',
+      content: 'FlowKV was accepted by NeurIPS 2025 Multi-Turn Workshop',
+      isNew: true
+    },
+    {
+      id: 2,
       date: 'Sep 2025',
       content: 'ChunkKV was accepted by NeurIPS 2025 !!',
       isNew: true
     },
+    
     {
-      id: 1,
+      id: 3,
       date: 'Aug 2025',
       content: 'One paper accepted by EMNLP 2025 !!',
       isNew: true
     },
     {
-      id: 1,
+      id: 4,
       date: 'July 2025 - Jan 2026',
       content: 'Visiting Student at NYU with Prof. Eunsol Choi',
       isNew: true
     },
     {
-      id: 1,
+      id: 5,
       date: 'July 2025',
       content: 'OracleKV was accepted by ICML 2025 Workshop on Long-Context Foundation Models as Oral Presentation',
       isNew: true
     },
-    {
-      id: 1,
-      date: 'May 2025',
-      content: 'One paper accepted by ICML 2025 !!',
-      isNew: true
-    },
-    {
-      id: 2,
-      date: 'January 2025',
-      content: 'One paper accepted by AAAI 2024 Oral !!',
-      isNew: true
-    },
-
   ];
 
   return (
