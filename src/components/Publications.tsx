@@ -16,6 +16,15 @@ export const Publications: React.FC = () => {
       }
     },
     {
+      id: 5,
+      title: "FlowKV: Enhancing Multi-Turn Conversational Coherence in LLMs via Isolated Key-Value Cache Management",
+      authors: "Xiang Liu*, Hong Chen*, Xuming Hu, Xiaowen Chu",
+      venue: "NeurIPS 2025 Multi-Turn Interactions in Large Language Models Workshop",
+      links: {
+        paper: "https://arxiv.org/abs/2505.15347"
+      }
+    },
+    {
       id: 1,
       title: "Can Compressed LLMs Truly Act? An Empirical Evaluation of Agentic Capabilities in LLM Compression",
       authors: "Peijie Dong*, Zhenheng Tang*, Xiang Liu, Lujun Li, Xiaowen Chu, Bo Li",
@@ -58,15 +67,7 @@ export const Publications: React.FC = () => {
   ];
 
   const preprints = [
-    {
-      id: 5,
-      title: "FlowKV: Enhancing Multi-Turn Conversational Coherence in LLMs via Isolated Key-Value Cache Management",
-      authors: "Xiang Liu*, Hong Chen*, Xuming Hu, Xiaowen Chu",
-      venue: "NeurIPS 2025 Multi-Turn Interactions in Large Language Models Workshop",
-      links: {
-        paper: "https://arxiv.org/abs/2505.15347"
-      }
-    },
+
     {
       id: 7,
       title: "Can LLMs Maintain Fundamental Abilities under KV Cache Compression?",
