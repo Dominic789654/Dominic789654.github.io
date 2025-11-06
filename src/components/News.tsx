@@ -10,35 +10,29 @@ interface NewsItem {
 
 export const News: React.FC = () => {
   const newsItems: NewsItem[] = [
+    // {
+    //   id: 1,
+    //   date: 'Nov 2025',
+    //   content: 'DIFFADAPT: Difficulty-Adaptive Reasoning for Token-Efficient LLM Inference (Xiang Liu, Xuming Hu, Xiaowen Chu†, Eunsol Choi†)',
+    //   isNew: true
+    // },
     {
-      id: 1,
+      id: 2,
       date: 'Oct 2025',
       content: 'FlowKV was accepted by NeurIPS 2025 Multi-Turn Interactions in Large Language Models Workshop',
       isNew: true
     },
     {
-      id: 2,
+      id: 3,
       date: 'Sep 2025',
       content: 'ChunkKV was accepted by NeurIPS 2025 !!',
       isNew: true
     },
     
     {
-      id: 3,
+      id: 4,
       date: 'Aug 2025',
       content: 'One paper accepted by EMNLP 2025 !!',
-      isNew: true
-    },
-    {
-      id: 4,
-      date: 'July 2025 - Jan 2026',
-      content: 'Visiting Student at NYU with Prof. Eunsol Choi',
-      isNew: true
-    },
-    {
-      id: 5,
-      date: 'July 2025',
-      content: 'OracleKV was accepted by ICML 2025 Workshop on Long-Context Foundation Models as Oral Presentation',
       isNew: true
     },
   ];

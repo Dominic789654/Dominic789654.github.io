@@ -16,6 +16,15 @@ export const Publications: React.FC = () => {
       }
     },
     {
+      id: 7,
+      title: "Can LLMs Maintain Fundamental Abilities under KV Cache Compression?",
+      authors: "Xiang Liu, Zhenheng Tang, Hong Chen, Peijie Dong, Zeyu Li, Xiuze Zhou, Bo Li, Xuming Hu, Xiaowen Chu",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/abs/2502.01941"
+      }
+    },
+    {
       id: 5,
       title: "FlowKV: Enhancing Multi-Turn Conversational Coherence in LLMs via Isolated Key-Value Cache Management",
       authors: "Xiang Liu*, Hong Chen*, Xuming Hu, Xiaowen Chu",
@@ -67,7 +76,24 @@ export const Publications: React.FC = () => {
   ];
 
   const preprints = [
-
+    {
+      id: 8,
+      title: "DiffAdapt: Difficulty-Adaptive Reasoning for Token-Efficient LLM Inference",
+      authors: "Xiang Liu, Xuming Hu, Xiaowen Chu, Eunsol Choi",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/pdf/2510.19669"
+      }
+    },
+    {
+      id: 9,
+      title: "Reasoning Language Model Inference Serving Unveiled: An Empirical Study",
+      authors: "Qi Li*, Junpan Wu*, Xiang Liu*, Yuxin Wang, Zeyu Li, Zhenheng Tang, Yuhan Chen, Shaohuai Shi, Xiaowen Chu",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/pdf/2510.18672"
+      }
+    },
     {
       id: 7,
       title: "Can LLMs Maintain Fundamental Abilities under KV Cache Compression?",
@@ -80,6 +106,33 @@ export const Publications: React.FC = () => {
   ];
 
   const fullPublications = [
+    {
+      id: 32,
+      title: "DiffAdapt: Difficulty-Adaptive Reasoning for Token-Efficient LLM Inference",
+      authors: "Xiang Liu, Xuming Hu, Xiaowen Chu†, Eunsol Choi†",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/pdf/2510.19669"
+      }
+    },
+    {
+      id: 33,
+      title: "Reasoning Language Model Inference Serving Unveiled: An Empirical Study",
+      authors: "Qi Li*, Junpan Wu*, Xiang Liu*, Yuxin Wang, Zeyu Li, Zhenheng Tang, Yuhan Chen, Shaohuai Shi, Xiaowen Chu†",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/pdf/2510.18672"
+      }
+    },
+    {
+      id: 34,
+      title: "An Improved Autoregressive Evaluation Paradigm for Large Language Models",
+      authors: "Jipeng Zhang, Rui Pan, Yuzheng Hu, Kashun Shum, Guanyu Yao, Xiang Liu, Renjie Pi, Hanze Dong, Shizhe Diao, Yong Lin, Han Zhao, Tong Zhang",
+      venue: "ACM Transactions on Intelligent Systems and Technology, 2025",
+      links: {
+        paper: "https://dl.acm.org/doi/pdf/10.1145/3763000"
+      }
+    },
     {
       id: 8,
       title: "City-VLM: Towards Multidomain Perception Scene Understanding via Multimodal Incomplete Learning",
