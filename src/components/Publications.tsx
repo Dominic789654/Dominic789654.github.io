@@ -368,8 +368,8 @@ export const Publications: React.FC = () => {
       <section id="publications" className="py-8">
         <SectionTitle icon="📜" title="Selected Publications" />
         <div className="mt-6 space-y-6">
-          {selectedPublications.map(pub => (
-            <PublicationCard key={pub.id} publication={pub} />
+          {selectedPublications.map((pub, idx) => (
+            <PublicationCard key={pub.id} publication={pub} index={idx} />
           ))}
         </div>
       </section>
@@ -377,8 +377,8 @@ export const Publications: React.FC = () => {
       <section id="preprints" className="py-8">
         <SectionTitle icon="📝" title="Preprints" />
         <div className="mt-6 space-y-6">
-          {preprints.map(pub => (
-            <PublicationCard key={pub.id} publication={pub} />
+          {preprints.map((pub, idx) => (
+            <PublicationCard key={pub.id} publication={pub} index={idx} />
           ))}
         </div>
       </section>
@@ -408,8 +408,8 @@ export const Publications: React.FC = () => {
               </div>
             </div>
             <div className="mt-6 space-y-6">
-              {fullPublications.map(pub => (
-                <PublicationCard key={pub.id} publication={pub} />
+              {fullPublications.map((pub, idx) => (
+                <PublicationCard key={pub.id} publication={pub} index={idx} />
               ))}
             </div>
           </>

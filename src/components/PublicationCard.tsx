@@ -1,5 +1,6 @@
 import React from 'react';
-import { FileText, Code, BookOpen } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { FileText, Code, BookOpen, ExternalLink } from 'lucide-react';
 
 interface Publication {
   id: number;
@@ -15,59 +16,96 @@ interface Publication {
 
 interface PublicationCardProps {
   publication: Publication;
+  index?: number;
 }
 
-export const PublicationCard: React.FC<PublicationCardProps> = ({ publication }) => {
+export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, index = 0 }) => {
   const highlightOwnName = (authors: string) => {
-    return authors.replace('Xiang Liu', '<strong>Xiang Liu</strong>');
+    return authors.replace(/Xiang Liu/g, '\u003cstrong class="text-blue-600"\u003eXiang Liu\u003c/strong\u003e');
+  };
+
+  const linkVariants = {
+    paper: { bg: 'bg-blue-50', bgHover: 'hover:bg-blue-100', text: 'text-blue-700', border: 'border-blue-200' },
+    code: { bg: 'bg-gray-50', bgHover: 'hover:bg-gray-100', text: 'text-gray-700', border: 'border-gray-200' },
+    blog: { bg: 'bg-green-50', bgHover: 'hover:bg-green-100', text: 'text-green-700', border: 'border-green-200' },
   };
 
   return (
-    <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200 transition-all hover:shadow-md duration-300">
-      <h3 className="text-xl font-semibold text-blue-800">{publication.title}</h3>
-      <p 
-        className="mt-2 text-gray-700"
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      whileHover={{ y: -4, boxShadow: '0 12px 24px -8px rgba(30, 58, 138, 0.15)' }}
+      className="group bg-gradient-to-br from-white to-slate-50/50 p-5 rounded-xl border border-gray-100/80 shadow-sm hover:shadow-lg transition-all duration-300"
+    >
+      <motion.div
+        initial={{ width: 0 }}
+        whileInView={{ width: '40px' }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.2 + index * 0.05 }}
+        className="h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mb-4"
+      />
+
+      <h3 className="text-xl font-semibold text-slate-800 group-hover:text-blue-700 transition-colors leading-snug">
+        {publication.title}
+      </h3>
+
+      <p
+        className="mt-2.5 text-gray-600 text-sm leading-relaxed"
         dangerouslySetInnerHTML={{ __html: highlightOwnName(publication.authors) }}
       />
-      <p className="mt-1 text-gray-600 font-medium">{publication.venue}</p>
-      
-      <div className="mt-4 flex flex-wrap gap-3">
+
+      <p className="mt-2 text-blue-900/70 font-medium text-sm bg-blue-50/50 inline-block px-2.5 py-1 rounded-full">
+        {publication.venue}
+      </p>
+
+      <div className="mt-4 flex flex-wrap gap-2.5">
         {publication.links.paper && (
-          <a 
-            href={publication.links.paper} 
-            target="_blank" 
+          <motion.a
+            href={publication.links.paper}
+            target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full hover:bg-blue-200 transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border ${linkVariants.paper.bg} ${linkVariants.paper.bgHover} ${linkVariants.paper.text} ${linkVariants.paper.border} transition-all`}
           >
-            <FileText size={16} />
+            <FileText size={14} />
             Paper
-          </a>
+            <ExternalLink size={11} className="opacity-60" />
+          </motion.a>
         )}
-        
+
         {publication.links.code && (
-          <a 
-            href={publication.links.code} 
-            target="_blank" 
+          <motion.a
+            href={publication.links.code}
+            target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full hover:bg-gray-200 transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border ${linkVariants.code.bg} ${linkVariants.code.bgHover} ${linkVariants.code.text} ${linkVariants.code.border} transition-all`}
           >
-            <Code size={16} />
+            <Code size={14} />
             Code
-          </a>
+            <ExternalLink size={11} className="opacity-60" />
+          </motion.a>
         )}
-        
+
         {publication.links.blog && (
-          <a 
-            href={publication.links.blog} 
-            target="_blank" 
+          <motion.a
+            href={publication.links.blog}
+            target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full hover:bg-green-200 transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border ${linkVariants.blog.bg} ${linkVariants.blog.bgHover} ${linkVariants.blog.text} ${linkVariants.blog.border} transition-all`}
           >
-            <BookOpen size={16} />
+            <BookOpen size={14} />
             Blog
-          </a>
+            <ExternalLink size={11} className="opacity-60" />
+          </motion.a>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
