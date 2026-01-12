@@ -107,6 +107,15 @@ export const Publications: React.FC = () => {
 
   const fullPublications = [
     {
+      id: 35,
+      title: "Beyond Single Embeddings: Capturing Diverse Targets with Multi-Query Retrieval",
+      authors: "Hung-Ting Chen, Xiang Liu, Shauli Ravfogel, Eunsol Choi",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/pdf/2511.02770"
+      }
+    },
+    {
       id: 32,
       title: "DiffAdapt: Difficulty-Adaptive Reasoning for Token-Efficient LLM Inference",
       authors: "Xiang Liu, Xuming Hu, Xiaowen Chu†, Eunsol Choi†",
