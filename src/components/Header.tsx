@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, FileText, Twitter, Github, GraduationCap, Cursor } from 'lucide-react';
+import { Mail, FileText, Twitter, Github, GraduationCap, Sun, Moon } from 'lucide-react';
 import avatar from '../assets/images/profile/avatar.jpeg';
 import cv from '../assets/cv/XiangLiu_resume_2025_08.pdf';
 import { ParticlesBackground } from './ParticlesBackground';
+import { useTheme } from '../contexts/ThemeContext';
 
 const TYPING_TEXTS = [
   'PhD Student in Data Science and Analytics',
@@ -16,6 +17,7 @@ export const Header: React.FC = () => {
   const [textIndex, setTextIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const currentText = TYPING_TEXTS[textIndex];
@@ -144,7 +146,21 @@ export const Header: React.FC = () => {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent dark:from-gray-50 dark:to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent dark:from-gray-950 dark:to-transparent pointer-events-none" />
+
+      {/* Theme toggle button */}
+      <motion.button
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        onClick={toggleTheme}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        className="absolute top-4 right-4 md:top-6 md:right-6 bg-white/10 hover:bg-white/20 backdrop-blur-sm p-3 rounded-full transition-all duration-300 border border-white/20 shadow-lg"
+        title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      >
+        {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+      </motion.button>
     </header>
   );
 };

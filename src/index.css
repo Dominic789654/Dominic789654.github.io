@@ -12,6 +12,10 @@ body {
   min-height: 100vh;
 }
 
+.dark body {
+  background: linear-gradient(to bottom, #0f172a, #020617);
+}
+
 /* Custom styles for links */
 a {
   @apply transition-colors duration-200;
