@@ -80,7 +80,7 @@ export const Publications: React.FC = () => {
       id: 8,
       title: "DiffAdapt: Difficulty-Adaptive Reasoning for Token-Efficient LLM Inference",
       authors: "Xiang Liu, Xuming Hu, Xiaowen Chu, Eunsol Choi",
-      venue: "arXiv preprint",
+      venue: "ICLR 2026",
       links: {
         paper: "https://arxiv.org/pdf/2510.19669"
       }
@@ -89,7 +89,7 @@ export const Publications: React.FC = () => {
       id: 9,
       title: "Reasoning Language Model Inference Serving Unveiled: An Empirical Study",
       authors: "Qi Li*, Junpan Wu*, Xiang Liu*, Yuxin Wang, Zeyu Li, Zhenheng Tang, Yuhan Chen, Shaohuai Shi, Xiaowen Chu",
-      venue: "arXiv preprint",
+      venue: "ICLR 2026",
       links: {
         paper: "https://arxiv.org/pdf/2510.18672"
       }
@@ -119,7 +119,7 @@ export const Publications: React.FC = () => {
       id: 32,
       title: "DiffAdapt: Difficulty-Adaptive Reasoning for Token-Efficient LLM Inference",
       authors: "Xiang Liu, Xuming Hu, Xiaowen Chu†, Eunsol Choi†",
-      venue: "arXiv preprint",
+      venue: "ICLR 2026",
       links: {
         paper: "https://arxiv.org/pdf/2510.19669"
       }
@@ -128,7 +128,7 @@ export const Publications: React.FC = () => {
       id: 33,
       title: "Reasoning Language Model Inference Serving Unveiled: An Empirical Study",
       authors: "Qi Li*, Junpan Wu*, Xiang Liu*, Yuxin Wang, Zeyu Li, Zhenheng Tang, Yuhan Chen, Shaohuai Shi, Xiaowen Chu†",
-      venue: "arXiv preprint",
+      venue: "ICLR 2026",
       links: {
         paper: "https://arxiv.org/pdf/2510.18672"
       }

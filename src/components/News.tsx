@@ -10,12 +10,12 @@ interface NewsItem {
 
 export const News: React.FC = () => {
   const newsItems: NewsItem[] = [
-    // {
-    //   id: 1,
-    //   date: 'Nov 2025',
-    //   content: 'DIFFADAPT: Difficulty-Adaptive Reasoning for Token-Efficient LLM Inference (Xiang Liu, Xuming Hu, Xiaowen Chu†, Eunsol Choi†)',
-    //   isNew: true
-    // },
+    {
+      id: 1,
+      date: 'Jan 2026',
+      content: 'Two papers accepted by ICLR 2026: DiffAdapt and Reasoning Language Model Inference Serving Unveiled! 🎉',
+      isNew: true
+    },
     {
       id: 2,
       date: 'Oct 2025',
