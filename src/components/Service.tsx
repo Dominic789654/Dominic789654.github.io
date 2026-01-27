@@ -7,7 +7,7 @@ export const Service: React.FC = () => {
     {
       id: 1,
       title: "Conference Reviewer",
-      items: "ICLR 2025-2026, ICML 2025-2026, ACL 2024-2026, NeurIPS (2024-2025), EMNLP (2023 - 2025), AAAI 2026"
+      items: "ICLR 2025-2026, ICML 2025-2026, ACL 2024-2026, NeurIPS 2024-2025, EMNLP 2023-2025, AAAI 2026"
     },
     {
       id: 2,
