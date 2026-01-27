@@ -47,4 +47,42 @@ Publications are organized by category in `Publications.tsx`:
 When adding new publications:
 1. Add to `fullPublications` array with proper id, title, authors, venue, and links
 2. Optionally add to `selectedPublications` if it should appear in main view
+3. For `preprints` and `fullPublications`, update BOTH arrays when changing venue/status
 - Use `PublicationCard` with `index` prop for staggered animations
+
+## Personal Preferences for Xiang Liu
+
+### Publications Display Rules
+
+**Selected Publications Criteria:**
+- ONLY include papers where Xiang Liu is **first author** or **co-first author** (marked with *)
+- DO NOT include papers where Xiang Liu is not first/co-first author
+- DO NOT include arXiv preprints that haven't been accepted by a conference yet
+- Prioritize recent and impactful venues (ICLR, NeurIPS, ICML, etc.)
+
+**Example**: When a paper is accepted:
+1. Update venue in both `preprints` and `fullPublications` arrays from "arXiv preprint" to "Conference Year"
+2. If Xiang Liu is first/co-first author, add to `selectedPublications` at the top
+3. Add a news item in `components/News.tsx` with date and celebration emoji
+
+### About/Bio Section Rules
+
+- Use **past tense** for visiting positions that have ended (e.g., "I was a visiting student")
+- Keep current positions in present tense
+- Update when roles change
+
+### News Section Guidelines
+
+- Add news items for significant achievements (paper acceptances, awards, etc.)
+- Use "New!" badge for recent items (isNew: true)
+- Format: "Month Year" + description + optional emoji
+- Place most recent news at the top
+
+### Paper Updates Workflow
+
+When a paper gets accepted:
+1. ✅ Update venue in `Publications.tsx` (both `preprints` and `fullPublications`)
+2. ✅ If first/co-first author, add to `selectedPublications`
+3. ✅ Add news item in `News.tsx`
+4. ✅ Run `npm run build` to verify
+5. ✅ Commit and push to deploy
