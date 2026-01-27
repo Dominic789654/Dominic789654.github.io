@@ -67,24 +67,6 @@ export const Publications: React.FC = () => {
 
   const preprints = [
     {
-      id: 8,
-      title: "DiffAdapt: Difficulty-Adaptive Reasoning for Token-Efficient LLM Inference",
-      authors: "Xiang Liu, Xuming Hu, Xiaowen Chu, Eunsol Choi",
-      venue: "ICLR 2026",
-      links: {
-        paper: "https://arxiv.org/pdf/2510.19669"
-      }
-    },
-    {
-      id: 9,
-      title: "Reasoning Language Model Inference Serving Unveiled: An Empirical Study",
-      authors: "Qi Li*, Junpan Wu*, Xiang Liu*, Yuxin Wang, Zeyu Li, Zhenheng Tang, Yuhan Chen, Shaohuai Shi, Xiaowen Chu",
-      venue: "ICLR 2026",
-      links: {
-        paper: "https://arxiv.org/pdf/2510.18672"
-      }
-    },
-    {
       id: 7,
       title: "Can LLMs Maintain Fundamental Abilities under KV Cache Compression?",
       authors: "Xiang Liu, Zhenheng Tang, Hong Chen, Peijie Dong, Zeyu Li, Xiuze Zhou, Bo Li, Xuming Hu, Xiaowen Chu",
