@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, FileText, Twitter, Github, GraduationCap, Sun, Moon } from 'lucide-react';
 import avatar from '../assets/images/profile/avatar.jpeg';
-import cv from '../assets/cv/XiangLiu_resume_2025_08.pdf';
+import cv from '../assets/cv/XiangLiu_resume_2025_12.pdf';
 import { ParticlesBackground } from './ParticlesBackground';
 import { useTheme } from '../contexts/ThemeContext';
 
