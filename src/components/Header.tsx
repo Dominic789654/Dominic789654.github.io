@@ -1,44 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, FileText, Twitter, Github, GraduationCap, Sun, Moon } from 'lucide-react';
-import avatar from '../assets/images/profile/avatar.jpeg';
-import cv from '../assets/cv/XiangLiu_resume_2025_12.pdf';
-import { ParticlesBackground } from './ParticlesBackground';
-import { useTheme } from '../contexts/ThemeContext';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  Mail,
+  FileText,
+  Twitter,
+  Github,
+  GraduationCap,
+  Sun,
+  Moon,
+} from "lucide-react";
+import avatar from "../assets/images/profile/avatar.jpeg";
+import cv from "../assets/cv/XiangLiu_resume_2025_12.pdf";
+import { ParticlesBackground } from "./ParticlesBackground";
+import { useTheme } from "../contexts/ThemeContext";
 
 const TYPING_TEXTS = [
-  'PhD Student in Data Science and Analytics',
-  'Large Language Model Research',
-  'Efficient AI & ML Systems',
-  'Automated Neural Architecture Search',
+  "PhD Student in Data Science and Analytics",
+  "Large Language Model Research",
+  "Efficient AI & ML Systems",
+  "Automated Neural Architecture Search",
 ];
 
 export const Header: React.FC = () => {
   const [textIndex, setTextIndex] = useState(0);
-  const [displayText, setDisplayText] = useState('');
+  const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const currentText = TYPING_TEXTS[textIndex];
-    const timeout = setTimeout(() => {
-      setDisplayText(prev => {
-        if (!isDeleting) {
-          if (prev === currentText) {
-            setTimeout(() => setIsDeleting(true), 1500);
-            return prev;
+    const timeout = setTimeout(
+      () => {
+        setDisplayText((prev) => {
+          if (!isDeleting) {
+            if (prev === currentText) {
+              setTimeout(() => setIsDeleting(true), 1500);
+              return prev;
+            }
+            return currentText.slice(0, prev.length + 1);
+          } else {
+            if (prev === "") {
+              setIsDeleting(false);
+              setTextIndex((prev) => (prev + 1) % TYPING_TEXTS.length);
+              return "";
+            }
+            return currentText.slice(0, prev.length - 1);
           }
-          return currentText.slice(0, prev.length + 1);
-        } else {
-          if (prev === '') {
-            setIsDeleting(false);
-            setTextIndex(prev => (prev + 1) % TYPING_TEXTS.length);
-            return '';
-          }
-          return currentText.slice(0, prev.length - 1);
-        }
-      });
-    }, isDeleting ? 30 : 80);
+        });
+      },
+      isDeleting ? 30 : 80,
+    );
 
     return () => clearTimeout(timeout);
   }, [textIndex, displayText, isDeleting]);
@@ -96,14 +107,33 @@ export const Header: React.FC = () => {
               </div>
             </motion.div>
 
-            <motion.p
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.7 }}
-              className="mt-3 text-blue-200/80 text-lg"
+              className="mt-3 flex items-center justify-center md:justify-start gap-3"
             >
-              Hong Kong University of Science and Technology (Guangzhou)
-            </motion.p>
+              <p className="text-blue-200/80 text-lg">
+                Hong Kong University of Science and Technology (Guangzhou)
+              </p>
+              <a
+                href="https://scholar.google.com/citations?user=VtK5lwUAAAAJ"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-400/30 rounded-full text-sm font-medium text-amber-200 transition-all duration-300"
+                title="Google Scholar Citations"
+              >
+                <svg
+                  className="w-4 h-4"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
+                </svg>
+                <span>862</span>
+                <span className="text-amber-200/60">citations</span>
+              </a>
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0 }}
@@ -121,11 +151,27 @@ export const Header: React.FC = () => {
               className="mt-8 flex flex-wrap justify-center md:justify-start gap-3"
             >
               {[
-                { icon: Mail, href: 'mailto:xliu886@connect.hkust-gz.edu.cn', title: 'Email' },
-                { icon: GraduationCap, href: 'https://scholar.google.com/citations?user=VtK5lwUAAAAJ', title: 'Google Scholar' },
-                { icon: Twitter, href: 'https://twitter.com/Dominicliu12', title: 'Twitter' },
-                { icon: Github, href: 'https://github.com/Dominic789654', title: 'GitHub' },
-                { icon: FileText, href: cv, title: 'CV' },
+                {
+                  icon: Mail,
+                  href: "mailto:xliu886@connect.hkust-gz.edu.cn",
+                  title: "Email",
+                },
+                {
+                  icon: GraduationCap,
+                  href: "https://scholar.google.com/citations?user=VtK5lwUAAAAJ",
+                  title: "Google Scholar",
+                },
+                {
+                  icon: Twitter,
+                  href: "https://twitter.com/Dominicliu12",
+                  title: "Twitter",
+                },
+                {
+                  icon: Github,
+                  href: "https://github.com/Dominic789654",
+                  title: "GitHub",
+                },
+                { icon: FileText, href: cv, title: "CV" },
               ].map((social, index) => (
                 <motion.a
                   key={social.title}
@@ -157,9 +203,11 @@ export const Header: React.FC = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         className="absolute top-4 right-4 md:top-6 md:right-6 bg-white/10 hover:bg-white/20 backdrop-blur-sm p-3 rounded-full transition-all duration-300 border border-white/20 shadow-lg"
-        title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        title={
+          theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+        }
       >
-        {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+        {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
       </motion.button>
     </header>
   );
