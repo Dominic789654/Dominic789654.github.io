@@ -130,7 +130,7 @@ export const Header: React.FC = () => {
                 >
                   <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
                 </svg>
-                <span>882</span>
+                <span>886</span>
                 <span className="text-amber-200/60">citations</span>
               </a>
             </motion.div>
