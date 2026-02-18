@@ -10,7 +10,7 @@ import {
   Moon,
 } from "lucide-react";
 import avatar from "../assets/images/profile/avatar.jpeg";
-import cv from "../assets/cv/XiangLiu_resume_2025_12.pdf";
+import cv from "../assets/cv/XiangLiu_resume_2026_02.pdf";
 import { ParticlesBackground } from "./ParticlesBackground";
 import { useTheme } from "../contexts/ThemeContext";
 

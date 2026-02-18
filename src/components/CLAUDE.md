@@ -9,4 +9,14 @@
 |----|------|---|-------|------|
 | #409 | 12:26 AM | 🔵 | Header Component Structure Examined | ~289 |
 | #405 | 12:21 AM | 🟣 | Added Two ICLR 2026 Papers to Homepage | ~248 |
+| #402 | 12:17 AM | 🔵 | ICLR 2026 Papers Not Found in Homepage | ~239 |
+| #401 | 12:15 AM | 🔵 | Publication Data Structure Examined | ~276 |
+
+### Feb 18, 2026
+
+| ID | Time | T | Title | Read |
+|----|------|---|-------|------|
+| #436 | 10:44 AM | 🟣 | Added LLM Internship Statement to About Section | ~234 |
+| #435 | " | 🟣 | Added Research Internship Seek Notice to About Section | ~245 |
+| #434 | " | 🔵 | About Component Content Examined | ~267 |
 </claude-mem-context>
