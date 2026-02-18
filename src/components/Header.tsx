@@ -21,11 +21,43 @@ const TYPING_TEXTS = [
   "Automated Neural Architecture Search",
 ];
 
+// Fallback citation count if fetch fails
+const FALLBACK_CITATIONS = 891;
+
+// Custom hook to fetch citation count from scholar_tracker repo
+function useCitationCount() {
+  const [citations, setCitations] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchCitations = async () => {
+      try {
+        const response = await fetch(
+          "https://raw.githubusercontent.com/Dominic789654/scholar_tracker/main/data/citations.md",
+        );
+        if (response.ok) {
+          const text = await response.text();
+          // Parse "Total Citations: XXX" from the markdown
+          const match = text.match(/Total Citations:\s*(\d+)/);
+          if (match) {
+            setCitations(parseInt(match[1], 10));
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch citations:", error);
+      }
+    };
+    fetchCitations();
+  }, []);
+
+  return citations ?? FALLBACK_CITATIONS;
+}
+
 export const Header: React.FC = () => {
   const [textIndex, setTextIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const citations = useCitationCount();
 
   useEffect(() => {
     const currentText = TYPING_TEXTS[textIndex];
@@ -130,7 +162,7 @@ export const Header: React.FC = () => {
                 >
                   <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
                 </svg>
-                <span>891</span>
+                <span>{citations}</span>
                 <span className="text-amber-200/60">citations</span>
               </a>
             </motion.div>
