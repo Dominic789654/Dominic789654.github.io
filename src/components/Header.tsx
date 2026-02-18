@@ -21,12 +21,17 @@ const TYPING_TEXTS = [
   "Automated Neural Architecture Search",
 ];
 
-// Fallback citation count if fetch fails
+// Fallback citation count if no cached value exists
 const FALLBACK_CITATIONS = 891;
+const CACHE_KEY = "cached_citations";
 
 // Custom hook to fetch citation count from scholar_tracker repo
 function useCitationCount() {
-  const [citations, setCitations] = useState<number | null>(null);
+  const [citations, setCitations] = useState<number>(() => {
+    // Initialize from localStorage cache
+    const cached = localStorage.getItem(CACHE_KEY);
+    return cached ? parseInt(cached, 10) : FALLBACK_CITATIONS;
+  });
 
   useEffect(() => {
     const fetchCitations = async () => {
@@ -39,7 +44,9 @@ function useCitationCount() {
           // Parse "Total Citations: XXX" from the markdown
           const match = text.match(/Total Citations:\s*(\d+)/);
           if (match) {
-            setCitations(parseInt(match[1], 10));
+            const count = parseInt(match[1], 10);
+            setCitations(count);
+            localStorage.setItem(CACHE_KEY, String(count));
           }
         }
       } catch (error) {
@@ -49,7 +56,7 @@ function useCitationCount() {
     fetchCitations();
   }, []);
 
-  return citations ?? FALLBACK_CITATIONS;
+  return citations;
 }
 
 export const Header: React.FC = () => {
