@@ -7,6 +7,7 @@ interface Publication {
   title: string;
   authors: string;
   venue: string;
+  image?: string;
   links: {
     paper?: string;
     code?: string;
@@ -46,6 +47,23 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
         transition={{ duration: 0.6, delay: 0.2 + index * 0.05 }}
         className="h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mb-4"
       />
+
+      {publication.image && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
+          className="mb-4 rounded-lg overflow-hidden border border-gray-200/50 shadow-sm"
+        >
+          <img
+            src={publication.image}
+            alt={publication.title}
+            className="w-full h-auto object-cover"
+            loading="lazy"
+          />
+        </motion.div>
+      )}
 
       <h3 className="text-xl font-semibold text-slate-800 group-hover:text-blue-700 transition-colors leading-snug">
         {publication.title}

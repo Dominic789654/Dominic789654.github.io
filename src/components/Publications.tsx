@@ -1,6 +1,7 @@
 import React from "react";
 import { SectionTitle } from "./SectionTitle";
 import { PublicationCard } from "./PublicationCard";
+import diffAdaptImage from "../assets/images/papers/diffadapt.png";
 
 export const Publications: React.FC = () => {
   const [isFullListExpanded, setIsFullListExpanded] = React.useState(false);
@@ -12,6 +13,7 @@ export const Publications: React.FC = () => {
         "DiffAdapt: Difficulty-Adaptive Reasoning for Token-Efficient LLM Inference",
       authors: "Xiang Liu, Xuming Hu, Xiaowen Chu, Eunsol Choi",
       venue: "ICLR 2026",
+      image: diffAdaptImage,
       links: {
         paper: "https://arxiv.org/pdf/2510.19669",
       },
@@ -149,6 +151,7 @@ export const Publications: React.FC = () => {
         "DiffAdapt: Difficulty-Adaptive Reasoning for Token-Efficient LLM Inference",
       authors: "Xiang Liu, Xuming Hu, Xiaowen Chu†, Eunsol Choi†",
       venue: "ICLR 2026",
+      image: diffAdaptImage,
       links: {
         paper: "https://arxiv.org/pdf/2510.19669",
       },
