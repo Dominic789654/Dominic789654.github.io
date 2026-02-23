@@ -55,13 +55,12 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
           className="mb-4 rounded-lg overflow-hidden border border-gray-200/50 shadow-sm"
-          style={{ maxHeight: '280px' }}
         >
           <img
             src={publication.image}
             alt={publication.title}
-            className="w-full h-auto object-contain"
-            style={{ maxHeight: '280px' }}
+            className="w-auto h-auto max-w-full"
+            style={{ maxHeight: '320px', margin: '0 auto' }}
             loading="lazy"
           />
         </motion.div>
