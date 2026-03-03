@@ -23,13 +23,13 @@ export const Experience: React.FC = () => {
       description: "Ph.D. student, supervised by Prof. Xiaowen Chu and Prof. Xuming HU"
     },
     {
-      id: 2,
+      id: 3,
       organization: "HKUST",
       period: "12/2022–08/2023",
       description: "Research Intern, supervised by Prof. Tong Zhang"
     },
     {
-      id: 3,
+      id: 4,
       organization: "Baidu Research Cognitive Computing Lab",
       period: "12/2021–06/2022",
       description: "Research Intern, supervised by Mingming Sun"

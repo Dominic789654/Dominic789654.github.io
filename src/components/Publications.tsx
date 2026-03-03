@@ -472,16 +472,26 @@ export const Publications: React.FC = () => {
 
       <section id="full-publications" className="py-8">
         <div
-          className="flex items-center justify-between cursor-pointer"
+          role="button"
+          tabIndex={0}
+          className="w-full flex items-center justify-between text-left cursor-pointer"
           onClick={() => setIsFullListExpanded(!isFullListExpanded)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              setIsFullListExpanded(!isFullListExpanded);
+            }
+          }}
+          aria-expanded={isFullListExpanded}
+          aria-controls="full-publications-content"
         >
           <SectionTitle icon="📚" title="Full Publication List" />
-          <button className="text-lg font-bold">
+          <span className="text-lg font-bold" aria-hidden="true">
             {isFullListExpanded ? "−" : "+"}
-          </button>
+          </span>
         </div>
         {isFullListExpanded && (
-          <>
+          <div id="full-publications-content">
             <div className="my-4 p-4 border rounded-lg bg-gray-50 dark:bg-gray-800">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Publication Stats
@@ -504,7 +514,7 @@ export const Publications: React.FC = () => {
                 <PublicationCard key={pub.id} publication={pub} index={idx} />
               ))}
             </div>
-          </>
+          </div>
         )}
       </section>
     </>

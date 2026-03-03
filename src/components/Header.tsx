@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Mail,
@@ -24,20 +24,34 @@ const TYPING_TEXTS = [
 // Fallback citation count if no cached value exists
 const FALLBACK_CITATIONS = 891;
 const CACHE_KEY = "cached_citations";
+const CACHE_TIME_KEY = "cached_citations_updated_at";
+const CACHE_TTL_MS = 12 * 60 * 60 * 1000;
 
 // Custom hook to fetch citation count from scholar_tracker repo
 function useCitationCount() {
   const [citations, setCitations] = useState<number>(() => {
     // Initialize from localStorage cache
     const cached = localStorage.getItem(CACHE_KEY);
-    return cached ? parseInt(cached, 10) : FALLBACK_CITATIONS;
+    const parsed = cached ? parseInt(cached, 10) : NaN;
+    return Number.isFinite(parsed) ? parsed : FALLBACK_CITATIONS;
   });
 
   useEffect(() => {
+    const cachedAt = parseInt(localStorage.getItem(CACHE_TIME_KEY) ?? "0", 10);
+    if (Number.isFinite(cachedAt) && Date.now() - cachedAt < CACHE_TTL_MS) {
+      return;
+    }
+
+    const controller = new AbortController();
+
     const fetchCitations = async () => {
       try {
         const response = await fetch(
           "https://raw.githubusercontent.com/Dominic789654/scholar_tracker/main/data/citations.md",
+          {
+            signal: controller.signal,
+            cache: "no-store",
+          },
         );
         if (response.ok) {
           const text = await response.text();
@@ -47,13 +61,18 @@ function useCitationCount() {
             const count = parseInt(match[1], 10);
             setCitations(count);
             localStorage.setItem(CACHE_KEY, String(count));
+            localStorage.setItem(CACHE_TIME_KEY, String(Date.now()));
           }
         }
       } catch (error) {
-        console.error("Failed to fetch citations:", error);
+        if ((error as Error).name !== "AbortError") {
+          console.error("Failed to fetch citations:", error);
+        }
       }
     };
     fetchCitations();
+
+    return () => controller.abort();
   }, []);
 
   return citations;
@@ -63,6 +82,7 @@ export const Header: React.FC = () => {
   const [textIndex, setTextIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const deleteDelayRef = useRef<number | null>(null);
   const { theme, toggleTheme } = useTheme();
   const citations = useCitationCount();
 
@@ -73,7 +93,12 @@ export const Header: React.FC = () => {
         setDisplayText((prev) => {
           if (!isDeleting) {
             if (prev === currentText) {
-              setTimeout(() => setIsDeleting(true), 1500);
+              if (deleteDelayRef.current === null) {
+                deleteDelayRef.current = window.setTimeout(() => {
+                  setIsDeleting(true);
+                  deleteDelayRef.current = null;
+                }, 1500);
+              }
               return prev;
             }
             return currentText.slice(0, prev.length + 1);
@@ -90,8 +115,18 @@ export const Header: React.FC = () => {
       isDeleting ? 30 : 80,
     );
 
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [textIndex, displayText, isDeleting]);
+
+  useEffect(() => {
+    return () => {
+      if (deleteDelayRef.current !== null) {
+        clearTimeout(deleteDelayRef.current);
+      }
+    };
+  }, []);
 
   return (
     <header className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white overflow-hidden">

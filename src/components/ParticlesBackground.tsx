@@ -10,9 +10,11 @@ export const ParticlesBackground: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let particles: Particle[] = [];
+    const particles: Particle[] = [];
     const particleCount = 60;
     const connectionDistance = 150;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let animationFrameId: number | null = null;
 
     const resizeCanvas = () => {
       canvas.width = canvas.parentElement?.clientWidth || window.innerWidth;
@@ -62,17 +64,21 @@ export const ParticlesBackground: React.FC = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Update and draw particles
-      particles.forEach(particle => {
-        particle.update();
+      particles.forEach((particle) => {
+        if (!reducedMotion) {
+          particle.update();
+        }
         particle.draw();
       });
 
       // Draw connections
-      particles.forEach((a, i) => {
-        particles.slice(i + 1).forEach(b => {
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
+        for (let j = i + 1; j < particles.length; j++) {
+          const b = particles[j];
           const dx = a.x - b.x;
           const dy = a.y - b.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+          const distance = Math.hypot(dx, dy);
 
           if (distance < connectionDistance) {
             ctx.beginPath();
@@ -82,16 +88,19 @@ export const ParticlesBackground: React.FC = () => {
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
-        });
-      });
+        }
+      }
 
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+      }
     };
   }, []);
 

@@ -20,8 +20,17 @@ interface PublicationCardProps {
 }
 
 export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, index = 0 }) => {
-  const highlightOwnName = (authors: string) => {
-    return authors.replace(/Xiang Liu/g, '\u003cstrong class="text-blue-600"\u003eXiang Liu\u003c/strong\u003e');
+  const renderAuthors = (authors: string) => {
+    return authors.split(/(Xiang Liu)/g).map((part, idx) => {
+      if (part === 'Xiang Liu') {
+        return (
+          <strong key={`author-${idx}`} className="text-blue-600 dark:text-blue-400">
+            {part}
+          </strong>
+        );
+      }
+      return <React.Fragment key={`author-${idx}`}>{part}</React.Fragment>;
+    });
   };
 
   const linkVariants = {
@@ -51,10 +60,9 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
         {publication.title}
       </h3>
 
-      <p
-        className="mt-2.5 text-gray-600 text-sm leading-relaxed"
-        dangerouslySetInnerHTML={{ __html: highlightOwnName(publication.authors) }}
-      />
+      <p className="mt-2.5 text-gray-600 text-sm leading-relaxed dark:text-gray-300">
+        {renderAuthors(publication.authors)}
+      </p>
 
       <p className="mt-2 text-blue-900/70 font-medium text-sm bg-blue-50/50 inline-block px-2.5 py-1 rounded-full">
         {publication.venue}

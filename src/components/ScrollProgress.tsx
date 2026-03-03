@@ -4,17 +4,34 @@ export const ScrollProgress: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
+    let frameId: number | null = null;
+
     const updateScrollProgress = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       setScrollProgress(Math.min(100, Math.max(0, progress)));
     };
 
-    window.addEventListener('scroll', updateScrollProgress);
-    updateScrollProgress();
+    const requestUpdate = () => {
+      if (frameId !== null) return;
+      frameId = requestAnimationFrame(() => {
+        frameId = null;
+        updateScrollProgress();
+      });
+    };
 
-    return () => window.removeEventListener('scroll', updateScrollProgress);
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+    requestUpdate();
+
+    return () => {
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+    };
   }, []);
 
   return (
