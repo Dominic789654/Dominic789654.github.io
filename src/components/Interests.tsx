@@ -1,5 +1,6 @@
 import React from 'react';
 import { SectionTitle } from './SectionTitle';
+import { UNIFIED_CARD_CLASS } from './cardStyles';
 
 export const Interests: React.FC = () => {
   const interests = [
@@ -15,10 +16,10 @@ export const Interests: React.FC = () => {
         {interests.map(interest => (
           <div 
             key={interest.id} 
-            className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 flex items-center gap-3 transition-transform hover:translate-y-[-2px] duration-200"
+            className={`${UNIFIED_CARD_CLASS} flex items-center gap-3 p-4`}
           >
             <span className="text-2xl">{interest.emoji}</span>
-            <span className="font-medium">{interest.name}</span>
+            <span className="font-medium text-slate-700 dark:text-slate-200">{interest.name}</span>
           </div>
         ))}
       </div>

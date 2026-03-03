@@ -1,5 +1,6 @@
 import React from 'react';
 import { SectionTitle } from './SectionTitle';
+import { UNIFIED_CARD_CLASS } from './cardStyles';
 
 interface NewsItem {
   id: number;
@@ -42,14 +43,14 @@ export const News: React.FC = () => {
       <SectionTitle icon="🌱" title="What's New" />
       <div className="mt-4 space-y-4">
         {newsItems.map(item => (
-          <div key={item.id} className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500 transition-transform hover:translate-x-1 duration-200">
+          <div key={item.id} className={`${UNIFIED_CARD_CLASS} p-5`}>
             {item.isNew && (
               <span className="inline-block bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded mr-2">
                 New!
               </span>
             )}
-            <span className="text-sm font-semibold text-gray-500">{item.date}</span>
-            <p className="mt-1">{item.content}</p>
+            <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">{item.date}</span>
+            <p className="mt-1 text-slate-700 dark:text-slate-200">{item.content}</p>
           </div>
         ))}
       </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { SectionTitle } from "./SectionTitle";
 import { Trophy } from "lucide-react";
+import { UNIFIED_CARD_CLASS } from "./cardStyles";
 
 export const Awards: React.FC = () => {
   const awards = [
@@ -44,16 +45,16 @@ export const Awards: React.FC = () => {
         {awards.map((award) => (
           <div
             key={award.id}
-            className="bg-white p-5 rounded-lg shadow-sm border border-gray-200 flex items-start gap-4"
+            className={`${UNIFIED_CARD_CLASS} flex items-start gap-4 p-5`}
           >
             <div className="text-yellow-500">
               <Trophy size={24} />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
                 {award.title}
               </h3>
-              <p className="mt-1 text-gray-600">{award.description}</p>
+              <p className="mt-1 text-slate-600 dark:text-slate-300">{award.description}</p>
             </div>
           </div>
         ))}
