@@ -28,6 +28,16 @@ export const Publications: React.FC = () => {
       },
     },
     {
+      id: 35,
+      title:
+        "Beyond Single Embeddings: Capturing Diverse Targets with Multi-Query Retrieval",
+      authors: "Hung-Ting Chen, Xiang Liu, Shauli Ravfogel, Eunsol Choi",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/pdf/2511.02770",
+      },
+    },
+    {
       id: 6,
       title:
         "ChunkKV: Semantic-Preserving KV Cache Compression for Efficient Long-Context LLM Inference",
@@ -76,6 +86,17 @@ export const Publications: React.FC = () => {
 
   const preprints = [
     {
+      id: 38,
+      title:
+        "LLM Agent Memory: A Survey from a Unified Representation–Management Perspective",
+      authors:
+        "Zhenheng Tang, Xin He, Tiancheng Zhao, Fanjunduo Wei, Xiang Liu, Peijie Dong, Qian Wang, Qi Li, Huacan Wang, Ronghao Chen, Sen Hu, Weidong Guo, Yu Xu, Haolan Chen, Kunfeng Lai, Kaiyong Zhao, Keyan Ding, Ivor W. Tsang, Yew-Soon Ong, Bo Li, Xiaowen Chu",
+      venue: "Preprints, 2026",
+      links: {
+        paper: "https://www.preprints.org/manuscript/202603.0359/v1",
+      },
+    },
+    {
       id: 36,
       title:
         "From Literature to Lab: Closed-Loop Advancement of Perovskite Solar Cells via Domain Knowledge Guided LLM",
@@ -98,6 +119,59 @@ export const Publications: React.FC = () => {
       },
     },
     {
+      id: 35,
+      title:
+        "Beyond Single Embeddings: Capturing Diverse Targets with Multi-Query Retrieval",
+      authors: "Hung-Ting Chen, Xiang Liu, Shauli Ravfogel, Eunsol Choi",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/pdf/2511.02770",
+      },
+    },
+    {
+      id: 9,
+      title:
+        "AnTKV: Anchor Token-Aware Sub-Bit Vector Quantization for KV Cache in Large Language Models",
+      authors:
+        "Zeyu Li, Chuanfu Xiao, Yang Wang, Xiang Liu, Zhenheng Tang, Baotong Lu, Mao Yang, Xinyu Chen, Xiaowen Chu",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/pdf/2506.19505",
+      },
+    },
+    {
+      id: 11,
+      title: "SSR: Speculative Parallel Scaling Reasoning in Test-time",
+      authors:
+        "Yuanlin Chu, Bo Wang, Xiang Liu, Hong Chen, Aiwei Liu, Xuming Hu",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/pdf/2505.15340",
+      },
+    },
+    {
+      id: 13,
+      title:
+        "CAFES: A Collaborative Multi-Agent Framework for Multi-Granular Multimodal Essay Scoring",
+      authors:
+        "Jiamin Su, Yibo Yan, Zhuoran Gao, Han Zhang, Xiang Liu, Xuming Hu",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/pdf/2505.13965",
+      },
+    },
+    {
+      id: 17,
+      title:
+        "Mediator: Memory-efficient llm merging with less parameter conflicts and uncertainty based routing",
+      authors:
+        "Kunfeng Lai*, Zhenheng Tang*, Xinglin Pan, Peijie Dong, Xiang Liu, Haolan Chen, Li Shen, Bo Li, Xiaowen Chu",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/pdf/2502.04411",
+      },
+    },
+    {
       id: 7,
       title:
         "Can LLMs Maintain Fundamental Abilities under KV Cache Compression?",
@@ -111,6 +185,28 @@ export const Publications: React.FC = () => {
   ];
 
   const fullPublications = [
+    {
+      id: 39,
+      title:
+        "Janus-Q: End-to-End Event-Driven Trading via Hierarchical-Gated Reward Modeling",
+      authors:
+        "X Li, Z Wei, Y Qi, W Zhou, Xiang Liu, P Sun, Y Zhang, Xiaowen Chu",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/abs/2602.19919",
+      },
+    },
+    {
+      id: 38,
+      title:
+        "LLM Agent Memory: A Survey from a Unified Representation–Management Perspective",
+      authors:
+        "Zhenheng Tang, Xin He, Tiancheng Zhao, Fanjunduo Wei, Xiang Liu, Peijie Dong, Qian Wang, Qi Li, Huacan Wang, Ronghao Chen, Sen Hu, Weidong Guo, Yu Xu, Haolan Chen, Kunfeng Lai, Kaiyong Zhao, Keyan Ding, Ivor W. Tsang, Yew-Soon Ong, Bo Li, Xiaowen Chu",
+      venue: "Preprints, 2026",
+      links: {
+        paper: "https://www.preprints.org/manuscript/202603.0359/v1",
+      },
+    },
     {
       id: 36,
       title:

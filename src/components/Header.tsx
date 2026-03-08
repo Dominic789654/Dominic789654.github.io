@@ -15,10 +15,25 @@ import { ParticlesBackground } from "./ParticlesBackground";
 import { useTheme } from "../contexts/ThemeContext";
 
 const TYPING_TEXTS = [
+  "Efficient LLM Inference & Reasoning",
+  "Long-Context LLM Evaluation",
+  "Retrieval and Agentic Systems",
   "PhD Student in Data Science and Analytics",
-  "Large Language Model Research",
-  "Efficient AI & ML Systems",
-  "Automated Neural Architecture Search",
+];
+
+const HIGHLIGHTS = [
+  {
+    title: "ICLR 2026",
+    description: "Two accepted papers on token-efficient reasoning and LLM serving.",
+  },
+  {
+    title: "NYU CDS",
+    description: "Visiting student working with Prof. Eunsol Choi on retrieval and reasoning.",
+  },
+  {
+    title: "Recognition",
+    description: "NeurIPS Top Reviewer, Travel Award, and HKUST Overseas Research Award.",
+  },
 ];
 
 // Fallback citation count if no cached value exists
@@ -218,6 +233,17 @@ export const Header: React.FC = () => {
               Pronouns: he/him
             </motion.div>
 
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.95 }}
+              className="mt-5 max-w-2xl text-sm md:text-base leading-7 text-blue-100/90"
+            >
+              I work on efficient and reliable large language models, especially
+              token-efficient inference, long-context evaluation, retrieval, and
+              agentic workflows.
+            </motion.p>
+
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -260,6 +286,27 @@ export const Header: React.FC = () => {
                 >
                   <social.icon size={22} />
                 </motion.a>
+              ))}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.25 }}
+              className="mt-8 grid gap-3 md:grid-cols-3"
+            >
+              {HIGHLIGHTS.map((highlight) => (
+                <div
+                  key={highlight.title}
+                  className="rounded-2xl border border-white/15 bg-white/10 p-4 text-left backdrop-blur-sm shadow-lg"
+                >
+                  <p className="text-sm font-semibold tracking-wide text-cyan-200">
+                    {highlight.title}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-blue-50/90">
+                    {highlight.description}
+                  </p>
+                </div>
               ))}
             </motion.div>
           </div>
