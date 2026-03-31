@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion, useInView } from 'framer-motion';
 import { SectionTitle } from './SectionTitle';
 import { UNIFIED_CARD_CLASS } from './cardStyles';
 
@@ -10,6 +11,9 @@ interface NewsItem {
 }
 
 export const News: React.FC = () => {
+  const containerRef = React.useRef(null);
+  const isInView = useInView(containerRef, { once: true, margin: '-100px' });
+
   const newsItems: NewsItem[] = [
     {
       id: 1,
@@ -58,17 +62,34 @@ export const News: React.FC = () => {
   return (
     <section id="news" className="py-8">
       <SectionTitle icon="🌱" title="What's New" />
-      <div className="mt-4 space-y-4">
-        {newsItems.map(item => (
-          <div key={item.id} className={`${UNIFIED_CARD_CLASS} p-5`}>
+      <div ref={containerRef} className="mt-4 space-y-4">
+        {newsItems.map((item, idx) => (
+          <motion.div
+            key={item.id}
+            initial={{ opacity: 0, x: 40 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+            transition={{ duration: 0.4, delay: idx * 0.06 }}
+            className={`${UNIFIED_CARD_CLASS} p-5 group`}
+          >
             {item.isNew && (
-              <span className="inline-block bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded mr-2">
+              <motion.span
+                animate={{ opacity: [0.8, 1, 0.8] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                className="inline-block bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded mr-2"
+              >
                 New!
-              </span>
+              </motion.span>
             )}
             <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">{item.date}</span>
-            <p className="mt-1 text-slate-700 dark:text-slate-200">{item.content}</p>
-          </div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.4, delay: idx * 0.06 + 0.1 }}
+              className="mt-1 text-slate-700 dark:text-slate-200 group-hover:text-slate-800 dark:group-hover:text-slate-100 transition-colors"
+            >
+              {item.content}
+            </motion.p>
+          </motion.div>
         ))}
       </div>
     </section>

@@ -1,9 +1,13 @@
 import React from "react";
+import { motion, useInView } from "framer-motion";
 import { SectionTitle } from "./SectionTitle";
 import { Trophy } from "lucide-react";
 import { UNIFIED_CARD_CLASS } from "./cardStyles";
 
 export const Awards: React.FC = () => {
+  const containerRef = React.useRef(null);
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+
   const awards = [
     {
       id: 1,
@@ -33,7 +37,7 @@ export const Awards: React.FC = () => {
     },
     {
       id: 6,
-      title: "OpenAI’s Researcher Access Program ",
+      title: "OpenAI's Researcher Access Program ",
       description: "2024",
     },
   ];
@@ -41,22 +45,42 @@ export const Awards: React.FC = () => {
   return (
     <section id="awards" className="py-8">
       <SectionTitle icon="🏆" title="Awards & Honors" />
-      <div className="mt-6 space-y-4">
-        {awards.map((award) => (
-          <div
+      <div ref={containerRef} className="mt-6 space-y-4">
+        {awards.map((award, idx) => (
+          <motion.div
             key={award.id}
-            className={`${UNIFIED_CARD_CLASS} flex items-start gap-4 p-5`}
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+            transition={{ duration: 0.4, delay: idx * 0.08 }}
+            className={`${UNIFIED_CARD_CLASS} flex items-start gap-4 p-5 group`}
           >
-            <div className="text-yellow-500">
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
+              transition={{ duration: 0.5, delay: idx * 0.08 + 0.15 }}
+              className="text-yellow-500 flex-shrink-0"
+            >
               <Trophy size={24} />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
+            </motion.div>
+            <div className="flex-1">
+              <motion.h3
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ duration: 0.4, delay: idx * 0.08 + 0.2 }}
+                className="text-lg font-semibold text-slate-800 dark:text-slate-100 group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors"
+              >
                 {award.title}
-              </h3>
-              <p className="mt-1 text-slate-600 dark:text-slate-300">{award.description}</p>
+              </motion.h3>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+                transition={{ duration: 0.4, delay: idx * 0.08 + 0.25 }}
+                className="mt-1 text-slate-600 dark:text-slate-300"
+              >
+                {award.description}
+              </motion.p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
