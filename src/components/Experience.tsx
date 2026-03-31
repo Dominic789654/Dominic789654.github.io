@@ -61,7 +61,7 @@ export const Experience: React.FC = () => {
         initial={{ opacity: 0, x: -30 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
         transition={{ duration: 0.5, delay: index * 0.1 }}
-        className="relative pl-8 pb-4 border-l-2 border-blue-300 group"
+        className="relative pl-8 pb-4 border-l-2 border-blue-300 dark:border-blue-700 group"
       >
         <motion.div
           initial={{ scale: 0 }}

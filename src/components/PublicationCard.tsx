@@ -140,9 +140,24 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
   };
 
   const linkVariants = {
-    paper: { bg: 'bg-blue-50', bgHover: 'hover:bg-blue-100', text: 'text-blue-700', border: 'border-blue-200' },
-    code: { bg: 'bg-gray-50', bgHover: 'hover:bg-gray-100', text: 'text-gray-700', border: 'border-gray-200' },
-    blog: { bg: 'bg-green-50', bgHover: 'hover:bg-green-100', text: 'text-green-700', border: 'border-green-200' },
+    paper: {
+      bg: 'bg-blue-50 dark:bg-blue-950/40',
+      bgHover: 'hover:bg-blue-100 dark:hover:bg-blue-900/60',
+      text: 'text-blue-700 dark:text-blue-300',
+      border: 'border-blue-200 dark:border-blue-800',
+    },
+    code: {
+      bg: 'bg-gray-50 dark:bg-slate-800',
+      bgHover: 'hover:bg-gray-100 dark:hover:bg-slate-700',
+      text: 'text-gray-700 dark:text-gray-300',
+      border: 'border-gray-200 dark:border-slate-700',
+    },
+    blog: {
+      bg: 'bg-green-50 dark:bg-green-950/40',
+      bgHover: 'hover:bg-green-100 dark:hover:bg-green-900/60',
+      text: 'text-green-700 dark:text-green-300',
+      border: 'border-green-200 dark:border-green-800',
+    },
   };
 
   return (
@@ -150,7 +165,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
       <motion.div
         whileHover={{ y: -4, boxShadow: '0 12px 24px -8px rgba(30, 58, 138, 0.15)' }}
         style={{ minHeight: minHeight ?? undefined }}
-        className="group relative bg-gradient-to-br from-white to-slate-50/50 p-5 rounded-xl border border-gray-100/80 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
+        className="group relative bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800/50 p-5 rounded-xl border border-gray-100/80 dark:border-slate-700/50 shadow-sm hover:shadow-lg dark:hover:shadow-blue-950/30 transition-all duration-300 overflow-hidden"
       >
         {/* Subtle terminal scanline overlay that fades out after animation */}
         {animPhase < 4 && (
@@ -158,7 +173,11 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
             className="pointer-events-none absolute inset-0 rounded-xl"
             style={{
               background:
-                'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(59,130,246,0.025) 3px, rgba(59,130,246,0.025) 4px)',
+                'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(59,130,246,' +
+                (document.documentElement.classList.contains('dark') ? '0.08' : '0.025') +
+                ') 3px, rgba(59,130,246,' +
+                (document.documentElement.classList.contains('dark') ? '0.08' : '0.025') +
+                ') 4px)',
             }}
           />
         )}
@@ -173,13 +192,13 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
 
         {/* Title — typewriter */}
         <div ref={containerRef}>
-          <h3 className="text-xl font-semibold text-slate-800 group-hover:text-blue-700 transition-colors leading-snug min-h-[28px]">
+          <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors leading-snug min-h-[28px]">
             {typedTitle}
             {animPhase === 1 && typedTitle !== publication.title && (
               <motion.span
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.5, repeat: Infinity }}
-                className="inline-block w-0.5 h-5 bg-blue-500 ml-0.5 align-middle"
+                className="inline-block w-0.5 h-5 bg-blue-500 dark:bg-blue-400 ml-0.5 align-middle"
               />
             )}
           </h3>
@@ -190,7 +209,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
           initial={{ opacity: 0, x: -8 }}
           animate={{ opacity: animPhase >= 2 ? 1 : 0, x: animPhase >= 2 ? 0 : -8 }}
           transition={{ duration: 0.3 }}
-          className="mt-2.5 text-gray-600 text-sm leading-relaxed dark:text-gray-300"
+          className="mt-2.5 text-gray-600 dark:text-gray-400 text-sm leading-relaxed"
         >
           {renderAuthors(publication.authors)}
         </motion.p>
@@ -200,7 +219,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
           initial={{ opacity: 0, x: -8 }}
           animate={{ opacity: animPhase >= 3 ? 1 : 0, x: animPhase >= 3 ? 0 : -8 }}
           transition={{ duration: 0.3 }}
-          className="mt-2 text-blue-900/70 font-medium text-sm bg-blue-50/50 inline-block px-2.5 py-1 rounded-full"
+          className="mt-2 text-blue-900/70 dark:text-blue-300/80 font-medium text-sm bg-blue-50/50 dark:bg-blue-950/30 inline-block px-2.5 py-1 rounded-full"
         >
           {publication.venue}
         </motion.p>

@@ -32,15 +32,15 @@ section {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100;
+  @apply bg-gray-100 dark:bg-slate-800;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gradient-to-b from-blue-300 to-blue-500 rounded-full;
+  @apply bg-gradient-to-b from-blue-300 to-blue-500 dark:from-blue-700 dark:to-blue-600 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply from-blue-400 to-blue-600;
+  @apply from-blue-400 to-blue-600 dark:from-blue-600 dark:to-blue-500;
 }
 
 /* Glass morphism effect utility */
@@ -49,6 +49,13 @@ section {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(51, 65, 85, 0.3);
 }
 
 /* Smooth fade-in for all elements */
@@ -70,5 +77,10 @@ section {
 /* Selection styling */
 ::selection {
   background: rgba(59, 130, 246, 0.3);
+  color: inherit;
+}
+
+.dark ::selection {
+  background: rgba(59, 130, 246, 0.5);
   color: inherit;
 }
