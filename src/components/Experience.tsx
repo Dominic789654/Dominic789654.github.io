@@ -1,6 +1,6 @@
-import React from "react";
-import { motion, useInView } from "framer-motion";
-import { SectionTitle } from "./SectionTitle";
+import React from 'react';
+import { motion, useInView } from 'framer-motion';
+import { SectionTitle } from './SectionTitle';
 
 interface ExperienceItem {
   id: number;
@@ -11,34 +11,33 @@ interface ExperienceItem {
 
 export const Experience: React.FC = () => {
   const containerRef = React.useRef(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+  const isInView = useInView(containerRef, { once: true, margin: '-100px' });
 
   const experiences: ExperienceItem[] = [
     {
       id: 1,
       organization: "NYU Center for Data Science",
       period: "07/2025–01/2026",
-      description: "Visiting Student, supervised by Prof. Eunsol Choi",
+      description: "Visiting Student, supervised by Prof. Eunsol Choi"
     },
     {
       id: 2,
       organization: "HKUST(GZ)",
       period: "09/2023–Present",
-      description:
-        "Ph.D. student, supervised by Prof. Xiaowen Chu and Prof. Xuming HU",
+      description: "Ph.D. student, supervised by Prof. Xiaowen Chu and Prof. Xuming HU"
     },
     {
       id: 3,
       organization: "HKUST",
       period: "12/2022–08/2023",
-      description: "Research Intern, supervised by Prof. Tong Zhang",
+      description: "Research Intern, supervised by Prof. Tong Zhang"
     },
     {
       id: 4,
       organization: "Baidu Research Cognitive Computing Lab",
       period: "12/2021–06/2022",
-      description: "Research Intern, supervised by Mingming Sun",
-    },
+      description: "Research Intern, supervised by Mingming Sun"
+    }
   ];
 
   const teachingExperiences: ExperienceItem[] = [
@@ -46,39 +45,35 @@ export const Experience: React.FC = () => {
       id: 1,
       organization: "HKUST(GZ)",
       period: "Fall 2024",
-      description:
-        "TA - AIAA 5088 Natural Language Processing and Its Applications",
+      description: "TA - AIAA 5088 Natural Language Processing and Its Applications"
     },
     {
       id: 2,
       organization: "HKUST(GZ)",
       period: "Summer 2024",
-      description: "TA - RBCC Red Bird Challenge Camp",
-    },
+      description: "TA - RBCC Red Bird Challenge Camp"
+    }
   ];
 
-  const ExperienceItemComponent: React.FC<{
-    item: ExperienceItem;
-    index: number;
-  }> = ({ item, index }) => {
+  const ExperienceItemComponent: React.FC<{ item: ExperienceItem; index: number }> = ({ item, index }) => {
     return (
       <motion.div
         initial={{ opacity: 0, x: -30 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
         transition={{ duration: 0.5, delay: index * 0.1 }}
-        className="relative pl-8 pb-4 border-l-2 border-rule group"
+        className="relative pl-8 pb-4 border-l-2 border-rule dark:border-[#3A3530] group"
       >
         <motion.div
           initial={{ scale: 0 }}
           animate={isInView ? { scale: 1 } : { scale: 0 }}
           transition={{ duration: 0.4, delay: index * 0.1 + 0.15 }}
-          className="absolute left-[-8px] top-0 w-4 h-4 bg-accent rounded-full"
+          className="absolute left-[-8px] top-0 w-4 h-4 bg-accent dark:bg-[#B85C5C] rounded-full"
         />
         <motion.h3
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.4, delay: index * 0.1 + 0.2 }}
-          className="text-xl font-semibold text-ink group-hover:text-accent transition-colors"
+          className="text-xl font-semibold text-ink dark:text-[#E8E4DC] group-hover:text-accent dark:group-hover:text-[#D4847C] transition-colors"
         >
           {item.organization}
         </motion.h3>
@@ -86,7 +81,7 @@ export const Experience: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.4, delay: index * 0.1 + 0.25 }}
-          className="mt-1 font-mono text-sm text-ink-3"
+          className="mt-1 font-mono text-sm text-ink-3 dark:text-[#9A958B]"
         >
           {item.period}
         </motion.p>
@@ -94,7 +89,7 @@ export const Experience: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.4, delay: index * 0.1 + 0.3 }}
-          className="mt-2 font-serif text-ink-2"
+          className="mt-2 font-serif text-ink-2 dark:text-[#C4BFB5]"
         >
           {item.description}
         </motion.p>

@@ -65,7 +65,7 @@ export const About: React.FC = () => {
   return (
     <section id="about" className="py-8">
       <SectionTitle icon="👋" title="About Me" />
-      <div ref={containerRef} className="mt-4 font-serif text-lg leading-relaxed space-y-4 text-ink-2">
+      <div ref={containerRef} className="mt-4 font-serif text-lg leading-relaxed space-y-4 text-ink-2 dark:text-[#C4BFB5]">
         {paragraphs.map((para, idx) => (
           <motion.p
             key={para.id}
@@ -82,7 +82,7 @@ export const About: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.36 }}
-          className="mt-4 text-accent font-medium px-4 py-3 border border-accent/20 bg-accent-soft"
+          className="mt-4 text-accent dark:text-[#D4847C] font-medium px-4 py-3 border border-accent/20 dark:border-[#B85C5C]/30 bg-accent-soft dark:bg-[#B85C5C]/10"
         >
           <motion.span
             animate={isInView ? { opacity: [0.6, 1, 0.6] } : { opacity: 0.6 }}

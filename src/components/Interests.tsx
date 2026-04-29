@@ -27,7 +27,7 @@ export const Interests: React.FC = () => {
               type: "spring",
               stiffness: 100
             }}
-            className="flex items-center gap-3 p-4 border border-rule bg-paper group"
+            className="flex items-center gap-3 p-4 border border-rule dark:border-[#3A3530] bg-paper dark:bg-[#242019] group"
           >
             <motion.span
               animate={isInView ? { rotate: [0, 10, -10, 0] } : { rotate: 0 }}
@@ -36,7 +36,7 @@ export const Interests: React.FC = () => {
             >
               {interest.emoji}
             </motion.span>
-            <span className="font-medium text-ink-2 group-hover:text-accent transition-colors">
+            <span className="font-medium text-ink-2 dark:text-[#C4BFB5] group-hover:text-accent dark:group-hover:text-[#D4847C] transition-colors">
               {interest.name}
             </span>
           </motion.div>

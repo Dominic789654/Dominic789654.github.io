@@ -5,7 +5,7 @@ export const Research: React.FC = () => {
   return (
     <section id="research" className="py-8">
       <SectionTitle icon="🌋" title="Research Interests" />
-      <div className="mt-4 font-serif text-lg text-ink-2 leading-relaxed">
+      <div className="mt-4 font-serif text-lg text-ink-2 dark:text-[#C4BFB5] leading-relaxed">
         <p>
           My main research focuses on natural language processing and machine learning.
           I am particularly interested in efficient LLMs and Agent. My goal is to build LLMs that can be a daily human assistant.

@@ -20,6 +20,12 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+.dark body {
+  background: #1C1915;
+  background-image: radial-gradient(rgba(200, 190, 170, 0.02) 1px, transparent 1px);
+  color: #E8E4DC;
+}
+
 /* Unified link style — oxblood underline, hover fills accent + white text */
 a {
   color: #15141A;
@@ -31,6 +37,15 @@ a {
 a:hover {
   background: #7A1A1A;
   color: #fff;
+}
+
+.dark a {
+  color: #E8E4DC;
+  border-bottom-color: #B85C5C;
+}
+.dark a:hover {
+  background: #B85C5C;
+  color: #1C1915;
 }
 
 /* Section transitions */
@@ -46,20 +61,29 @@ section {
 ::-webkit-scrollbar-track {
   background: #EFEBE1;
 }
+.dark ::-webkit-scrollbar-track {
+  background: #2A2520;
+}
 
 ::-webkit-scrollbar-thumb {
   background: #D9D3C3;
   border-radius: 4px;
 }
-
-::-webkit-scrollbar-thumb:hover {
-  background: #8F8B96;
+.dark ::-webkit-scrollbar-thumb {
+  background: #4A443C;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #6B6358;
 }
 
 /* Selection styling */
 ::selection {
   background: #7A1A1A;
   color: #fff;
+}
+.dark ::selection {
+  background: #B85C5C;
+  color: #1C1915;
 }
 
 /* Smooth fade-in for all elements */
