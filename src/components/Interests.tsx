@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { SectionTitle } from './SectionTitle';
-import { UNIFIED_CARD_CLASS } from './cardStyles';
 
 export const Interests: React.FC = () => {
   const containerRef = React.useRef(null);
@@ -22,13 +21,13 @@ export const Interests: React.FC = () => {
             key={interest.id}
             initial={{ opacity: 0, scale: 0.6, rotate: -15 }}
             animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 0, scale: 0.6, rotate: -15 }}
-            transition={{ 
-              duration: 0.4, 
+            transition={{
+              duration: 0.4,
               delay: idx * 0.08,
               type: "spring",
               stiffness: 100
             }}
-            className={`${UNIFIED_CARD_CLASS} flex items-center gap-3 p-4 group`}
+            className="flex items-center gap-3 p-4 border border-rule bg-paper group"
           >
             <motion.span
               animate={isInView ? { rotate: [0, 10, -10, 0] } : { rotate: 0 }}
@@ -37,7 +36,7 @@ export const Interests: React.FC = () => {
             >
               {interest.emoji}
             </motion.span>
-            <span className="font-medium text-slate-700 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+            <span className="font-medium text-ink-2 group-hover:text-accent transition-colors">
               {interest.name}
             </span>
           </motion.div>

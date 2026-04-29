@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { SectionTitle } from './SectionTitle';
-import { UNIFIED_CARD_CLASS } from './cardStyles';
 
 interface NewsItem {
   id: number;
@@ -61,36 +60,37 @@ export const News: React.FC = () => {
 
   return (
     <section id="news" className="py-8">
-      <SectionTitle icon="🌱" title="What's New" />
-      <div ref={containerRef} className="mt-4 space-y-4">
-        {newsItems.map((item, idx) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, x: 40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
-            transition={{ duration: 0.4, delay: idx * 0.06 }}
-            className={`${UNIFIED_CARD_CLASS} p-5 group`}
-          >
-            {item.isNew && (
-              <motion.span
-                animate={{ opacity: [0.8, 1, 0.8] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                className="inline-block bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded mr-2"
-              >
-                New!
-              </motion.span>
-            )}
-            <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">{item.date}</span>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 0.4, delay: idx * 0.06 + 0.1 }}
-              className="mt-1 text-slate-700 dark:text-slate-200 group-hover:text-slate-800 dark:group-hover:text-slate-100 transition-colors"
+      <SectionTitle icon="📰" title="What's New" />
+      <div ref={containerRef} className="mt-4">
+        <ul className="border-t border-rule">
+          {newsItems.map((item, idx) => (
+            <motion.li
+              key={item.id}
+              initial={{ opacity: 0, x: 40 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+              transition={{ duration: 0.4, delay: idx * 0.06 }}
+              className="grid grid-cols-[96px_1fr] gap-5 py-3 border-b border-rule-2 items-baseline"
             >
-              {item.content}
-            </motion.p>
-          </motion.div>
-        ))}
+              <span className="font-mono text-xs tracking-wide text-ink-3 uppercase whitespace-nowrap">
+                {item.date}
+              </span>
+              <div>
+                {item.isNew && (
+                  <motion.span
+                    animate={{ opacity: [0.8, 1, 0.8] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    className="inline-block bg-accent text-white text-xs font-semibold px-2 py-0.5 rounded mr-2"
+                  >
+                    New!
+                  </motion.span>
+                )}
+                <span className="font-serif text-ink-2 leading-relaxed">
+                  {item.content}
+                </span>
+              </div>
+            </motion.li>
+          ))}
+        </ul>
       </div>
     </section>
   );

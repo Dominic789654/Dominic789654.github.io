@@ -33,8 +33,8 @@ function useTextMeasure(title: string, authors: string, venue: string) {
     if (width === 0) return;
 
     try {
-      const titleFont = '700 20px Inter, -apple-system, sans-serif';
-      const bodyFont = '400 14px Inter, -apple-system, sans-serif';
+      const titleFont = '500 20px Newsreader, Georgia, serif';
+      const bodyFont = '400 14px Inter Tight, -apple-system, sans-serif';
       const lineHeight = 24;
 
       const titlePrepared = prepare(title, titleFont);
@@ -45,13 +45,12 @@ function useTextMeasure(title: string, authors: string, venue: string) {
       const { lineCount: authorsLines } = layout(authorsPrepared, width, lineHeight);
       const { lineCount: venueLines } = layout(venuePrepared, width, lineHeight);
 
-      // Title (20px * 1.35 leading) + authors + venue + links + padding
       const totalHeight =
         titleLines * 28 +
         authorsLines * 22 +
         venueLines * 28 +
-        60 + // links area
-        56;  // card padding top/bottom
+        60 +
+        56;
 
       setMinHeight(totalHeight);
     } catch {
@@ -62,7 +61,7 @@ function useTextMeasure(title: string, authors: string, venue: string) {
   return { containerRef, minHeight };
 }
 
-// Typewriter hook: types out text char by char after trigger
+// Typewriter hook
 function useTypewriter(text: string, started: boolean, speed = 18) {
   const [displayed, setDisplayed] = useState('');
 
@@ -87,7 +86,6 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
   const cardRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(cardRef, { once: true, margin: '-60px' });
   const [animPhase, setAnimPhase] = useState(0);
-  // 0 = idle, 1 = typing title, 2 = show authors, 3 = show venue, 4 = show links
 
   const { containerRef, minHeight } = useTextMeasure(
     publication.title,
@@ -97,10 +95,8 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
 
   const typedTitle = useTypewriter(publication.title, animPhase >= 1);
 
-  // Advance phases
   useEffect(() => {
     if (!isInView) return;
-    // Stagger start based on index
     const startDelay = index * 80;
     const t0 = setTimeout(() => setAnimPhase(1), startDelay);
     return () => clearTimeout(t0);
@@ -130,7 +126,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
     return authors.split(/(Xiang Liu)/g).map((part, idx) => {
       if (part === 'Xiang Liu') {
         return (
-          <strong key={`author-${idx}`} className="text-blue-600 dark:text-blue-400">
+          <strong key={`author-${idx}`} className="text-accent font-semibold">
             {part}
           </strong>
         );
@@ -141,64 +137,49 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
 
   const linkVariants = {
     paper: {
-      bg: 'bg-blue-50 dark:bg-blue-950/40',
-      bgHover: 'hover:bg-blue-100 dark:hover:bg-blue-900/60',
-      text: 'text-blue-700 dark:text-blue-300',
-      border: 'border-blue-200 dark:border-blue-800',
+      bg: 'bg-paper-2',
+      bgHover: 'hover:bg-accent hover:text-white',
+      text: 'text-accent',
+      border: 'border-accent/20',
     },
     code: {
-      bg: 'bg-gray-50 dark:bg-slate-800',
-      bgHover: 'hover:bg-gray-100 dark:hover:bg-slate-700',
-      text: 'text-gray-700 dark:text-gray-300',
-      border: 'border-gray-200 dark:border-slate-700',
+      bg: 'bg-paper-2',
+      bgHover: 'hover:bg-ink-3 hover:text-white',
+      text: 'text-ink-2',
+      border: 'border-rule',
     },
     blog: {
-      bg: 'bg-green-50 dark:bg-green-950/40',
-      bgHover: 'hover:bg-green-100 dark:hover:bg-green-900/60',
-      text: 'text-green-700 dark:text-green-300',
-      border: 'border-green-200 dark:border-green-800',
+      bg: 'bg-paper-2',
+      bgHover: 'hover:bg-accent hover:text-white',
+      text: 'text-accent',
+      border: 'border-accent/20',
     },
   };
 
   return (
     <div ref={cardRef}>
       <motion.div
-        whileHover={{ y: -4, boxShadow: '0 12px 24px -8px rgba(30, 58, 138, 0.15)' }}
+        whileHover={{ y: -2 }}
         style={{ minHeight: minHeight ?? undefined }}
-        className="group relative bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800/50 p-5 rounded-xl border border-gray-100/80 dark:border-slate-700/50 shadow-sm hover:shadow-lg dark:hover:shadow-blue-950/30 transition-all duration-300 overflow-hidden"
+        className="group relative border border-rule bg-paper p-5 transition-all duration-300 overflow-hidden"
       >
-        {/* Subtle terminal scanline overlay that fades out after animation */}
-        {animPhase < 4 && (
-          <div
-            className="pointer-events-none absolute inset-0 rounded-xl"
-            style={{
-              background:
-                'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(59,130,246,' +
-                (document.documentElement.classList.contains('dark') ? '0.08' : '0.025') +
-                ') 3px, rgba(59,130,246,' +
-                (document.documentElement.classList.contains('dark') ? '0.08' : '0.025') +
-                ') 4px)',
-            }}
-          />
-        )}
-
         {/* Accent bar */}
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: animPhase >= 1 ? '40px' : 0 }}
           transition={{ duration: 0.5 }}
-          className="h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mb-4"
+          className="h-1 bg-accent mb-4"
         />
 
         {/* Title — typewriter */}
         <div ref={containerRef}>
-          <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors leading-snug min-h-[28px]">
+          <h3 className="font-serif text-xl font-medium text-ink group-hover:text-accent transition-colors leading-snug min-h-[28px]">
             {typedTitle}
             {animPhase === 1 && typedTitle !== publication.title && (
               <motion.span
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.5, repeat: Infinity }}
-                className="inline-block w-0.5 h-5 bg-blue-500 dark:bg-blue-400 ml-0.5 align-middle"
+                className="inline-block w-0.5 h-5 bg-accent ml-0.5 align-middle"
               />
             )}
           </h3>
@@ -209,7 +190,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
           initial={{ opacity: 0, x: -8 }}
           animate={{ opacity: animPhase >= 2 ? 1 : 0, x: animPhase >= 2 ? 0 : -8 }}
           transition={{ duration: 0.3 }}
-          className="mt-2.5 text-gray-600 dark:text-gray-400 text-sm leading-relaxed"
+          className="mt-2.5 text-ink-3 text-sm leading-relaxed"
         >
           {renderAuthors(publication.authors)}
         </motion.p>
@@ -219,7 +200,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
           initial={{ opacity: 0, x: -8 }}
           animate={{ opacity: animPhase >= 3 ? 1 : 0, x: animPhase >= 3 ? 0 : -8 }}
           transition={{ duration: 0.3 }}
-          className="mt-2 text-blue-900/70 dark:text-blue-300/80 font-medium text-sm bg-blue-50/50 dark:bg-blue-950/30 inline-block px-2.5 py-1 rounded-full"
+          className="mt-2 font-mono text-xs text-accent bg-accent-soft inline-block px-2.5 py-1 rounded"
         >
           {publication.venue}
         </motion.p>
@@ -238,7 +219,8 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border ${linkVariants.paper.bg} ${linkVariants.paper.bgHover} ${linkVariants.paper.text} ${linkVariants.paper.border} transition-all`}
+              className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.paper.bg} ${linkVariants.paper.bgHover} ${linkVariants.paper.text} ${linkVariants.paper.border} transition-all`}
+              style={{ borderBottom: '1px solid' }}
             >
               <FileText size={14} />
               Paper
@@ -253,7 +235,8 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border ${linkVariants.code.bg} ${linkVariants.code.bgHover} ${linkVariants.code.text} ${linkVariants.code.border} transition-all`}
+              className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.code.bg} ${linkVariants.code.bgHover} ${linkVariants.code.text} ${linkVariants.code.border} transition-all`}
+              style={{ borderBottom: '1px solid' }}
             >
               <Code size={14} />
               Code
@@ -268,7 +251,8 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border ${linkVariants.blog.bg} ${linkVariants.blog.bgHover} ${linkVariants.blog.text} ${linkVariants.blog.border} transition-all`}
+              className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.blog.bg} ${linkVariants.blog.bgHover} ${linkVariants.blog.text} ${linkVariants.blog.border} transition-all`}
+              style={{ borderBottom: '1px solid' }}
             >
               <BookOpen size={14} />
               Blog

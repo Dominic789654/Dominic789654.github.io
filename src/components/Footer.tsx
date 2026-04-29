@@ -56,12 +56,12 @@ export const Footer: React.FC = () => {
   }, []);
 
   return (
-    <footer className="bg-gray-800 text-gray-300 py-8 px-4">
+    <footer className="border-t border-rule bg-paper-2 py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <p>© {currentYear} Xiang Liu. All rights reserved.</p>
-            <p className="text-sm mt-1 text-gray-400">
+            <p className="text-ink-2">© {currentYear} Xiang Liu. All rights reserved.</p>
+            <p className="font-mono text-xs mt-1 text-ink-4">
               Last updated: {currentYear}/{currentMonth + 1}/{currentDay}
             </p>
           </div>
@@ -71,7 +71,7 @@ export const Footer: React.FC = () => {
           <div ref={mapRef} className="clustrmaps-container" />
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-700 text-center text-sm text-gray-400">
+        <div className="mt-6 pt-6 border-t border-rule text-center font-mono text-xs text-ink-4">
           <p>Built with React and Tailwind CSS</p>
         </div>
       </div>

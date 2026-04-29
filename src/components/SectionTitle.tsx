@@ -13,25 +13,12 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({ icon, title }) => {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.5 }}
-      className="flex items-center gap-3 mb-6"
+      className="flex items-center gap-3 mb-6 pb-4 border-b border-rule"
     >
-      <motion.div
-        className="text-2xl bg-gradient-to-br from-blue-600 to-cyan-500 bg-clip-text"
-      >
-        {icon}
-      </motion.div>
-      <div className="flex-1">
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-800">
-          {title}
-        </h2>
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: '60px' }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mt-2"
-        />
-      </div>
+      <span className="text-2xl">{icon}</span>
+      <h2 className="font-serif text-2xl md:text-3xl font-normal text-ink tracking-tight">
+        {title}
+      </h2>
     </motion.div>
   );
 };

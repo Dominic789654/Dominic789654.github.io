@@ -130,8 +130,7 @@ export const Publications: React.FC = () => {
     },
     {
       id: 9,
-      title:
-        "AnTKV: Anchor Token-Aware Sub-Bit Vector Quantization for KV Cache in Large Language Models",
+      title: "AnTKV: Anchor Token-Aware Sub-Bit Vector Quantization for KV Cache in Large Language Models",
       authors:
         "Zeyu Li, Chuanfu Xiao, Yang Wang, Xiang Liu, Zhenheng Tang, Baotong Lu, Mao Yang, Xinyu Chen, Xiaowen Chu",
       venue: "arXiv preprint",
@@ -582,14 +581,14 @@ export const Publications: React.FC = () => {
           aria-controls="full-publications-content"
         >
           <SectionTitle icon="📚" title="Full Publication List" />
-          <span className="text-lg font-bold" aria-hidden="true">
+          <span className="text-lg font-bold text-accent" aria-hidden="true">
             {isFullListExpanded ? "−" : "+"}
           </span>
         </div>
         {isFullListExpanded && (
           <div id="full-publications-content">
-            <div className="my-4 p-4 border rounded-lg bg-gray-50 dark:bg-gray-800">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <div className="my-4 p-4 border border-rule bg-paper">
+              <h3 className="text-lg font-semibold text-ink">
                 Publication Stats
               </h3>
               <div className="flex flex-wrap gap-x-4 gap-y-2 mt-2">
@@ -598,7 +597,7 @@ export const Publications: React.FC = () => {
                   .map(([conf, count]) => (
                     <span
                       key={conf}
-                      className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                      className="font-mono text-sm font-medium text-ink-3"
                     >
                       {conf}: {count}
                     </span>

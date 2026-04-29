@@ -6,7 +6,7 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 dark:text-gray-100 text-gray-800 font-sans transition-colors duration-300">
+    <div className="min-h-screen bg-paper text-ink font-sans">
       {children}
     </div>
   );
