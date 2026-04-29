@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import {
   Mail,
@@ -12,80 +12,29 @@ import {
 import avatar from "../assets/images/profile/avatar.jpeg";
 import cv from "../assets/cv/XiangLiu_resume_2026_02.pdf";
 import { useTheme } from "../contexts/ThemeContext";
+import { useCitations } from "../contexts/CitationContext";
 
 const HIGHLIGHTS = [
   {
     title: "ICLR 2026",
-    description: "Two accepted papers on token-efficient reasoning and LLM serving.",
+    description:
+      "Two accepted papers on token-efficient reasoning and LLM serving.",
   },
   {
     title: "NYU CDS",
-    description: "Visiting student working with Prof. Eunsol Choi on retrieval and reasoning.",
+    description:
+      "Visiting student working with Prof. Eunsol Choi on retrieval and reasoning.",
   },
   {
     title: "Recognition",
-    description: "NeurIPS Top Reviewer, Travel Award, and HKUST Overseas Research Award.",
+    description:
+      "NeurIPS Top Reviewer, Travel Award, and HKUST Overseas Research Award.",
   },
 ];
 
-// Fallback citation count if no cached value exists
-const FALLBACK_CITATIONS = 891;
-const CACHE_KEY = "cached_citations";
-const CACHE_TIME_KEY = "cached_citations_updated_at";
-const CACHE_TTL_MS = 12 * 60 * 60 * 1000;
-
-// Custom hook to fetch citation count from scholar_tracker repo
-function useCitationCount() {
-  const [citations, setCitations] = useState<number>(() => {
-    const cached = localStorage.getItem(CACHE_KEY);
-    const parsed = cached ? parseInt(cached, 10) : NaN;
-    return Number.isFinite(parsed) ? parsed : FALLBACK_CITATIONS;
-  });
-
-  useEffect(() => {
-    const cachedAt = parseInt(localStorage.getItem(CACHE_TIME_KEY) ?? "0", 10);
-    if (Number.isFinite(cachedAt) && Date.now() - cachedAt < CACHE_TTL_MS) {
-      return;
-    }
-
-    const controller = new AbortController();
-
-    const fetchCitations = async () => {
-      try {
-        const response = await fetch(
-          "https://raw.githubusercontent.com/Dominic789654/scholar_tracker/main/data/citations.md",
-          {
-            signal: controller.signal,
-            cache: "no-store",
-          },
-        );
-        if (response.ok) {
-          const text = await response.text();
-          const match = text.match(/Total Citations:\s*(\d+)/);
-          if (match) {
-            const count = parseInt(match[1], 10);
-            setCitations(count);
-            localStorage.setItem(CACHE_KEY, String(count));
-            localStorage.setItem(CACHE_TIME_KEY, String(Date.now()));
-          }
-        }
-      } catch (error) {
-        if ((error as Error).name !== "AbortError") {
-          console.error("Failed to fetch citations:", error);
-        }
-      }
-    };
-    fetchCitations();
-
-    return () => controller.abort();
-  }, []);
-
-  return citations;
-}
-
 export const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
-  const citations = useCitationCount();
+  const { citations, hIndex } = useCitations();
 
   return (
     <header className="relative bg-paper border-b border-rule overflow-hidden">
@@ -107,7 +56,7 @@ export const Header: React.FC = () => {
                 src={avatar}
                 alt="Profile"
                 className="w-full h-full object-cover"
-                style={{ filter: 'saturate(0.92) contrast(1.02)' }}
+                style={{ filter: "saturate(0.92) contrast(1.02)" }}
               />
             </div>
           </motion.div>
@@ -144,14 +93,20 @@ export const Header: React.FC = () => {
                 >
                   <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
                 </svg>
-                <span>{citations}</span>
+                <span>{citations ?? "..."}</span>
                 <span className="text-accent/60">citations</span>
+                {hIndex !== null && (
+                  <>
+                    <span className="text-accent/30 mx-0.5">·</span>
+                    <span className="text-accent/70">H-index {hIndex}</span>
+                  </>
+                )}
               </a>
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
               className="mt-2 font-mono text-xs text-ink-4 italic"
             >

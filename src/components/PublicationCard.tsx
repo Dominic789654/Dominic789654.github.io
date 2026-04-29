@@ -1,7 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { FileText, Code, BookOpen, ExternalLink } from 'lucide-react';
-import { prepare, layout } from '@chenglou/pretext';
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { FileText, Code, BookOpen, ExternalLink } from "lucide-react";
+import { prepare, layout } from "@chenglou/pretext";
+import {
+  useCitations,
+  getCitationCountForPaper,
+} from "../contexts/CitationContext";
 
 interface Publication {
   id: number;
@@ -33,24 +37,32 @@ function useTextMeasure(title: string, authors: string, venue: string) {
     if (width === 0) return;
 
     try {
-      const titleFont = '500 20px Newsreader, Georgia, serif';
-      const bodyFont = '400 14px Inter Tight, -apple-system, sans-serif';
+      const titleFont = "500 20px Newsreader, Georgia, serif";
+      const bodyFont = "400 14px Inter Tight, -apple-system, sans-serif";
       const lineHeight = 24;
 
       const titlePrepared = prepare(title, titleFont);
       const authorsPrepared = prepare(authors, bodyFont);
       const venuePrepared = prepare(venue, bodyFont);
 
-      const { lineCount: titleLines } = layout(titlePrepared, width, lineHeight);
-      const { lineCount: authorsLines } = layout(authorsPrepared, width, lineHeight);
-      const { lineCount: venueLines } = layout(venuePrepared, width, lineHeight);
+      const { lineCount: titleLines } = layout(
+        titlePrepared,
+        width,
+        lineHeight,
+      );
+      const { lineCount: authorsLines } = layout(
+        authorsPrepared,
+        width,
+        lineHeight,
+      );
+      const { lineCount: venueLines } = layout(
+        venuePrepared,
+        width,
+        lineHeight,
+      );
 
       const totalHeight =
-        titleLines * 28 +
-        authorsLines * 22 +
-        venueLines * 28 +
-        60 +
-        56;
+        titleLines * 28 + authorsLines * 22 + venueLines * 28 + 60 + 56;
 
       setMinHeight(totalHeight);
     } catch {
@@ -63,11 +75,11 @@ function useTextMeasure(title: string, authors: string, venue: string) {
 
 // Typewriter hook
 function useTypewriter(text: string, started: boolean, speed = 18) {
-  const [displayed, setDisplayed] = useState('');
+  const [displayed, setDisplayed] = useState("");
 
   useEffect(() => {
     if (!started) {
-      setDisplayed('');
+      setDisplayed("");
       return;
     }
     if (displayed === text) return;
@@ -82,9 +94,12 @@ function useTypewriter(text: string, started: boolean, speed = 18) {
   return displayed;
 }
 
-export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, index = 0 }) => {
+export const PublicationCard: React.FC<PublicationCardProps> = ({
+  publication,
+  index = 0,
+}) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(cardRef, { once: true, margin: '-60px' });
+  const isInView = useInView(cardRef, { once: true, margin: "-60px" });
   const [animPhase, setAnimPhase] = useState(0);
 
   const { containerRef, minHeight } = useTextMeasure(
@@ -94,6 +109,11 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
   );
 
   const typedTitle = useTypewriter(publication.title, animPhase >= 1);
+  const { paperCitations } = useCitations();
+  const citationCount = getCitationCountForPaper(
+    paperCitations,
+    publication.title,
+  );
 
   useEffect(() => {
     if (!isInView) return;
@@ -124,7 +144,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
 
   const renderAuthors = (authors: string) => {
     return authors.split(/(Xiang Liu)/g).map((part, idx) => {
-      if (part === 'Xiang Liu') {
+      if (part === "Xiang Liu") {
         return (
           <strong key={`author-${idx}`} className="text-accent font-semibold">
             {part}
@@ -137,22 +157,22 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
 
   const linkVariants = {
     paper: {
-      bg: 'bg-paper-2',
-      bgHover: 'hover:bg-accent hover:text-white',
-      text: 'text-accent',
-      border: 'border-accent/20',
+      bg: "bg-paper-2",
+      bgHover: "hover:bg-accent hover:text-white",
+      text: "text-accent",
+      border: "border-accent/20",
     },
     code: {
-      bg: 'bg-paper-2',
-      bgHover: 'hover:bg-ink-3 hover:text-white',
-      text: 'text-ink-2',
-      border: 'border-rule',
+      bg: "bg-paper-2",
+      bgHover: "hover:bg-ink-3 hover:text-white",
+      text: "text-ink-2",
+      border: "border-rule",
     },
     blog: {
-      bg: 'bg-paper-2',
-      bgHover: 'hover:bg-accent hover:text-white',
-      text: 'text-accent',
-      border: 'border-accent/20',
+      bg: "bg-paper-2",
+      bgHover: "hover:bg-accent hover:text-white",
+      text: "text-accent",
+      border: "border-accent/20",
     },
   };
 
@@ -166,7 +186,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
         {/* Accent bar */}
         <motion.div
           initial={{ width: 0 }}
-          animate={{ width: animPhase >= 1 ? '40px' : 0 }}
+          animate={{ width: animPhase >= 1 ? "40px" : 0 }}
           transition={{ duration: 0.5 }}
           className="h-1 bg-accent mb-4"
         />
@@ -188,7 +208,10 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
         {/* Authors — slide in */}
         <motion.p
           initial={{ opacity: 0, x: -8 }}
-          animate={{ opacity: animPhase >= 2 ? 1 : 0, x: animPhase >= 2 ? 0 : -8 }}
+          animate={{
+            opacity: animPhase >= 2 ? 1 : 0,
+            x: animPhase >= 2 ? 0 : -8,
+          }}
           transition={{ duration: 0.3 }}
           className="mt-2.5 text-ink-3 text-sm leading-relaxed"
         >
@@ -196,14 +219,24 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
         </motion.p>
 
         {/* Venue — slide in */}
-        <motion.p
+        <motion.div
           initial={{ opacity: 0, x: -8 }}
-          animate={{ opacity: animPhase >= 3 ? 1 : 0, x: animPhase >= 3 ? 0 : -8 }}
+          animate={{
+            opacity: animPhase >= 3 ? 1 : 0,
+            x: animPhase >= 3 ? 0 : -8,
+          }}
           transition={{ duration: 0.3 }}
-          className="mt-2 font-mono text-xs text-accent bg-accent-soft inline-block px-2.5 py-1 rounded"
+          className="mt-2 flex items-center gap-2"
         >
-          {publication.venue}
-        </motion.p>
+          <span className="font-mono text-xs text-accent bg-accent-soft inline-block px-2.5 py-1 rounded">
+            {publication.venue}
+          </span>
+          {citationCount !== undefined && citationCount > 0 && (
+            <span className="font-mono text-xs text-ink-4">
+              {citationCount} citation{citationCount !== 1 ? "s" : ""}
+            </span>
+          )}
+        </motion.div>
 
         {/* Links — fade in */}
         <motion.div
@@ -220,7 +253,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.paper.bg} ${linkVariants.paper.bgHover} ${linkVariants.paper.text} ${linkVariants.paper.border} transition-all`}
-              style={{ borderBottom: '1px solid' }}
+              style={{ borderBottom: "1px solid" }}
             >
               <FileText size={14} />
               Paper
@@ -236,7 +269,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.code.bg} ${linkVariants.code.bgHover} ${linkVariants.code.text} ${linkVariants.code.border} transition-all`}
-              style={{ borderBottom: '1px solid' }}
+              style={{ borderBottom: "1px solid" }}
             >
               <Code size={14} />
               Code
@@ -252,7 +285,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({ publication, i
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.blog.bg} ${linkVariants.blog.bgHover} ${linkVariants.blog.text} ${linkVariants.blog.border} transition-all`}
-              style={{ borderBottom: '1px solid' }}
+              style={{ borderBottom: "1px solid" }}
             >
               <BookOpen size={14} />
               Blog
