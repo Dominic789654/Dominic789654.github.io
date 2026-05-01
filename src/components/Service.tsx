@@ -30,7 +30,7 @@ export const Service: React.FC = () => {
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
             transition={{ duration: 0.4, delay: idx * 0.1 }}
-            className="flex items-start gap-4 p-5 border border-rule dark:border-[#3A3530] bg-paper dark:bg-[#242019] group"
+            className="flex items-start gap-4 p-5 border border-rule dark:border-[#4A443C] bg-paper dark:bg-[#2A2520] group"
           >
             <motion.div
               initial={{ scale: 0, rotate: -90 }}
@@ -53,7 +53,7 @@ export const Service: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : { opacity: 0 }}
                 transition={{ duration: 0.4, delay: idx * 0.1 + 0.25 }}
-                className="mt-1 font-serif text-ink-2 dark:text-[#C4BFB5]"
+                className="mt-1 font-serif text-ink-2 dark:text-[#D5D0C6]"
               >
                 {service.items}
               </motion.p>

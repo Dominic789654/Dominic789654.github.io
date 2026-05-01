@@ -62,16 +62,16 @@ export const News: React.FC = () => {
     <section id="news" className="py-8">
       <SectionTitle icon="📰" title="What's New" />
       <div ref={containerRef} className="mt-4">
-        <ul className="border-t border-rule dark:border-[#3A3530]">
+        <ul className="border-t border-rule dark:border-[#4A443C]">
           {newsItems.map((item, idx) => (
             <motion.li
               key={item.id}
               initial={{ opacity: 0, x: 40 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
               transition={{ duration: 0.4, delay: idx * 0.06 }}
-              className="grid grid-cols-[96px_1fr] gap-5 py-3 border-b border-rule-2 dark:border-[#2E2A24] items-baseline"
+              className="grid grid-cols-[96px_1fr] gap-5 py-3 border-b border-rule-2 dark:border-[#3A3530] items-baseline"
             >
-              <span className="font-mono text-xs tracking-wide text-ink-3 dark:text-[#9A958B] uppercase whitespace-nowrap">
+              <span className="font-mono text-xs tracking-wide text-ink-3 dark:text-[#B8B2A6] uppercase whitespace-nowrap">
                 {item.date}
               </span>
               <div>
@@ -79,12 +79,12 @@ export const News: React.FC = () => {
                   <motion.span
                     animate={{ opacity: [0.8, 1, 0.8] }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                    className="inline-block bg-accent dark:bg-[#B85C5C] text-white text-xs font-semibold px-2 py-0.5 rounded mr-2"
+                    className="inline-block bg-accent dark:bg-[#D4847C] text-white dark:text-[#1C1915] text-xs font-semibold px-2 py-0.5 rounded mr-2"
                   >
                     New!
                   </motion.span>
                 )}
-                <span className="font-serif text-ink-2 dark:text-[#C4BFB5] leading-relaxed">
+                <span className="font-serif text-ink-2 dark:text-[#D5D0C6] leading-relaxed">
                   {item.content}
                 </span>
               </div>

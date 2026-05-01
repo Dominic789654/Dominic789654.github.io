@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 export const ScrollProgress: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -8,8 +8,7 @@ export const ScrollProgress: React.FC = () => {
 
     const updateScrollProgress = () => {
       const scrollTop = window.scrollY;
-      const docHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       setScrollProgress(Math.min(100, Math.max(0, progress)));
     };
@@ -22,13 +21,13 @@ export const ScrollProgress: React.FC = () => {
       });
     };
 
-    window.addEventListener("scroll", requestUpdate, { passive: true });
-    window.addEventListener("resize", requestUpdate);
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
     requestUpdate();
 
     return () => {
-      window.removeEventListener("scroll", requestUpdate);
-      window.removeEventListener("resize", requestUpdate);
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
       if (frameId !== null) {
         cancelAnimationFrame(frameId);
       }
@@ -38,7 +37,7 @@ export const ScrollProgress: React.FC = () => {
   return (
     <div className="fixed top-0 left-0 right-0 h-[2px] z-[100]">
       <div
-        className="h-full bg-accent dark:bg-[#B85C5C] transition-all duration-150 ease-out"
+        className="h-full bg-accent dark:bg-[#D4847C] transition-all duration-150 ease-out"
         style={{ width: `${scrollProgress}%` }}
       />
     </div>

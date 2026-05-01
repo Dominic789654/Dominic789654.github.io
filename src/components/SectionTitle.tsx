@@ -13,7 +13,7 @@ export const SectionTitle: React.FC<SectionTitleProps> = ({ icon, title }) => {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.5 }}
-      className="flex items-center gap-3 mb-6 pb-4 border-b border-rule dark:border-[#3A3530]"
+      className="flex items-center gap-3 mb-6 pb-4 border-b border-rule dark:border-[#4A443C]"
     >
       <span className="text-2xl">{icon}</span>
       <h2 className="font-serif text-2xl md:text-3xl font-normal text-ink dark:text-[#E8E4DC] tracking-tight">

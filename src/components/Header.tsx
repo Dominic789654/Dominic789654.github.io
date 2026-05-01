@@ -37,7 +37,7 @@ export const Header: React.FC = () => {
   const { citations, hIndex } = useCitations();
 
   return (
-    <header className="relative bg-paper dark:bg-[#1C1915] border-b border-rule dark:border-[#3A3530] overflow-hidden">
+    <header className="relative bg-paper dark:bg-[#1C1915] border-b border-rule dark:border-[#4A443C] overflow-hidden">
       <div className="relative max-w-4xl mx-auto py-16 px-4 md:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -51,7 +51,7 @@ export const Header: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            <div className="w-44 h-44 overflow-hidden border border-rule dark:border-[#3A3530] shadow-lg">
+            <div className="w-44 h-44 overflow-hidden border border-rule dark:border-[#4A443C] shadow-lg">
               <img
                 src={avatar}
                 alt="Profile"
@@ -77,14 +77,14 @@ export const Header: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="mt-3 flex items-center justify-center md:justify-start gap-3"
             >
-              <p className="font-serif text-ink-3 dark:text-[#9A958B] text-lg">
+              <p className="font-serif text-ink-3 dark:text-[#B8B2A6] text-lg">
                 Hong Kong University of Science and Technology (Guangzhou)
               </p>
               <a
                 href="https://scholar.google.com/citations?user=VtK5lwUAAAAJ"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1 bg-accent-soft dark:bg-[#B85C5C]/15 border border-accent/20 dark:border-[#B85C5C]/30 text-xs font-mono text-accent dark:text-[#D4847C] transition-all duration-300 hover:bg-accent hover:text-white dark:hover:bg-[#B85C5C] dark:hover:text-[#1C1915] no-underline"
+                className="inline-flex items-center gap-1.5 px-3 py-1 bg-accent-soft dark:bg-[#D4847C]/12 border border-accent/20 dark:border-[#D4847C]/30 text-xs font-mono text-accent dark:text-[#D4847C] transition-all duration-300 hover:bg-accent hover:text-white dark:hover:bg-[#D4847C] dark:hover:text-[#1C1915] no-underline"
               >
                 <svg
                   className="w-4 h-4"
@@ -97,8 +97,8 @@ export const Header: React.FC = () => {
                 <span className="text-accent/60 dark:text-[#D4847C]/60">citations</span>
                 {hIndex !== null && (
                   <>
-                    <span className="text-accent/30 dark:text-[#D4847C]/30 mx-0.5">·</span>
-                    <span className="text-accent/70 dark:text-[#D4847C]/70">H-index {hIndex}</span>
+                    <span className="text-accent/30 dark:text-[#D4847C]/40 mx-0.5">·</span>
+                    <span className="text-accent/70 dark:text-[#D4847C]/80">H-index {hIndex}</span>
                   </>
                 )}
               </a>
@@ -108,7 +108,7 @@ export const Header: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="mt-2 font-mono text-xs text-ink-4 dark:text-[#7A756B] italic"
+              className="mt-2 font-mono text-xs text-ink-4 dark:text-[#9A958B] italic"
             >
               Pronouns: he/him
             </motion.div>
@@ -117,7 +117,7 @@ export const Header: React.FC = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.7 }}
-              className="mt-5 max-w-2xl font-serif text-sm md:text-base leading-7 text-ink-2 dark:text-[#C4BFB5]"
+              className="mt-5 max-w-2xl font-serif text-sm md:text-base leading-7 text-ink-2 dark:text-[#D5D0C6]"
             >
               I work on efficient and reliable large language models, especially
               token-efficient inference, long-context evaluation, retrieval, and
@@ -161,7 +161,7 @@ export const Header: React.FC = () => {
                   transition={{ duration: 0.3, delay: 0.95 + index * 0.1 }}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-paper-2 dark:bg-[#2A2520] border border-rule dark:border-[#3A3530] p-2.5 text-ink-3 dark:text-[#9A958B] hover:text-accent dark:hover:text-[#D4847C] hover:border-accent/30 dark:hover:border-[#B85C5C]/30 transition-all duration-300"
+                  className="bg-paper-2 dark:bg-[#262220] border border-rule dark:border-[#4A443C] p-2.5 text-ink-3 dark:text-[#B8B2A6] hover:text-accent dark:hover:text-[#D4847C] hover:border-accent/30 dark:hover:border-[#D4847C]/30 transition-all duration-300"
                   title={social.title}
                 >
                   <social.icon size={22} />
@@ -178,12 +178,12 @@ export const Header: React.FC = () => {
               {HIGHLIGHTS.map((highlight) => (
                 <div
                   key={highlight.title}
-                  className="border border-rule dark:border-[#3A3530] bg-paper dark:bg-[#242019] p-4 text-left"
+                  className="border border-rule dark:border-[#4A443C] bg-paper dark:bg-[#2A2520] p-4 text-left"
                 >
                   <p className="font-mono text-xs font-medium tracking-wide text-accent dark:text-[#D4847C]">
                     {highlight.title}
                   </p>
-                  <p className="mt-2 font-serif text-sm leading-6 text-ink-2 dark:text-[#C4BFB5]">
+                  <p className="mt-2 font-serif text-sm leading-6 text-ink-2 dark:text-[#D5D0C6]">
                     {highlight.description}
                   </p>
                 </div>
@@ -203,7 +203,7 @@ export const Header: React.FC = () => {
         onClick={toggleTheme}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        className="absolute top-4 right-4 md:top-6 md:right-6 bg-paper-2 dark:bg-[#2A2520] border border-rule dark:border-[#3A3530] p-3 text-ink-3 dark:text-[#9A958B] hover:text-accent dark:hover:text-[#D4847C] transition-all duration-300"
+        className="absolute top-4 right-4 md:top-6 md:right-6 bg-paper-2 dark:bg-[#262220] border border-rule dark:border-[#4A443C] p-3 text-ink-3 dark:text-[#B8B2A6] hover:text-accent dark:hover:text-[#D4847C] transition-all duration-300"
         title={
           theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
         }

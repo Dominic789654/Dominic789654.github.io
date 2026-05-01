@@ -20,10 +20,23 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Dark mode palette (warm journal) */
 .dark body {
-  background: #1C1915;
+  --dpaper: #1C1915;
+  --dpaper2: #262220;
+  --dcard: #2A2520;
+  --dink: #E8E4DC;
+  --dink2: #D5D0C6;
+  --dink3: #B8B2A6;
+  --dink4: #9A958B;
+  --drule: #4A443C;
+  --drule2: #3A3530;
+  --daccent: #D4847C;
+  --daccent-soft: rgba(212, 132, 124, 0.12);
+
+  background: var(--dpaper);
   background-image: radial-gradient(rgba(200, 190, 170, 0.02) 1px, transparent 1px);
-  color: #E8E4DC;
+  color: var(--dink);
 }
 
 /* Unified link style — oxblood underline, hover fills accent + white text */
@@ -40,12 +53,12 @@ a:hover {
 }
 
 .dark a {
-  color: #E8E4DC;
-  border-bottom-color: #B85C5C;
+  color: var(--dink);
+  border-bottom-color: var(--daccent);
 }
 .dark a:hover {
-  background: #B85C5C;
-  color: #1C1915;
+  background: var(--daccent);
+  color: var(--dpaper);
 }
 
 /* Section transitions */
@@ -62,7 +75,7 @@ section {
   background: #EFEBE1;
 }
 .dark ::-webkit-scrollbar-track {
-  background: #2A2520;
+  background: var(--dpaper2);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -70,10 +83,10 @@ section {
   border-radius: 4px;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #4A443C;
+  background: var(--drule);
 }
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #6B6358;
+  background: var(--dink4);
 }
 
 /* Selection styling */
@@ -82,8 +95,8 @@ section {
   color: #fff;
 }
 .dark ::selection {
-  background: #B85C5C;
-  color: #1C1915;
+  background: var(--daccent);
+  color: var(--dpaper);
 }
 
 /* Smooth fade-in for all elements */

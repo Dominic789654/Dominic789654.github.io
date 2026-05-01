@@ -143,22 +143,22 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
 
   const linkVariants = {
     paper: {
-      bg: 'bg-paper-2 dark:bg-[#2A2520]',
-      bgHover: 'hover:bg-accent hover:text-white dark:hover:bg-[#B85C5C] dark:hover:text-[#1C1915]',
+      bg: 'bg-paper-2 dark:bg-[#262220]',
+      bgHover: 'hover:bg-accent hover:text-white dark:hover:bg-[#D4847C] dark:hover:text-[#1C1915]',
       text: 'text-accent dark:text-[#D4847C]',
-      border: 'border-accent/20 dark:border-[#B85C5C]/30',
+      border: 'border-accent/20 dark:border-[#D4847C]/30',
     },
     code: {
-      bg: 'bg-paper-2 dark:bg-[#2A2520]',
-      bgHover: 'hover:bg-ink-3 hover:text-white dark:hover:bg-[#9A958B] dark:hover:text-[#1C1915]',
-      text: 'text-ink-2 dark:text-[#C4BFB5]',
-      border: 'border-rule dark:border-[#3A3530]',
+      bg: 'bg-paper-2 dark:bg-[#262220]',
+      bgHover: 'hover:bg-ink-3 hover:text-white dark:hover:bg-[#B8B2A6] dark:hover:text-[#1C1915]',
+      text: 'text-ink-2 dark:text-[#D5D0C6]',
+      border: 'border-rule dark:border-[#4A443C]',
     },
     blog: {
-      bg: 'bg-paper-2 dark:bg-[#2A2520]',
-      bgHover: 'hover:bg-accent hover:text-white dark:hover:bg-[#B85C5C] dark:hover:text-[#1C1915]',
+      bg: 'bg-paper-2 dark:bg-[#262220]',
+      bgHover: 'hover:bg-accent hover:text-white dark:hover:bg-[#D4847C] dark:hover:text-[#1C1915]',
       text: 'text-accent dark:text-[#D4847C]',
-      border: 'border-accent/20 dark:border-[#B85C5C]/30',
+      border: 'border-accent/20 dark:border-[#D4847C]/30',
     },
   };
 
@@ -167,14 +167,14 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
       <motion.div
         whileHover={{ y: -2 }}
         style={{ minHeight: minHeight ?? undefined }}
-        className="group relative border border-rule dark:border-[#3A3530] bg-paper dark:bg-[#242019] p-5 transition-all duration-300 overflow-hidden"
+        className="group relative border border-rule dark:border-[#4A443C] bg-paper dark:bg-[#2A2520] p-5 transition-all duration-300 overflow-hidden"
       >
         {/* Accent bar */}
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: animPhase >= 1 ? "40px" : 0 }}
           transition={{ duration: 0.5 }}
-          className="h-1 bg-accent dark:bg-[#B85C5C] mb-4"
+          className="h-1 bg-accent dark:bg-[#D4847C] mb-4"
         />
 
         {/* Title — typewriter */}
@@ -199,7 +199,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
             x: animPhase >= 2 ? 0 : -8,
           }}
           transition={{ duration: 0.3 }}
-          className="mt-2.5 text-ink-3 dark:text-[#9A958B] text-sm leading-relaxed"
+          className="mt-2.5 text-ink-3 dark:text-[#B8B2A6] text-sm leading-relaxed"
         >
           {renderAuthors(publication.authors)}
         </motion.p>
@@ -214,11 +214,11 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
           transition={{ duration: 0.3 }}
           className="mt-2 flex items-center gap-2"
         >
-          <span className="font-mono text-xs text-accent dark:text-[#D4847C] bg-accent-soft dark:bg-[#B85C5C]/15 inline-block px-2.5 py-1 rounded">
+          <span className="font-mono text-xs text-accent dark:text-[#D4847C] bg-accent-soft dark:bg-[#D4847C]/12 inline-block px-2.5 py-1 rounded">
             {publication.venue}
           </span>
           {citationCount !== undefined && citationCount > 0 && (
-            <span className="font-mono text-xs text-ink-4 dark:text-[#7A756B]">
+            <span className="font-mono text-xs text-ink-4 dark:text-[#9A958B]">
               {citationCount} citation{citationCount !== 1 ? "s" : ""}
             </span>
           )}

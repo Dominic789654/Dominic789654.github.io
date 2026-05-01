@@ -591,7 +591,7 @@ export const Publications: React.FC = () => {
         </div>
         {isFullListExpanded && (
           <div id="full-publications-content">
-            <div className="my-4 p-4 border border-rule dark:border-[#3A3530] bg-paper dark:bg-[#242019]">
+            <div className="my-4 p-4 border border-rule dark:border-[#4A443C] bg-paper dark:bg-[#2A2520]">
               <h3 className="text-lg font-semibold text-ink dark:text-[#E8E4DC]">
                 Publication Stats
               </h3>
@@ -601,7 +601,7 @@ export const Publications: React.FC = () => {
                   .map(([conf, count]) => (
                     <span
                       key={conf}
-                      className="font-mono text-sm font-medium text-ink-3 dark:text-[#9A958B]"
+                      className="font-mono text-sm font-medium text-ink-3 dark:text-[#B8B2A6]"
                     >
                       {conf}: {count}
                     </span>

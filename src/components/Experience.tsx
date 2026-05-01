@@ -61,13 +61,13 @@ export const Experience: React.FC = () => {
         initial={{ opacity: 0, x: -30 }}
         animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
         transition={{ duration: 0.5, delay: index * 0.1 }}
-        className="relative pl-8 pb-4 border-l-2 border-rule dark:border-[#3A3530] group"
+        className="relative pl-8 pb-4 border-l-2 border-rule dark:border-[#4A443C] group"
       >
         <motion.div
           initial={{ scale: 0 }}
           animate={isInView ? { scale: 1 } : { scale: 0 }}
           transition={{ duration: 0.4, delay: index * 0.1 + 0.15 }}
-          className="absolute left-[-8px] top-0 w-4 h-4 bg-accent dark:bg-[#B85C5C] rounded-full"
+          className="absolute left-[-8px] top-0 w-4 h-4 bg-accent dark:bg-[#D4847C] rounded-full"
         />
         <motion.h3
           initial={{ opacity: 0 }}
@@ -81,7 +81,7 @@ export const Experience: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.4, delay: index * 0.1 + 0.25 }}
-          className="mt-1 font-mono text-sm text-ink-3 dark:text-[#9A958B]"
+          className="mt-1 font-mono text-sm text-ink-3 dark:text-[#B8B2A6]"
         >
           {item.period}
         </motion.p>
@@ -89,7 +89,7 @@ export const Experience: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.4, delay: index * 0.1 + 0.3 }}
-          className="mt-2 font-serif text-ink-2 dark:text-[#C4BFB5]"
+          className="mt-2 font-serif text-ink-2 dark:text-[#D5D0C6]"
         >
           {item.description}
         </motion.p>
