@@ -7,6 +7,17 @@ export const Publications: React.FC = () => {
 
   const selectedPublications = [
     {
+      id: 40,
+      title:
+        "Semantic Integrity Matters: Benchmarking and Preserving High-Density Reasoning in KV Cache Compression",
+      authors:
+        "Xiang Liu, Zhenheng Tang, Hong Chen, Peijie Dong, Zeyu Li, Xiuze Zhou, Bo Li, Xuming Hu, Xiaowen Chu",
+      venue: "ICML 2026",
+      links: {
+        paper: "https://arxiv.org/abs/2502.01941",
+      },
+    },
+    {
       id: 8,
       title:
         "DiffAdapt: Difficulty-Adaptive Reasoning for Token-Efficient LLM Inference",
@@ -174,10 +185,10 @@ export const Publications: React.FC = () => {
     {
       id: 7,
       title:
-        "Can LLMs Maintain Fundamental Abilities under KV Cache Compression?",
+        "Semantic Integrity Matters: Benchmarking and Preserving High-Density Reasoning in KV Cache Compression",
       authors:
         "Xiang Liu, Zhenheng Tang, Hong Chen, Peijie Dong, Zeyu Li, Xiuze Zhou, Bo Li, Xuming Hu, Xiaowen Chu",
-      venue: "arXiv preprint",
+      venue: "ICML 2026",
       links: {
         paper: "https://arxiv.org/abs/2502.01941",
       },
@@ -185,6 +196,14 @@ export const Publications: React.FC = () => {
   ];
 
   const fullPublications = [
+    {
+      id: 41,
+      title: "MDN: Parallelizing Stepwise Momentum for Delta Linear Attention",
+      authors:
+        "Yulong Huang, Xiang Liu, Hongxiang Huang, Xiaopeng Lin, Zunchang Liu, Xiaowen Chu, Zeke Xie, Bojun Cheng",
+      venue: "ICML 2026",
+      links: {},
+    },
     {
       id: 39,
       title:
@@ -384,10 +403,10 @@ export const Publications: React.FC = () => {
     {
       id: 18,
       title:
-        "Can LLMs Maintain Fundamental Abilities under KV Cache Compression?",
+        "Semantic Integrity Matters: Benchmarking and Preserving High-Density Reasoning in KV Cache Compression",
       authors:
         "Xiang Liu, Zhenheng Tang, Hong Chen, Peijie Dong, Zeyu Li, Xiuze Zhou, Bo Li, Xuming Hu, Xiaowen Chu",
-      venue: "arXiv preprint",
+      venue: "ICML 2026",
       links: {
         paper: "https://arxiv.org/abs/2502.01941",
       },
