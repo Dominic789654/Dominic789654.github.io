@@ -132,7 +132,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
     return authors.split(/(Xiang Liu)/g).map((part, idx) => {
       if (part === 'Xiang Liu') {
         return (
-          <strong key={`author-${idx}`} className="text-accent dark:text-[#D4847C] font-semibold">
+          <strong key={`author-${idx}`} className="text-accent dark:text-[#D4A27F] font-semibold">
             {part}
           </strong>
         );
@@ -144,9 +144,9 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
   const linkVariants = {
     paper: {
       bg: 'bg-paper-2 dark:bg-[#262220]',
-      bgHover: 'hover:bg-accent hover:text-white dark:hover:bg-[#D4847C] dark:hover:text-[#1C1915]',
-      text: 'text-accent dark:text-[#D4847C]',
-      border: 'border-accent/20 dark:border-[#D4847C]/30',
+      bgHover: 'hover:bg-accent hover:text-white dark:hover:bg-[#D4A27F] dark:hover:text-[#1C1915]',
+      text: 'text-accent dark:text-[#D4A27F]',
+      border: 'border-accent/20 dark:border-[#D4A27F]/30',
     },
     code: {
       bg: 'bg-paper-2 dark:bg-[#262220]',
@@ -156,9 +156,9 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
     },
     blog: {
       bg: 'bg-paper-2 dark:bg-[#262220]',
-      bgHover: 'hover:bg-accent hover:text-white dark:hover:bg-[#D4847C] dark:hover:text-[#1C1915]',
-      text: 'text-accent dark:text-[#D4847C]',
-      border: 'border-accent/20 dark:border-[#D4847C]/30',
+      bgHover: 'hover:bg-accent hover:text-white dark:hover:bg-[#D4A27F] dark:hover:text-[#1C1915]',
+      text: 'text-accent dark:text-[#D4A27F]',
+      border: 'border-accent/20 dark:border-[#D4A27F]/30',
     },
   };
 
@@ -174,18 +174,18 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
           initial={{ width: 0 }}
           animate={{ width: animPhase >= 1 ? "40px" : 0 }}
           transition={{ duration: 0.5 }}
-          className="h-1 bg-accent dark:bg-[#D4847C] mb-4"
+          className="h-1 bg-accent dark:bg-[#D4A27F] mb-4"
         />
 
         {/* Title — typewriter */}
         <div ref={containerRef}>
-          <h3 className="font-serif text-xl font-medium text-ink dark:text-[#E8E4DC] group-hover:text-accent dark:group-hover:text-[#D4847C] transition-colors leading-snug min-h-[28px]">
+          <h3 className="font-serif text-xl font-medium text-ink dark:text-[#E8E4DC] group-hover:text-accent dark:group-hover:text-[#D4A27F] transition-colors leading-snug min-h-[28px]">
             {typedTitle}
             {animPhase === 1 && typedTitle !== publication.title && (
               <motion.span
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.5, repeat: Infinity }}
-                className="inline-block w-0.5 h-5 bg-accent dark:bg-[#D4847C] ml-0.5 align-middle"
+                className="inline-block w-0.5 h-5 bg-accent dark:bg-[#D4A27F] ml-0.5 align-middle"
               />
             )}
           </h3>
@@ -214,7 +214,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
           transition={{ duration: 0.3 }}
           className="mt-2 flex items-center gap-2"
         >
-          <span className="font-mono text-xs text-accent dark:text-[#D4847C] bg-accent-soft dark:bg-[#D4847C]/12 inline-block px-2.5 py-1 rounded">
+          <span className="font-mono text-xs text-accent dark:text-[#D4A27F] bg-accent-soft dark:bg-[#D4A27F]/12 inline-block px-2.5 py-1 rounded">
             {publication.venue}
           </span>
           {citationCount !== undefined && citationCount > 0 && (

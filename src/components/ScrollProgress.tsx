@@ -37,7 +37,7 @@ export const ScrollProgress: React.FC = () => {
   return (
     <div className="fixed top-0 left-0 right-0 h-[2px] z-[100]">
       <div
-        className="h-full bg-accent dark:bg-[#D4847C] transition-all duration-150 ease-out"
+        className="h-full bg-accent dark:bg-[#D4A27F] transition-all duration-150 ease-out"
         style={{ width: `${scrollProgress}%` }}
       />
     </div>

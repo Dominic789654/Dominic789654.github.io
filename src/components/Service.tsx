@@ -36,7 +36,7 @@ export const Service: React.FC = () => {
               initial={{ scale: 0, rotate: -90 }}
               animate={isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -90 }}
               transition={{ duration: 0.5, delay: idx * 0.1 + 0.15 }}
-              className="text-accent dark:text-[#D4847C] flex-shrink-0"
+              className="text-accent dark:text-[#D4A27F] flex-shrink-0"
             >
               <MessageSquare size={24} />
             </motion.div>
@@ -45,7 +45,7 @@ export const Service: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : { opacity: 0 }}
                 transition={{ duration: 0.4, delay: idx * 0.1 + 0.2 }}
-                className="text-lg font-semibold text-ink dark:text-[#E8E4DC] group-hover:text-accent dark:group-hover:text-[#D4847C] transition-colors"
+                className="text-lg font-semibold text-ink dark:text-[#E8E4DC] group-hover:text-accent dark:group-hover:text-[#D4A27F] transition-colors"
               >
                 {service.title}
               </motion.h3>

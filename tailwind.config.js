@@ -5,23 +5,23 @@ export default {
     extend: {
       colors: {
         paper: {
-          DEFAULT: '#F6F3EC',
-          2: '#EFEBE1',
+          DEFAULT: '#FAF9F5',
+          2: '#F0EEE6',
         },
         ink: {
-          DEFAULT: '#15141A',
-          2: '#2A2830',
-          3: '#5E5B66',
-          4: '#8F8B96',
+          DEFAULT: '#3D3929',
+          2: '#5A5447',
+          3: '#8C8676',
+          4: '#B5AF9F',
         },
         rule: {
-          DEFAULT: '#D9D3C3',
-          2: '#E6E1D2',
+          DEFAULT: '#E8E4D8',
+          2: '#F0EDE2',
         },
         accent: {
-          DEFAULT: '#7A1A1A',
-          hover: '#5C1212',
-          soft: 'rgba(122, 26, 26, 0.08)',
+          DEFAULT: '#CC785C',
+          hover: '#B8694F',
+          soft: 'rgba(204, 120, 92, 0.08)',
         },
       },
       fontFamily: {

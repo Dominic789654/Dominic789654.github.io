@@ -602,7 +602,7 @@ export const Publications: React.FC = () => {
         >
           <SectionTitle icon="📚" title="Full Publication List" />
           <span
-            className="text-lg font-bold text-accent dark:text-[#D4847C]"
+            className="text-lg font-bold text-accent dark:text-[#D4A27F]"
             aria-hidden="true"
           >
             {isFullListExpanded ? "−" : "+"}

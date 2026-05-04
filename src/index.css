@@ -8,12 +8,12 @@ html {
 
 body {
   font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
-  background: #F6F3EC;
+  background: #FAF9F5;
   /* subtle paper grain */
   background-image: radial-gradient(rgba(60, 50, 30, 0.015) 1px, transparent 1px);
   background-size: 5px 5px;
   background-position: 0 0;
-  color: #15141A;
+  color: #3D3929;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -31,34 +31,34 @@ body {
   --dink4: #9A958B;
   --drule: #4A443C;
   --drule2: #3A3530;
-  --daccent: #D4847C;
-  --daccent-soft: rgba(212, 132, 124, 0.12);
+  --daccent: #D4A27F;
+  --daccent-soft: rgba(212, 162, 127, 0.12);
 
   background: var(--dpaper);
   background-image: radial-gradient(rgba(200, 190, 170, 0.02) 1px, transparent 1px);
   color: var(--dink);
 }
 
-/* Unified link style — oxblood underline, hover fills accent + white text */
+/* Unified link style — clay-colored text, dotted underline that solidifies on hover */
 a {
-  color: #15141A;
-  border-bottom: 1px solid #7A1A1A;
-  padding: 0 1px;
-  transition: background 0.15s, color 0.15s;
-  text-decoration: none;
+  color: #CC785C;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  text-decoration-skip-ink: auto;
+  transition: text-decoration-style 0.15s, color 0.15s;
 }
 a:hover {
-  background: #7A1A1A;
-  color: #fff;
+  color: #B8694F;
+  text-decoration-style: solid;
 }
 
 .dark a {
-  color: var(--dink);
-  border-bottom-color: var(--daccent);
+  color: var(--daccent);
 }
 .dark a:hover {
-  background: var(--daccent);
-  color: var(--dpaper);
+  color: #E8B59E;
 }
 
 /* Section transitions */
@@ -72,14 +72,14 @@ section {
 }
 
 ::-webkit-scrollbar-track {
-  background: #EFEBE1;
+  background: #F0EEE6;
 }
 .dark ::-webkit-scrollbar-track {
   background: var(--dpaper2);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D9D3C3;
+  background: #E8E4D8;
   border-radius: 4px;
 }
 .dark ::-webkit-scrollbar-thumb {
@@ -91,7 +91,7 @@ section {
 
 /* Selection styling */
 ::selection {
-  background: #7A1A1A;
+  background: #CC785C;
   color: #fff;
 }
 .dark ::selection {

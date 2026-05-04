@@ -57,7 +57,7 @@ export const Awards: React.FC = () => {
               initial={{ scale: 0, rotate: -180 }}
               animate={isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
               transition={{ duration: 0.5, delay: idx * 0.08 + 0.15 }}
-              className="text-accent dark:text-[#D4847C] flex-shrink-0"
+              className="text-accent dark:text-[#D4A27F] flex-shrink-0"
             >
               <Trophy size={24} />
             </motion.div>
@@ -66,7 +66,7 @@ export const Awards: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : { opacity: 0 }}
                 transition={{ duration: 0.4, delay: idx * 0.08 + 0.2 }}
-                className="text-lg font-semibold text-ink dark:text-[#E8E4DC] group-hover:text-accent dark:group-hover:text-[#D4847C] transition-colors"
+                className="text-lg font-semibold text-ink dark:text-[#E8E4DC] group-hover:text-accent dark:group-hover:text-[#D4A27F] transition-colors"
               >
                 {award.title}
               </motion.h3>

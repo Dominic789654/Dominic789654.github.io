@@ -67,7 +67,7 @@ export const News: React.FC = () => {
                       repeat: Infinity,
                       ease: "easeInOut",
                     }}
-                    className="inline-block bg-accent dark:bg-[#D4847C] text-white dark:text-[#1C1915] text-xs font-semibold px-2 py-0.5 rounded mr-2"
+                    className="inline-block bg-accent dark:bg-[#D4A27F] text-white dark:text-[#1C1915] text-xs font-semibold px-2 py-0.5 rounded mr-2"
                   >
                     New!
                   </motion.span>

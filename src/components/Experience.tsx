@@ -67,13 +67,13 @@ export const Experience: React.FC = () => {
           initial={{ scale: 0 }}
           animate={isInView ? { scale: 1 } : { scale: 0 }}
           transition={{ duration: 0.4, delay: index * 0.1 + 0.15 }}
-          className="absolute left-[-8px] top-0 w-4 h-4 bg-accent dark:bg-[#D4847C] rounded-full"
+          className="absolute left-[-8px] top-0 w-4 h-4 bg-accent dark:bg-[#D4A27F] rounded-full"
         />
         <motion.h3
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.4, delay: index * 0.1 + 0.2 }}
-          className="text-xl font-semibold text-ink dark:text-[#E8E4DC] group-hover:text-accent dark:group-hover:text-[#D4847C] transition-colors"
+          className="text-xl font-semibold text-ink dark:text-[#E8E4DC] group-hover:text-accent dark:group-hover:text-[#D4A27F] transition-colors"
         >
           {item.organization}
         </motion.h3>
