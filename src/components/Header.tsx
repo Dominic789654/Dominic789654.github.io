@@ -161,7 +161,7 @@ export const Header: React.FC = () => {
                   transition={{ duration: 0.3, delay: 0.95 + index * 0.1 }}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-paper-2 dark:bg-[#262220] border border-rule dark:border-[#4A443C] p-2.5 text-ink-3 dark:text-[#B8B2A6] hover:text-accent dark:hover:text-[#E89B7A] hover:border-accent/30 dark:hover:border-[#E89B7A]/30 transition-all duration-300"
+                  className="no-underline bg-paper-2 dark:bg-[#262220] border border-rule dark:border-[#4A443C] p-2.5 text-ink-3 dark:text-[#B8B2A6] hover:text-accent dark:hover:text-[#E89B7A] hover:border-accent/30 dark:hover:border-[#E89B7A]/30 transition-all duration-300"
                   title={social.title}
                 >
                   <social.icon size={22} />

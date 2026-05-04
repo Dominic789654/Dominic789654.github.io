@@ -238,7 +238,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.paper.bg} ${linkVariants.paper.bgHover} ${linkVariants.paper.text} ${linkVariants.paper.border} transition-all`}
+              className={`no-underline inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.paper.bg} ${linkVariants.paper.bgHover} ${linkVariants.paper.text} ${linkVariants.paper.border} transition-all`}
               style={{ borderBottom: '1px solid' }}
             >
               <FileText size={14} />
@@ -254,7 +254,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.code.bg} ${linkVariants.code.bgHover} ${linkVariants.code.text} ${linkVariants.code.border} transition-all`}
+              className={`no-underline inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.code.bg} ${linkVariants.code.bgHover} ${linkVariants.code.text} ${linkVariants.code.border} transition-all`}
               style={{ borderBottom: '1px solid' }}
             >
               <Code size={14} />
@@ -270,7 +270,7 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.blog.bg} ${linkVariants.blog.bgHover} ${linkVariants.blog.text} ${linkVariants.blog.border} transition-all`}
+              className={`no-underline inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.blog.bg} ${linkVariants.blog.bgHover} ${linkVariants.blog.text} ${linkVariants.blog.border} transition-all`}
               style={{ borderBottom: '1px solid' }}
             >
               <BookOpen size={14} />
