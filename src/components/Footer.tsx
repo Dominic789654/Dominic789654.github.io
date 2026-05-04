@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
   const currentDay = new Date().getDate();
   const mapRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const container = mapRef.current;
@@ -13,14 +15,14 @@ export const Footer: React.FC = () => {
     }
 
     let script: HTMLScriptElement | null = null;
+    const bg = theme === 'dark' ? '1c1915' : 'f0eee6';
 
     const loadMap = () => {
       if (script) return;
       script = document.createElement('script');
       script.type = 'text/javascript';
       script.id = 'clustrmaps';
-      script.src =
-        'https://cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=300&t=tt&d=UJZt2W83hovI9mJNzIeO45d5vP1-62SJ5ajCQKOaJNE';
+      script.src = `https://cdn.clustrmaps.com/map_v2.js?cl=${bg}&w=300&t=tt&d=UJZt2W83hovI9mJNzIeO45d5vP1-62SJ5ajCQKOaJNE`;
       script.async = true;
       container.innerHTML = '';
       container.appendChild(script);
@@ -53,7 +55,7 @@ export const Footer: React.FC = () => {
         container.removeChild(script);
       }
     };
-  }, []);
+  }, [theme]);
 
   return (
     <footer className="border-t border-rule dark:border-[#4A443C] bg-paper-2 dark:bg-[#1C1915] py-8 px-4">
