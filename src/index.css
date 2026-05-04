@@ -31,8 +31,8 @@ body {
   --dink4: #9A958B;
   --drule: #4A443C;
   --drule2: #3A3530;
-  --daccent: #D4A27F;
-  --daccent-soft: rgba(212, 162, 127, 0.12);
+  --daccent: #E89B7A;
+  --daccent-soft: rgba(232, 155, 122, 0.12);
 
   background: var(--dpaper);
   background-image: radial-gradient(rgba(200, 190, 170, 0.02) 1px, transparent 1px);
@@ -58,7 +58,7 @@ a:hover {
   color: var(--daccent);
 }
 .dark a:hover {
-  color: #E8B59E;
+  color: #F4B89A;
 }
 
 /* Section transitions */

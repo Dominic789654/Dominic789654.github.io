@@ -36,7 +36,7 @@ export const Interests: React.FC = () => {
             >
               {interest.emoji}
             </motion.span>
-            <span className="font-medium text-ink-2 dark:text-[#D5D0C6] group-hover:text-accent dark:group-hover:text-[#D4A27F] transition-colors">
+            <span className="font-medium text-ink-2 dark:text-[#D5D0C6] group-hover:text-accent dark:group-hover:text-[#E89B7A] transition-colors">
               {interest.name}
             </span>
           </motion.div>

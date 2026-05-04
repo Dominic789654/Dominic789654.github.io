@@ -82,7 +82,7 @@ export const About: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.36 }}
-          className="mt-4 text-accent dark:text-[#D4A27F] font-medium px-4 py-3 border border-accent/20 dark:border-[#D4A27F]/30 bg-accent-soft dark:bg-[#D4A27F]/12"
+          className="mt-4 text-accent dark:text-[#E89B7A] font-medium px-4 py-3 border border-accent/20 dark:border-[#E89B7A]/30 bg-accent-soft dark:bg-[#E89B7A]/12"
         >
           <motion.span
             animate={isInView ? { opacity: [0.6, 1, 0.6] } : { opacity: 0.6 }}
