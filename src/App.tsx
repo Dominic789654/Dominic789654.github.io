@@ -7,6 +7,7 @@ import { ScrollProgress } from './components/ScrollProgress';
 import { About } from './components/About';
 import { News } from './components/News';
 import { Research } from './components/Research';
+import { FeaturedPapers } from './components/FeaturedPapers';
 import { Publications } from './components/Publications';
 import { Experience } from './components/Experience';
 import { Awards } from './components/Awards';
@@ -25,6 +26,7 @@ function App() {
             <About />
             <News />
             <Research />
+            <FeaturedPapers />
             <Publications />
             <Experience />
             <Awards />
