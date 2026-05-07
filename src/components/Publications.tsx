@@ -547,7 +547,7 @@ export const Publications: React.FC = () => {
       title: "Active prompting with chain-of-thought for large language models",
       authors:
         "Shizhe Diao*, Pengcheng Wang*, Yong Lin, Rui Pan, Xiang Liu, Tong Zhang",
-      venue: "ACL 2025",
+      venue: "ACL 2024",
       links: {
         paper: "https://arxiv.org/pdf/2302.12246",
       },
