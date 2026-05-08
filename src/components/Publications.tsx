@@ -18,6 +18,16 @@ export const Publications: React.FC = () => {
       },
     },
     {
+      id: 41,
+      title: "MDN: Parallelizing Stepwise Momentum for Delta Linear Attention",
+      authors:
+        "Yulong Huang*, Xiang Liu*, Hongxiang Huang, Xiaopeng Lin, Zunchang Liu, Xiaowen Chu, Zeke Xie, Bojun Cheng",
+      venue: "ICML 2026",
+      links: {
+        paper: "https://arxiv.org/abs/2605.05838",
+      },
+    },
+    {
       id: 8,
       title:
         "DiffAdapt: Difficulty-Adaptive Reasoning for Token-Efficient LLM Inference",
@@ -53,7 +63,7 @@ export const Publications: React.FC = () => {
       title:
         "ChunkKV: Semantic-Preserving KV Cache Compression for Efficient Long-Context LLM Inference",
       authors:
-        "Xiang Liu*, Zhenheng Tang*, Peijie Dong, Zeyu Li, Bo Li, Xuming Hu, Xiaowen Chu",
+        "Xiang Liu*, Zhenheng Tang*, Peijie Dong, Zeyu Li, Yue Liu, Bo Li, Xuming Hu, Xiaowen Chu",
       venue: "NeurIPS 2025",
       links: {
         paper: "https://arxiv.org/abs/2502.00299",
@@ -123,7 +133,7 @@ export const Publications: React.FC = () => {
       title:
         "SONIC: Segmented Optimized Nexus for Information Compression in Key-Value Caching",
       authors:
-        "Hong Chen, Xiang Liu, Bo Wang, Yuanbing Fan, Yue Yu, Zeyu Li, Xiaowen Chu, Xuming Hu",
+        "Hong Chen*, Xiang Liu*, Bo Wang, Yuxuan Fan, Yuanlin Chu, Zongluo Li, Xiaowen Chu, Xuming Hu",
       venue: "arXiv preprint",
       links: {
         paper: "https://arxiv.org/abs/2601.21927",
@@ -200,16 +210,18 @@ export const Publications: React.FC = () => {
       id: 41,
       title: "MDN: Parallelizing Stepwise Momentum for Delta Linear Attention",
       authors:
-        "Yulong Huang, Xiang Liu, Hongxiang Huang, Xiaopeng Lin, Zunchang Liu, Xiaowen Chu, Zeke Xie, Bojun Cheng",
+        "Yulong Huang*, Xiang Liu*, Hongxiang Huang, Xiaopeng Lin, Zunchang Liu, Xiaowen Chu, Zeke Xie, Bojun Cheng",
       venue: "ICML 2026",
-      links: {},
+      links: {
+        paper: "https://arxiv.org/abs/2605.05838",
+      },
     },
     {
       id: 39,
       title:
         "Janus-Q: End-to-End Event-Driven Trading via Hierarchical-Gated Reward Modeling",
       authors:
-        "X Li, Z Wei, Y Qi, W Zhou, Xiang Liu, P Sun, Y Zhang, Xiaowen Chu",
+        "Xiang Li, Zikai Wei, Yiyan Qi, Wanyun Zhou, Xiang Liu, Penglei Sun, Jian Guo, Yongqi Zhang, Xiaowen Chu",
       venue: "arXiv preprint",
       links: {
         paper: "https://arxiv.org/abs/2602.19919",
@@ -242,7 +254,7 @@ export const Publications: React.FC = () => {
       title:
         "SONIC: Segmented Optimized Nexus for Information Compression in Key-Value Caching",
       authors:
-        "Hong Chen, Xiang Liu, Bo Wang, Yuanbing Fan, Yue Yu, Zeyu Li, Xiaowen Chu, Xuming Hu",
+        "Hong Chen*, Xiang Liu*, Bo Wang, Yuxuan Fan, Yuanlin Chu, Zongluo Li, Xiaowen Chu, Xuming Hu",
       venue: "arXiv preprint",
       links: {
         paper: "https://arxiv.org/abs/2601.21927",
@@ -416,7 +428,7 @@ export const Publications: React.FC = () => {
       title:
         "ChunkKV: Semantic-Preserving KV Cache Compression for Efficient Long-Context LLM Inference",
       authors:
-        "Xiang Liu*, Zhenheng Tang*, Peijie Dong, Zeyu Li, Bo Li, Xuming Hu, Xiaowen Chu",
+        "Xiang Liu*, Zhenheng Tang*, Peijie Dong, Zeyu Li, Yue Liu, Bo Li, Xuming Hu, Xiaowen Chu",
       venue: "NeurIPS 2025",
       links: {
         paper: "https://arxiv.org/abs/2502.00299",
@@ -425,7 +437,7 @@ export const Publications: React.FC = () => {
     {
       id: 20,
       title:
-        "OracleKV: Oracle Guidance for Question-Independent KV Cache Compression",
+        "OracleKV: Oracle Guidance for Question-Independent KV Cache Eviction",
       authors:
         "Yuanbing Zhu*, Zhenheng Tang*, Xiang Liu, Ang Li, Bo Li, Xiaowen Chu, Bo Han",
       venue: "ICML 2025 Workshop on Long-Context Foundation Models Oral",
