@@ -1,0 +1,54 @@
+name: Update publications.bib
+
+on:
+  schedule:
+    # Mondays at 04:17 UTC (= 12:17 Beijing time)
+    - cron: '17 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Refresh bib from DBLP / arXiv
+        run: node scripts/update-bib.mjs
+
+      - name: Create Pull Request if changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore(bib): refresh publications.bib from DBLP/arXiv'
+          title: 'Weekly bib refresh'
+          body: |
+            Automated weekly refresh of `publications.bib` using DBLP (primary) and arXiv (fallback).
+
+            **Review carefully** — DBLP occasionally returns wrong venue metadata (it has confused some entries with later AAAI/conference proceedings).
+
+            ### How to prevent an entry from being auto-updated
+
+            Add a comment line containing the word `LOCK` directly above the entry, e.g.:
+
+            ```
+            % LOCK -- venue is AAAI 2024 Oral; DBLP records it under AAAI 2025 (wrong)
+            @inproceedings{dong2024parzc,
+              ...
+            }
+            ```
+
+            The script will skip any entry whose preceding comment lines contain `LOCK`.
+          branch: chore/bib-refresh
+          delete-branch: true
+          labels: |
+            automated
+            bib
