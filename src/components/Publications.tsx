@@ -581,6 +581,18 @@ export const Publications: React.FC = () => {
     <>
       <section id="publications" className="py-8">
         <SectionTitle icon="📜" title="Selected Publications" />
+        <div className="mt-2 font-mono text-xs text-ink-3 dark:text-[#B8B2A6]">
+          <a
+            href="./publications.bib"
+            download
+            className="no-underline border-b border-dotted border-rule dark:border-[#4A443C] hover:text-accent dark:hover:text-[#E89B7A] hover:border-accent dark:hover:border-[#E89B7A]"
+          >
+            ↓ Download publications.bib
+          </a>
+          <span className="ml-2 opacity-70">
+            (auto-refreshed weekly from DBLP / arXiv)
+          </span>
+        </div>
         <div className="mt-6 space-y-6">
           {selectedPublications.map((pub, idx) => (
             <PublicationCard key={pub.id} publication={pub} index={idx} />

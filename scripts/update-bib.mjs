@@ -18,7 +18,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
-const BIB_PATH = path.resolve("publications.bib");
+const BIB_PATH = path.resolve("public/publications.bib");
 const USER_AGENT = "XiangLiuHomepageBibUpdater/1.0 (+https://github.com/Dominic789654)";
 
 // ---------- Bib parsing ----------
