@@ -1,0 +1,46 @@
+name: Update interview pitch citations
+
+on:
+  schedule:
+    # Mondays at 04:23 UTC (= 12:23 Beijing time, shortly after the bib refresh)
+    - cron: '23 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Refresh citation counts from scholar_tracker
+        run: node scripts/update-pitch.mjs
+
+      - name: Create Pull Request if changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore(pitch): refresh citation counts from scholar_tracker'
+          title: 'Weekly pitch citation refresh'
+          body: |
+            Automated weekly refresh of citation counts in
+            `public/talks/interview-pitch.html`, pulled from the latest
+            snapshot in `Dominic789654/scholar_tracker`.
+
+            **Updates only existing `NN cites` markers.** If a paper
+            crossed from 0 → some cites and you want the count to show
+            in the deck, manually add `· N cites` after the venue once,
+            and future runs will keep it current.
+          branch: chore/pitch-refresh
+          delete-branch: true
+          labels: |
+            automated
+            pitch
