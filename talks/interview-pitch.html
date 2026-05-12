@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Xiang Liu — Research Pitch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper:  #FAF9F5;
+      --paper2: #F0EEE6;
+      --ink:    #3D3929;
+      --ink2:   #5A5447;
+      --ink3:   #8C8676;
+      --ink4:   #B5AF9F;
+      --rule:   #E8E4D8;
+      --clay:       #CC785C;
+      --clay-hover: #B8694F;
+      --clay-soft:  rgba(204,120,92,.10);
+      --clay-line:  rgba(204,120,92,.22);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%; height: 100%; overflow: hidden;
+      background: var(--paper); color: var(--ink);
+      font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: var(--clay); text-decoration: none; }
+
+    .deck { position: relative; width: 100vw; height: 100vh; }
+
+    .slide {
+      position: absolute; inset: 0;
+      padding: 7vh 9vw 9vh;
+      display: none; flex-direction: column;
+      background-image: radial-gradient(rgba(60,50,30,0.018) 1px, transparent 1px);
+      background-size: 5px 5px;
+    }
+    .slide.active { display: flex; animation: fade .35s ease-out; }
+    @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    /* Typography */
+    .eyebrow {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: .9rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--clay); margin-bottom: 1.6rem;
+    }
+    h1 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 500; font-size: 6.6rem; line-height: 1.05;
+      letter-spacing: -.015em; color: var(--ink);
+    }
+    h2 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 500; font-size: 4rem; line-height: 1.1;
+      letter-spacing: -.01em; color: var(--ink);
+      margin-bottom: 1.6rem;
+    }
+    h3 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 500; font-size: 1.95rem; color: var(--ink);
+      line-height: 1.25;
+    }
+    p, li { font-size: 1.35rem; line-height: 1.65; color: var(--ink2); }
+    .lede {
+      font-family: 'Newsreader', Georgia, serif; font-weight: 400;
+      font-size: 2rem; line-height: 1.5; color: var(--ink2);
+      max-width: 50em;
+    }
+    .small { font-size: 1.1rem; color: var(--ink3); line-height: 1.55; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    em.italic { font-family: 'Newsreader', serif; font-style: italic; }
+    .accent { color: var(--clay); }
+
+    hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 1.4rem 0; }
+    hr.dotted { border: 0; border-top: 1px dotted var(--rule); margin: 0; }
+
+    /* Layout primitives */
+    .row { display: flex; gap: 2rem; align-items: flex-start; }
+    .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .grow { flex: 1; }
+    .spacer { flex: 1; }
+
+    /* Stat block */
+    .stat {
+      font-family: 'Newsreader', serif; font-weight: 500;
+      font-size: 4.6rem; color: var(--clay); line-height: 1;
+      letter-spacing: -.01em;
+    }
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--ink3); margin-top: .7rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--paper2);
+      border: 1px solid var(--rule);
+      padding: 1.6rem 1.7rem;
+      display: flex; flex-direction: column;
+    }
+    .card .pill { align-self: flex-start; }
+    .card h3 { margin: 1rem 0 .6rem; }
+
+    /* Pills + tags */
+    .pill {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--clay); background: var(--clay-soft);
+      padding: .4rem .8rem; border: 1px solid var(--clay-line);
+    }
+    .venue {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--ink3);
+    }
+
+    /* ✦ bullet list */
+    ul { list-style: none; padding: 0; }
+    ul li {
+      padding-left: 1.4rem; position: relative; margin: .55rem 0;
+    }
+    ul li::before {
+      content: '✦'; position: absolute; left: 0;
+      color: var(--clay); font-size: .8rem; top: .35rem;
+    }
+
+    /* Paper rows (clickable — link to arXiv/openreview) */
+    .paper-list { margin-top: 1rem; }
+    .paper-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 1.5rem; padding: .85rem .6rem;
+      border-bottom: 1px dotted var(--rule);
+      /* override global <a> dotted underline */
+      text-decoration: none !important;
+      color: inherit;
+      transition: background .15s, padding .15s;
+      position: relative;
+    }
+    .paper-row:last-child { border-bottom: 0; }
+    .paper-row:hover {
+      background: var(--clay-soft);
+      color: inherit;
+    }
+    .paper-row:hover .paper-title {
+      color: var(--clay);
+    }
+    .paper-row::after {
+      content: '↗';
+      position: absolute; right: .4rem; top: .85rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem; color: var(--ink4);
+      opacity: 0; transition: opacity .15s, transform .15s;
+    }
+    .paper-row:hover::after {
+      opacity: 1; color: var(--clay);
+      transform: translate(2px, -2px);
+    }
+    .paper-title {
+      font-family: 'Newsreader', serif; font-size: 1.35rem;
+      color: var(--ink); flex: 1; line-height: 1.4;
+    }
+    .paper-title .lead { font-weight: 600; }
+    .paper-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem; letter-spacing: .08em;
+      color: var(--ink3); white-space: nowrap;
+    }
+    .paper-meta strong { color: var(--clay); font-weight: 500; }
+    .paper-meta .star { color: var(--clay); margin-right: .35rem; font-size: 1rem; line-height: 1; }
+
+    /* Persistent header / footer */
+    .mark {
+      position: fixed; top: 1.6rem; left: 2.2rem;
+      font-family: 'Newsreader', serif; font-size: 1.05rem;
+      color: var(--ink3);
+    }
+    .mark::before { content: '✦'; color: var(--clay); margin-right: .5rem; }
+    .pager {
+      position: fixed; bottom: 1.6rem; right: 2.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem; letter-spacing: .15em; color: var(--ink4);
+    }
+    .pager strong { color: var(--clay); font-weight: 500; }
+    .nav-hint {
+      position: fixed; bottom: 1.6rem; left: 2.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .76rem; letter-spacing: .12em; color: var(--ink4);
+    }
+
+    /* Cover slide special */
+    .slide.cover {
+      padding: 0; align-items: center; justify-content: center; text-align: center;
+    }
+    .slide.cover h1 { font-size: 7.6rem; margin-bottom: .9rem; }
+    .slide.cover .role {
+      font-family: 'Newsreader', serif; font-style: italic;
+      font-size: 2.05rem; color: var(--ink2); margin-bottom: 2.4rem;
+      max-width: 32em; line-height: 1.4;
+    }
+    .slide.cover .meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem; color: var(--ink3); letter-spacing: .12em;
+      line-height: 1.7;
+    }
+    .slide.cover .ornament {
+      font-family: 'Newsreader', serif; color: var(--clay);
+      font-size: 2rem; margin-bottom: 1.8rem;
+    }
+    .slide.cover .avatar {
+      width: 180px; height: 180px;
+      border: 1px solid var(--rule);
+      object-fit: cover; margin-bottom: 2rem;
+      filter: sepia(0.18) saturate(0.85) contrast(1.02);
+    }
+    /* Avatar inline next to glance numbers */
+    .avatar-inline {
+      width: 110px; height: 110px;
+      border: 1px solid var(--rule);
+      object-fit: cover;
+      filter: sepia(0.18) saturate(0.85) contrast(1.02);
+    }
+    .glance-head {
+      display: flex; align-items: center; gap: 1.6rem;
+      margin-bottom: 1.4rem;
+    }
+
+    /* Paper figure frame */
+    .fig {
+      border: 1px solid var(--rule);
+      background: var(--paper2);
+      padding: .9rem;
+      display: flex; flex-direction: column;
+    }
+    .fig img {
+      width: 100%; height: auto; display: block;
+      object-fit: contain;
+    }
+    .fig figcaption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--ink3);
+      margin-top: .8rem; padding-top: .8rem;
+      border-top: 1px dotted var(--rule);
+    }
+    .fig figcaption strong { color: var(--clay); font-weight: 500; }
+
+    /* Education timeline */
+    .timeline { display: flex; flex-direction: column; gap: 1.4rem; margin-top: 1.4rem; }
+    .tl-row {
+      display: grid; grid-template-columns: 220px 1fr; gap: 2rem;
+      align-items: baseline;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px dotted var(--rule);
+    }
+    .tl-row:last-child { border-bottom: 0; }
+    .tl-when {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .9rem; color: var(--clay);
+      letter-spacing: .08em;
+    }
+    .tl-where {
+      font-family: 'Newsreader', serif; font-size: 1.55rem;
+      font-weight: 500; color: var(--ink);
+      line-height: 1.25;
+    }
+    .tl-detail {
+      font-family: 'Newsreader', serif; font-size: 1.15rem;
+      color: var(--ink2); margin-top: .35rem; line-height: 1.45;
+    }
+    .tl-detail em { font-style: italic; color: var(--ink3); }
+
+    /* Print → PDF (each slide one page) */
+    @media print {
+      html, body { overflow: visible; height: auto; }
+      .pager, .nav-hint { display: none !important; }
+      .mark { position: static; margin-bottom: 1rem; }
+      .slide {
+        display: flex !important;
+        page-break-after: always;
+        position: relative; inset: auto;
+        height: 100vh; width: 100vw;
+      }
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="deck">
+
+    <!-- ═══════════ 1. Cover ═══════════ -->
+    <section class="slide cover active">
+      <img class="avatar" src="avatar.jpg" alt="Xiang Liu" />
+      <div class="eyebrow">Research Pitch · 2026</div>
+      <h1>Xiang Liu</h1>
+      <p class="role">Building the inference-cost layer<br>for large language models.</p>
+      <div class="meta">PhD Candidate &nbsp;·&nbsp; HKUST(GZ) &nbsp;·&nbsp; xliu886@connect.hkust-gz.edu.cn</div>
+    </section>
+
+    <!-- ═══════════ 2. At a glance ═══════════ -->
+    <section class="slide">
+      <div class="eyebrow">At a glance</div>
+      <div class="glance-head">
+        <img class="avatar-inline" src="avatar.jpg" alt="Xiang Liu" />
+        <h2 style="margin-bottom: 0">Three years, one obsession:<br><span class="accent">making LLMs cheaper to run.</span></h2>
+      </div>
+      <hr class="rule">
+      <div class="cols-3" style="margin-top: 1.8rem">
+        <div>
+          <div class="stat">1,079</div>
+          <div class="stat-label">Citations</div>
+        </div>
+        <div>
+          <div class="stat">14 / 17</div>
+          <div class="stat-label">H-index / i10-index</div>
+        </div>
+        <div>
+          <div class="stat">8.5k ★</div>
+          <div class="stat-label">LMFlow · core contributor</div>
+        </div>
+      </div>
+      <div style="margin-top: 2.6rem; max-width: 50em">
+        <p class="small">
+          ~30 publications — first or co-first author at <span class="accent">NeurIPS · ICLR · ICML · EMNLP · AAAI</span>.
+          Plus <span class="accent">LMFlow</span>, an open-source LLM fine-tuning toolkit (8.5k stars, 830 forks)
+          built with <strong>Prof. Tong Zhang</strong>'s group at HKUST. Long-running collaborations with
+          Xiaowen Chu (HKUST-GZ, IEEE Fellow), Zhenheng Tang (HKUST), Peijie Dong (HKUST-GZ).
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══════════ 3. Education & path ═══════════ -->
+    <section class="slide">
+      <div class="eyebrow">Education &amp; path</div>
+      <h2>How I got here.</h2>
+      <div class="timeline">
+        <div class="tl-row">
+          <div class="tl-when">2023 – present</div>
+          <div>
+            <div class="tl-where">Ph.D. in Data Science &amp; Analytics &nbsp;·&nbsp; HKUST(GZ)</div>
+            <p class="tl-detail">Advised by <strong>Prof. Xiaowen Chu</strong> (IEEE Fellow) and <strong>Prof. Xuming Hu</strong>. <em>Focus: efficient LLM inference, KV-cache compression, long-context evaluation.</em></p>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-when">2025 – 2026</div>
+          <div>
+            <div class="tl-where">Visiting Researcher &nbsp;·&nbsp; NYU Center for Data Science</div>
+            <p class="tl-detail">With <strong>Prof. Eunsol Choi</strong>. Built <strong>DiffAdapt</strong> (ICLR 2026) — <em>efficient reasoning that adapts compute per problem difficulty.</em></p>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-when">2022 – 2023</div>
+          <div>
+            <div class="tl-where">M.S. Computer Science · HKU &nbsp;&nbsp;|&nbsp;&nbsp; Research Intern · HKUST</div>
+            <p class="tl-detail">With <strong>Prof. Tong Zhang</strong>. Worked on LLM-efficiency training — <strong>LISA</strong> (174 cites) and core author of <strong>LMFlow</strong>, an open-source fine-tuning framework.</p>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-when">2018 – 2022</div>
+          <div>
+            <div class="tl-where">B.S. Computer Science &nbsp;·&nbsp; George Mason University</div>
+            <p class="tl-detail">Research internship at <strong>Baidu Research, Cognitive Computing Lab</strong> (2021 – 2022) on <em>NLP parsing.</em> First exposure to research-grade systems work.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 4. Three themes ═══════════ -->
+    <section class="slide">
+      <div class="eyebrow">Research, organised in three lines</div>
+      <h2>What I work on</h2>
+      <div class="cols-3" style="margin-top: 2rem; gap: 2.2rem; flex: 1; align-items: stretch">
+        <div class="card">
+          <span class="pill">01 — Core</span>
+          <h3>Efficient<br>LLM Inference</h3>
+          <p style="margin-top: .4rem">
+            KV-cache compression and long-context generation —
+            the throughput bottleneck of every LLM service today.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill">02</span>
+          <h3>Reasoning &amp;<br>Agent Systems</h3>
+          <p style="margin-top: .4rem">
+            Test-time compute, speculative scaling, and the memory
+            layer that long-horizon agents will need next.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill">03</span>
+          <h3>Model Compression<br>&amp; NAS</h3>
+          <p style="margin-top: .4rem">
+            Pruning, sparse fine-tuning, and zero-cost search
+            for finding the right model under a cost budget.
+          </p>
+        </div>
+      </div>
+      <p class="small" style="margin-top: 1.8rem">
+        The three lines all answer the same question from different angles:
+        <em class="italic">what can we drop without anyone noticing?</em>
+      </p>
+    </section>
+
+    <!-- ═══════════ 5. Theme 1 — signature work ═══════════ -->
+    <section class="slide">
+      <div class="eyebrow">Theme 01 — signature work</div>
+      <h2>Compressing the <span class="accent">KV cache</span><br>without losing semantics.</h2>
+      <div class="cols-2" style="margin-top: 1.2rem; gap: 3rem; align-items: start">
+        <div>
+          <span class="venue"><span class="accent">★</span> NeurIPS 2025 · first author</span>
+          <h3 style="margin-top: .7rem"><a href="https://arxiv.org/abs/2502.00299" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none">ChunkKV ↗</a></h3>
+          <p style="font-family: 'Newsreader', serif; font-size: 1.35rem; line-height: 1.45; color: var(--ink2); margin-top: .8rem">
+            Token-level eviction throws away the very thing that makes long
+            context useful — semantic locality. ChunkKV groups related tokens
+            into chunks and keeps only the most informative ones.
+          </p>
+          <ul style="margin-top: 1rem">
+            <li>Outperforms token-level baselines on LongBench, NeedleBench, GSM8K</li>
+            <li>Holds accuracy at aggressive cache budgets</li>
+            <li>Layer-index reuse → near-free at deeper layers</li>
+          </ul>
+        </div>
+        <figure class="fig">
+          <img src="chunkkv.png" alt="ChunkKV figure: token vs chunk method on semantic preservation" />
+          <figcaption><strong>Figure 1</strong> — discrete token methods vs ChunkKV on semantic preservation</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ═══════════ 6. Theme 1 — broader portfolio ═══════════ -->
+    <section class="slide">
+      <div class="eyebrow">Theme 01 — beyond ChunkKV</div>
+      <h2>A coherent KV-cache program.</h2>
+      <div class="cols-2" style="margin-top: 1.2rem; gap: 2.5rem; align-items: start">
+        <figure class="fig">
+          <img src="longgenbench.png" alt="LongGenBench figure: retrieval vs understanding vs our approach" />
+          <figcaption><strong>LongGenBench</strong> — retrieval &amp; understanding tasks vs our generation-targeted setup</figcaption>
+        </figure>
+        <div class="paper-list" style="margin-top: 0">
+        <a class="paper-row" href="https://arxiv.org/abs/2410.04199" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">LongGenBench</span> — first long-context <em class="italic">generation</em> benchmark</span>
+          <span class="paper-meta"><span class="star">★</span>EMNLP Findings 2024 · <strong>50 cites</strong></span>
+        </a>
+        <a class="paper-row" href="https://arxiv.org/abs/2502.01941" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">Semantic Integrity Matters</span> — benchmarking dense reasoning under KV compression</span>
+          <span class="paper-meta"><span class="star">★</span>ICML 2026</span>
+        </a>
+        <a class="paper-row" href="https://arxiv.org/abs/2505.15347" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">FlowKV</span> — multi-turn coherence via isolated KV management</span>
+          <span class="paper-meta"><span class="star">★</span>NeurIPS 2025 Workshop</span>
+        </a>
+        <a class="paper-row" href="https://openreview.net/pdf?id=KHM2YOGgX9" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">OracleKV</span> — question-independent KV compression</span>
+          <span class="paper-meta">ICML 2025 Workshop · 8 cites</span>
+        </a>
+        <a class="paper-row" href="https://arxiv.org/abs/2506.19505" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">AnTKV</span> — anchor-token-aware sub-bit vector quantization</span>
+          <span class="paper-meta">arXiv 2025 · 4 cites</span>
+        </a>
+        <a class="paper-row" href="https://arxiv.org/abs/2502.17535" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">The Lottery LLM Hypothesis</span> — what abilities should compression preserve?</span>
+          <span class="paper-meta"><span class="star">★</span>ICLR 2025 Blog Track · 12 cites</span>
+        </a>
+        </div>
+      </div>
+      <p class="small" style="margin-top: 1.4rem">
+        Together: a <span class="accent">benchmark → method → critique → benchmark</span> loop that drives the field forward — not a one-shot paper.
+        &nbsp;&nbsp;<span style="font-family: 'JetBrains Mono', monospace; font-size: .8rem; color: var(--ink4); letter-spacing: .08em"><span class="accent">★</span> first or co-first author</span>
+      </p>
+    </section>
+
+    <!-- ═══════════ 7. Theme 2 — reasoning + agents ═══════════ -->
+    <section class="slide">
+      <div class="eyebrow">Theme 02 — reasoning &amp; agent systems</div>
+      <h2>Where the cost goes <em class="italic">after</em> deployment.</h2>
+      <div class="cols-2" style="margin-top: 1.2rem; gap: 2.5rem; align-items: start">
+        <figure class="fig">
+          <img src="diffadapt.png" alt="DiffAdapt figure: U-shaped entropy curve across difficulty" />
+          <figcaption><strong>DiffAdapt</strong> — reasoning models show a U-shaped entropy curve: overthinking easy problems, underthinking hard ones</figcaption>
+        </figure>
+        <div class="paper-list" style="margin-top: 0">
+        <a class="paper-row" href="https://arxiv.org/abs/2302.12246" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">Active Prompting with CoT</span> for LLMs</span>
+          <span class="paper-meta">ACL 2024 · <strong>408 cites</strong></span>
+        </a>
+        <a class="paper-row" href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">DiffAdapt</span> — difficulty-adaptive reasoning for token-efficient inference</span>
+          <span class="paper-meta"><span class="star">★</span>ICLR 2026</span>
+        </a>
+        <a class="paper-row" href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">Reasoning LM Inference Serving Unveiled</span> — empirical study</span>
+          <span class="paper-meta"><span class="star">★</span>ICLR 2026 · 1 cite</span>
+        </a>
+        <a class="paper-row" href="https://arxiv.org/abs/2505.15340" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">SSR</span> — speculative parallel scaling reasoning at test time</span>
+          <span class="paper-meta">arXiv 2025 · 2 cites</span>
+        </a>
+        <a class="paper-row" href="https://openreview.net/forum?id=KPs1EgGKcT" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">LLM Agent Memory</span> — survey: a unified representation–management view</span>
+          <span class="paper-meta">Preprint 2026 · 21-author cross-org effort</span>
+        </a>
+        <a class="paper-row" href="https://arxiv.org/abs/2311.08364" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">Plum</span> — prompt learning using metaheuristics</span>
+          <span class="paper-meta">ACL Findings 2024 · 45 cites</span>
+        </a>
+        </div>
+      </div>
+      <p class="small" style="margin-top: 1.4rem">
+        Active Prompting is among the most-cited prompting works of its year;
+        the agent-memory survey is the natural taxonomy for the next round of agent systems.
+      </p>
+    </section>
+
+    <!-- ═══════════ 7. Theme 3 — compression / NAS ═══════════ -->
+    <section class="slide">
+      <div class="eyebrow">Theme 03 — model compression &amp; NAS</div>
+      <h2>From <em class="italic">"make it small"</em> to <em class="italic">"let it search itself."</em></h2>
+      <div class="paper-list">
+        <a class="paper-row" href="https://arxiv.org/abs/2403.17919" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">LISA</span> — layerwise importance sampling for memory-efficient fine-tuning</span>
+          <span class="paper-meta"><span class="star">★</span>NeurIPS 2024 · <strong>174 cites</strong></span>
+        </a>
+        <a class="paper-row" href="https://arxiv.org/abs/2406.02924" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">Pruner-Zero</span> — evolving symbolic pruning metrics from scratch</span>
+          <span class="paper-meta">ICML 2024 · <strong>101 cites</strong></span>
+        </a>
+        <a class="paper-row" href="https://proceedings.neurips.cc/paper_files/paper/2024/file/ff997469ac66cf893c4183efeb22212a-Paper-Conference.pdf" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">Discovering Sparsity Allocation</span> for layer-wise pruning</span>
+          <span class="paper-meta">NeurIPS 2024 · <strong>60 cites</strong></span>
+        </a>
+        <a class="paper-row" href="https://arxiv.org/abs/2402.02105" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">ParZC</span> — parametric zero-cost proxies for efficient NAS</span>
+          <span class="paper-meta">AAAI 2024 Oral · 24 cites</span>
+        </a>
+        <a class="paper-row" href="https://arxiv.org/abs/2502.04411" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">Mediator</span> — memory-efficient LLM merging with uncertainty routing</span>
+          <span class="paper-meta">arXiv 2025 · 15 cites</span>
+        </a>
+        <a class="paper-row" href="https://arxiv.org/abs/2505.19433" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">Can Compressed LLMs Truly Act?</span> — agentic eval of compression</span>
+          <span class="paper-meta">ICML 2025 · 16 cites</span>
+        </a>
+      </div>
+      <p class="small" style="margin-top: 1.6rem">
+        <span class="accent">~400 citations</span> across this line — these are the methods other people benchmark <em class="italic">against</em>.
+      </p>
+    </section>
+
+    <!-- ═══════════ 8. Pulling it together ═══════════ -->
+    <section class="slide">
+      <div class="eyebrow">A consistent thesis</div>
+      <h2>Three lines, one north star.</h2>
+      <p class="lede" style="margin-top: 1.4rem">
+        Inference is the <span class="accent">economics layer</span> of LLM products.
+        Whatever the team is building — KV-cache infra, a compressed model,
+        an agent runtime — the question I keep answering is the same:
+        <em class="italic">what can we drop without anyone noticing?</em>
+      </p>
+      <hr class="rule" style="margin-top: 2.2rem">
+      <div class="cols-3" style="margin-top: 1.6rem">
+        <div>
+          <h3 class="accent" style="font-size: 1.3rem">Benchmarks</h3>
+          <p class="small" style="margin-top: .4rem">
+            LongGenBench, KV-compression eval, agent-compression eval, RLM serving study.
+          </p>
+        </div>
+        <div>
+          <h3 class="accent" style="font-size: 1.3rem">Methods</h3>
+          <p class="small" style="margin-top: .4rem">
+            ChunkKV, FlowKV, OracleKV, AnTKV, DiffAdapt, SSR, LISA contributions.
+          </p>
+        </div>
+        <div>
+          <h3 class="accent" style="font-size: 1.3rem">Frameworks</h3>
+          <p class="small" style="margin-top: .4rem">
+            Lottery LLM hypothesis, agent-memory taxonomy — the conceptual scaffolding others can build on.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ 9. What's next ═══════════ -->
+    <section class="slide">
+      <div class="eyebrow">What I want to do next</div>
+      <h2>The next bottleneck.</h2>
+      <div class="cols-2" style="margin-top: 1.4rem; gap: 3.5rem">
+        <div>
+          <span class="pill">Direction A</span>
+          <h3 style="margin-top: 1rem">Long-horizon agent memory</h3>
+          <p style="margin-top: .8rem">
+            KV cache solved per-call cost. Persistent agent memory is the
+            next O(N²). I'm extending the ChunkKV idea into a
+            <em class="italic">tiered representation</em> — token / latent /
+            parameter — under a single management interface.
+          </p>
+          <p class="small" style="margin-top: .8rem">
+            (Foundation already in the LLM Agent Memory survey.)
+          </p>
+        </div>
+        <div>
+          <span class="pill">Direction B</span>
+          <h3 style="margin-top: 1rem">From batcher to reasoning <em class="italic">harness</em></h3>
+          <p style="margin-top: .8rem">
+            My RLM-serving study showed reasoning models break every
+            assumption batchers make. The next step isn't a smarter batcher
+            — it's a full <strong>reasoning harness</strong>: a runtime that
+            schedules <em class="italic">thoughts</em>, tool calls, and
+            recovery as first-class operations, not afterthoughts.
+          </p>
+          <p class="small" style="margin-top: .8rem">
+            (Bridges Theme 01 systems work with Theme 02 reasoning insights —
+            the layer every agent product is converging on.)
+          </p>
+        </div>
+      </div>
+      <p class="small" style="margin-top: 2.2rem">
+        Both directions are productisable, both are publishable, and both fit
+        any team that ships LLM inference at scale.
+      </p>
+    </section>
+
+    <!-- ═══════════ 10. Thanks ═══════════ -->
+    <section class="slide cover">
+      <div class="ornament">✦</div>
+      <div class="eyebrow">Thank you</div>
+      <h1>Let's talk.</h1>
+      <p class="role">
+        Happy to dive deep into any paper —<br>
+        or whatever benchmark you'd throw at me.
+      </p>
+      <div class="meta">
+        xliu886@connect.hkust-gz.edu.cn<br>
+        dominic789654.github.io &nbsp;·&nbsp; scholar.google.com/citations?user=VtK5lwUAAAAJ
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Persistent UI -->
+  <div class="mark" id="mark">Xiang Liu — Research Pitch</div>
+  <div class="pager"><strong id="cur">1</strong> / <span id="total">10</span></div>
+  <div class="nav-hint">← →   ·   space   ·   click</div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const cur = document.getElementById('cur');
+    const total = document.getElementById('total');
+    const mark = document.getElementById('mark');
+    let i = 0;
+    total.textContent = slides.length;
+
+    function show(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+      cur.textContent = i + 1;
+      // Hide the persistent mark on the cover slides for cleaner look
+      mark.style.opacity = slides[i].classList.contains('cover') ? '0' : '1';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(i + 1); }
+      else if (['ArrowLeft', 'PageUp'].includes(e.key))    { e.preventDefault(); show(i - 1); }
+      else if (e.key === 'Home')                            show(0);
+      else if (e.key === 'End')                             show(slides.length - 1);
+      else if (e.key === 'p' || e.key === 'P')             window.print();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('a, .pager, .nav-hint')) return;
+      show(i + 1);
+    });
+
+    show(0);
+  </script>
+</body>
+</html>
