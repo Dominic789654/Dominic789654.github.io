@@ -107,6 +107,19 @@ export const Publications: React.FC = () => {
 
   const preprints = [
     {
+      id: 42,
+      title:
+        "Position: LLM Inference Should Be Evaluated as Energy-to-Token Production",
+      authors:
+        "Xiang Liu*, Shimiao Yuan*, Zhenheng Tang, Peijie Dong, Kaiyong Zhao, Qiang Wang, Bo Li, Xiaowen Chu",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/abs/2605.11733",
+        code: "https://github.com/Dominic789654/energy-to-token",
+        blog: "https://dominic789654.github.io/energy-to-token/",
+      },
+    },
+    {
       id: 38,
       title:
         "LLM Agent Memory: A Survey from a Unified Representation–Management Perspective",
@@ -206,6 +219,19 @@ export const Publications: React.FC = () => {
   ];
 
   const fullPublications = [
+    {
+      id: 42,
+      title:
+        "Position: LLM Inference Should Be Evaluated as Energy-to-Token Production",
+      authors:
+        "Xiang Liu*, Shimiao Yuan*, Zhenheng Tang, Peijie Dong, Kaiyong Zhao, Qiang Wang, Bo Li, Xiaowen Chu",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/abs/2605.11733",
+        code: "https://github.com/Dominic789654/energy-to-token",
+        blog: "https://dominic789654.github.io/energy-to-token/",
+      },
+    },
     {
       id: 41,
       title: "MDN: Parallelizing Stepwise Momentum for Delta Linear Attention",

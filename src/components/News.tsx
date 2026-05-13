@@ -15,6 +15,13 @@ export const News: React.FC = () => {
 
   const newsItems: NewsItem[] = [
     {
+      id: 0,
+      date: "May 2026",
+      content:
+        "New position paper on arXiv: Energy-to-Token — rethinking how we evaluate LLM inference. Project page: dominic789654.github.io/energy-to-token ⚡",
+      isNew: true,
+    },
+    {
       id: 1,
       date: "May 2026",
       content:
