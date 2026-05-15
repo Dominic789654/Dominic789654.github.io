@@ -1,4 +1,3 @@
-import React from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { CitationProvider } from './contexts/CitationContext';
 import { Layout } from './components/Layout';

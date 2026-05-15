@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { FileText, Code, BookOpen, ExternalLink } from 'lucide-react';
 import { prepare, layout } from '@chenglou/pretext';
-import { useCitations, getCitationCountForPaper } from '../contexts/CitationContext';
+import { useCitations } from '../contexts/CitationContext';
+import { getCitationCountForPaper } from '../contexts/citationUtils';
 
 interface Publication {
   id: number;

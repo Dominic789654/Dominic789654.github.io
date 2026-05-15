@@ -33,7 +33,7 @@ export const News: React.FC = () => {
       date: "Jan 2026",
       content:
         "Two papers accepted by ICLR 2026: DiffAdapt and Reasoning Language Model Inference Serving Unveiled! 🎉",
-      isNew: true,
+      isNew: false,
     },
     {
       id: 3,

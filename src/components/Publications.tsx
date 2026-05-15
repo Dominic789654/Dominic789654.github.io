@@ -49,16 +49,6 @@ export const Publications: React.FC = () => {
       },
     },
     {
-      id: 35,
-      title:
-        "Beyond Single Embeddings: Capturing Diverse Targets with Multi-Query Retrieval",
-      authors: "Hung-Ting Chen, Xiang Liu, Shauli Ravfogel, Eunsol Choi",
-      venue: "arXiv preprint",
-      links: {
-        paper: "https://arxiv.org/pdf/2511.02770",
-      },
-    },
-    {
       id: 6,
       title:
         "ChunkKV: Semantic-Preserving KV Cache Compression for Efficient Long-Context LLM Inference",
@@ -203,17 +193,6 @@ export const Publications: React.FC = () => {
       venue: "arXiv preprint",
       links: {
         paper: "https://arxiv.org/pdf/2502.04411",
-      },
-    },
-    {
-      id: 7,
-      title:
-        "Semantic Integrity Matters: Benchmarking and Preserving High-Density Reasoning in KV Cache Compression",
-      authors:
-        "Xiang Liu, Zhenheng Tang, Hong Chen, Peijie Dong, Zeyu Li, Xiuze Zhou, Bo Li, Xuming Hu, Xiaowen Chu",
-      venue: "ICML 2026",
-      links: {
-        paper: "https://arxiv.org/abs/2502.01941",
       },
     },
   ];

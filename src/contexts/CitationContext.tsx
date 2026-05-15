@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { normalizeCitationTitle } from "./citationUtils";
 
 interface CitationData {
   citations: number | null;
@@ -20,10 +21,6 @@ const CACHE_PAPERS_KEY = "cached_paper_citations";
 const CACHE_TIME_KEY = "cached_citations_updated_at";
 const CACHE_TTL_MS = 12 * 60 * 60 * 1000;
 
-function normalizeTitle(title: string): string {
-  return title.toLowerCase().replace(/[^a-z0-9\s]/g, "").trim();
-}
-
 function parseCitationsMarkdown(text: string) {
   const totalMatch = text.match(/Total Citations:\s*(\d+)/);
   const hIndexMatch = text.match(/H-index:\s*(\d+)/);
@@ -37,27 +34,11 @@ function parseCitationsMarkdown(text: string) {
     const paperTitle = match[1].trim();
     const citations = parseInt(match[2], 10);
     if (paperTitle && paperTitle !== "Paper") {
-      paperMap.set(normalizeTitle(paperTitle), citations);
+      paperMap.set(normalizeCitationTitle(paperTitle), citations);
     }
   }
 
   return { total, hIndex, paperMap };
-}
-
-export function getCitationCountForPaper(
-  paperCitations: Map<string, number>,
-  title: string,
-): number | undefined {
-  const normalized = normalizeTitle(title);
-  if (paperCitations.has(normalized)) {
-    return paperCitations.get(normalized);
-  }
-  for (const [key, value] of paperCitations) {
-    if (normalized.includes(key) || key.includes(normalized)) {
-      return value;
-    }
-  }
-  return undefined;
 }
 
 export const CitationProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -86,10 +67,14 @@ export const CitationProvider: React.FC<{ children: React.ReactNode }> = ({
   });
 
   useEffect(() => {
-    // Always fetch if no cached data at all
     const cachedAt = parseInt(localStorage.getItem(CACHE_TIME_KEY) ?? "0", 10);
-    const hasCached = data.citations !== null;
-    if (hasCached && Number.isFinite(cachedAt) && Date.now() - cachedAt < CACHE_TTL_MS) {
+    const cachedTotal = parseInt(localStorage.getItem(CACHE_KEY) ?? "", 10);
+    const hasFreshCache =
+      Number.isFinite(cachedTotal) &&
+      Number.isFinite(cachedAt) &&
+      Date.now() - cachedAt < CACHE_TTL_MS;
+
+    if (hasFreshCache) {
       return;
     }
 
@@ -101,7 +86,9 @@ export const CitationProvider: React.FC<{ children: React.ReactNode }> = ({
           "https://raw.githubusercontent.com/Dominic789654/scholar_tracker/main/data/citations.md",
           { signal: controller.signal, cache: "no-store" },
         );
-        if (!response.ok) return;
+        if (!response.ok) {
+          throw new Error(`Citation request failed: HTTP ${response.status}`);
+        }
 
         const text = await response.text();
         const { total, hIndex, paperMap } = parseCitationsMarkdown(text);
@@ -120,21 +107,31 @@ export const CitationProvider: React.FC<{ children: React.ReactNode }> = ({
           );
         }
 
-        setData({
-          citations: Number.isFinite(total) ? total : FALLBACK_CITATIONS,
-          hIndex: Number.isFinite(hIndex) ? hIndex : FALLBACK_HINDEX,
-          paperCitations: paperMap.size > 0 ? paperMap : data.paperCitations,
-        });
+        setData((previous) => ({
+          citations: Number.isFinite(total)
+            ? total
+            : (previous.citations ?? FALLBACK_CITATIONS),
+          hIndex: Number.isFinite(hIndex)
+            ? hIndex
+            : (previous.hIndex ?? FALLBACK_HINDEX),
+          paperCitations: paperMap.size > 0 ? paperMap : previous.paperCitations,
+        }));
       } catch (error) {
-        if ((error as Error).name !== "AbortError") {
+        const errorName = error instanceof Error ? error.name : "";
+        if (errorName !== "AbortError") {
           console.error("Failed to fetch citations:", error);
+          setData((previous) => ({
+            citations: previous.citations ?? FALLBACK_CITATIONS,
+            hIndex: previous.hIndex ?? FALLBACK_HINDEX,
+            paperCitations: previous.paperCitations,
+          }));
         }
       }
     };
     fetchCitations();
 
     return () => controller.abort();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <CitationContext.Provider value={data}>

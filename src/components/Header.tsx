@@ -16,19 +16,19 @@ import { useCitations } from "../contexts/CitationContext";
 
 const HIGHLIGHTS = [
   {
+    title: "Energy-to-Token",
+    description:
+      "New position paper on evaluating LLM inference as energy-to-token production.",
+  },
+  {
+    title: "ICML 2026",
+    description:
+      "Semantic Integrity Matters and MDN accepted to ICML 2026.",
+  },
+  {
     title: "ICLR 2026",
     description:
-      "Two accepted papers on token-efficient reasoning and LLM serving.",
-  },
-  {
-    title: "NYU CDS",
-    description:
-      "Visiting student working with Prof. Eunsol Choi on retrieval and reasoning.",
-  },
-  {
-    title: "Recognition",
-    description:
-      "NeurIPS Top Reviewer, Travel Award, and HKUST Overseas Research Award.",
+      "DiffAdapt and reasoning-model serving study accepted to ICLR 2026.",
   },
 ];
 
