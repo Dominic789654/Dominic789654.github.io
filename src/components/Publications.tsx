@@ -110,6 +110,16 @@ export const Publications: React.FC = () => {
       },
     },
     {
+      id: 43,
+      title: "δ-mem: Efficient Online Memory for Large Language Models",
+      authors:
+        "Jingdi Lei, Di Zhang, Junxian Li, Weida Wang, Kaixuan Fan, Xiang Liu, Qihan Liu, Xiaoteng Ma, Baian Chen, Soujanya Poria",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/abs/2605.12357",
+      },
+    },
+    {
       id: 38,
       title:
         "LLM Agent Memory: A Survey from a Unified Representation–Management Perspective",
@@ -219,6 +229,27 @@ export const Publications: React.FC = () => {
       venue: "ICML 2026",
       links: {
         paper: "https://arxiv.org/abs/2605.05838",
+      },
+    },
+    {
+      id: 44,
+      title:
+        "MinT: Managed Infrastructure for Training and Serving Millions of LLMs",
+      authors:
+        "Mind Lab Team — Song Cao, Vic Cao, …, Xiang Liu, …, Murphy Zhuang (60 authors)",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/abs/2605.13779",
+      },
+    },
+    {
+      id: 43,
+      title: "δ-mem: Efficient Online Memory for Large Language Models",
+      authors:
+        "Jingdi Lei, Di Zhang, Junxian Li, Weida Wang, Kaixuan Fan, Xiang Liu, Qihan Liu, Xiaoteng Ma, Baian Chen, Soujanya Poria",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/abs/2605.12357",
       },
     },
     {

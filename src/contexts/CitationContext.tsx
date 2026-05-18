@@ -13,8 +13,8 @@ const CitationContext = createContext<CitationData>({
   paperCitations: new Map(),
 });
 
-const FALLBACK_CITATIONS = 1041;
-const FALLBACK_HINDEX = 14;
+const FALLBACK_CITATIONS = 1106;
+const FALLBACK_HINDEX = 15;
 const CACHE_KEY = "cached_citations";
 const CACHE_HINDEX_KEY = "cached_hindex";
 const CACHE_PAPERS_KEY = "cached_paper_citations";
