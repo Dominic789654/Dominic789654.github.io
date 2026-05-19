@@ -47,14 +47,14 @@ export const TableOfContents: React.FC = () => {
       aria-label="Table of contents"
       className="fixed right-6 top-1/2 -translate-y-1/2 hidden xl:block z-40"
     >
-      <ul className="space-y-2 font-mono text-[11px] uppercase tracking-wider">
+      <ul className="space-y-2.5 font-mono text-[13px] uppercase tracking-wider">
         {sections.map(({ id, label }) => {
           const isActive = activeId === id;
           return (
             <li key={id}>
               <a
                 href={`#${id}`}
-                className={`group flex items-center gap-2 no-underline transition-colors ${
+                className={`group flex items-center gap-2.5 no-underline transition-colors ${
                   isActive
                     ? "text-accent dark:text-[#E89B7A]"
                     : "text-ink-3 dark:text-[#8C8676] hover:text-accent dark:hover:text-[#E89B7A]"
@@ -64,8 +64,8 @@ export const TableOfContents: React.FC = () => {
                   aria-hidden="true"
                   className={`block h-px transition-all duration-200 ${
                     isActive
-                      ? "w-6 bg-accent dark:bg-[#E89B7A]"
-                      : "w-3 bg-rule dark:bg-[#4A443C] group-hover:w-5 group-hover:bg-accent/60 dark:group-hover:bg-[#E89B7A]/60"
+                      ? "w-8 bg-accent dark:bg-[#E89B7A]"
+                      : "w-4 bg-rule dark:bg-[#4A443C] group-hover:w-6 group-hover:bg-accent/60 dark:group-hover:bg-[#E89B7A]/60"
                   }`}
                 />
                 <span>{label}</span>
