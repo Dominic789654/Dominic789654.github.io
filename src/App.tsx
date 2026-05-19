@@ -3,6 +3,7 @@ import { CitationProvider } from './contexts/CitationContext';
 import { Layout } from './components/Layout';
 import { Header } from './components/Header';
 import { ScrollProgress } from './components/ScrollProgress';
+import { TableOfContents } from './components/TableOfContents';
 import { About } from './components/About';
 import { News } from './components/News';
 import { Research } from './components/Research';
@@ -20,14 +21,16 @@ function App() {
       <CitationProvider>
         <Layout>
           <ScrollProgress />
+          <TableOfContents />
           <Header />
           <main className="max-w-4xl mx-auto px-4 py-8">
             <About />
             <News />
             <Research />
             <FeaturedPapers />
-            <Publications />
+            <Publications part="selected" />
             <Experience />
+            <Publications part="rest" />
             <Awards />
             <Service />
             <Interests />

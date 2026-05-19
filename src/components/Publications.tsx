@@ -2,7 +2,11 @@ import React from "react";
 import { SectionTitle } from "./SectionTitle";
 import { PublicationCard } from "./PublicationCard";
 
-export const Publications: React.FC = () => {
+interface PublicationsProps {
+  part?: "selected" | "rest";
+}
+
+export const Publications: React.FC<PublicationsProps> = ({ part }) => {
   const [isFullListExpanded, setIsFullListExpanded] = React.useState(false);
 
   const selectedPublications = [
@@ -627,6 +631,7 @@ export const Publications: React.FC = () => {
 
   return (
     <>
+      {part !== "rest" && (
       <section id="publications" className="py-8">
         <SectionTitle icon="📜" title="Selected Publications" />
         <div className="mt-2 font-mono text-xs text-ink-3 dark:text-[#B8B2A6]">
@@ -647,7 +652,9 @@ export const Publications: React.FC = () => {
           ))}
         </div>
       </section>
-
+      )}
+      {part !== "selected" && (
+        <>
       <section id="preprints" className="py-8">
         <SectionTitle icon="📝" title="Preprints" />
         <div className="mt-6 space-y-6">
@@ -707,6 +714,8 @@ export const Publications: React.FC = () => {
           </div>
         )}
       </section>
+        </>
+      )}
     </>
   );
 };
