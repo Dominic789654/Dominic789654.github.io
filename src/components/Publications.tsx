@@ -84,6 +84,18 @@ export const Publications: React.FC = () => {
       },
     },
     {
+      id: 21,
+      title:
+        "Should We Really Edit Language Models? On the Evaluation of Edited Language Models",
+      authors:
+        "Qi Li*, Xiang Liu*, Zhenheng Tang, Peijie Dong, Zeyu Li, Xinglin Pan, Xiaowen Chu",
+      venue: "NeurIPS 2024",
+      links: {
+        paper:
+          "https://proceedings.neurips.cc/paper_files/paper/2024/file/370fa2e691f57eb319bc263a07dad4a5-Paper-Conference.pdf",
+      },
+    },
+    {
       id: 4,
       title: "LongGenBench: Long-context Generation Benchmark",
       authors: "Xiang Liu, Peijie Dong, Xuming Hu, Xiaowen Chu",

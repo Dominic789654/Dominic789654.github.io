@@ -39,6 +39,17 @@ export const Awards: React.FC = () => {
       title: "OpenAI's Researcher Access Program ",
       description: "2024",
     },
+    {
+      id: 7,
+      title: "Kaggle Silver Medal (Top 2%)",
+      description:
+        "Feedback Prize — Predicting Effective Arguments, Team Leader, 2022",
+    },
+    {
+      id: 8,
+      title: "Dean's List",
+      description: "George Mason University, 2018–2020",
+    },
   ];
 
   return (
