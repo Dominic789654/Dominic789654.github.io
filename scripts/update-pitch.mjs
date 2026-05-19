@@ -27,8 +27,19 @@ async function fetchJson(url) {
   return res.json();
 }
 
+// Map deck lead (lowercased, trimmed, trailing punctuation stripped) to the
+// canonical Scholar title fragment used for matching. Only needed when the
+// deck's short name is an abbreviation that does not literally appear in the
+// Scholar title (e.g. "CoT" vs "chain-of-thought", "LM" vs "Language Model").
+const LEAD_ALIASES = {
+  "active prompting with cot": "active prompting with chain-of-thought",
+  "reasoning lm inference serving unveiled":
+    "reasoning language model inference serving unveiled",
+};
+
 function findCitesByLead(titleCitesMap, lead) {
-  const k = lead.toLowerCase().trim().replace(/[:.,]+$/, "");
+  const raw = lead.toLowerCase().trim().replace(/[:.,]+$/, "");
+  const k = LEAD_ALIASES[raw] ?? raw;
   // Exact short-name match (title starts with "<lead> " or "<lead>:")
   for (const [title, cites] of titleCitesMap) {
     if (
@@ -115,7 +126,7 @@ async function main() {
 
       return row.replace(
         /· (<strong>)?(\d+)\s*cites?(<\/strong>)?/i,
-        (_, strongOpen, oldVal, strongClose) => {
+        (_, strongOpen, oldVal) => {
           const oldNum = parseInt(oldVal, 10);
           if (oldNum !== cites) {
             changes.push(`${lead}: ${oldNum} → ${cites} cites`);
