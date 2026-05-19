@@ -15,6 +15,12 @@ export const Experience: React.FC = () => {
 
   const experiences: ExperienceItem[] = [
     {
+      id: 5,
+      organization: "Mind Lab",
+      period: "04/2026–Present",
+      description: "Research Intern, post-training GLM-5.1 / Qwen3.6 35B for tool use and code generation; strengthening agent harness capability. Co-authored δ-mem and MinT."
+    },
+    {
       id: 1,
       organization: "NYU Center for Data Science",
       period: "07/2025–01/2026",
