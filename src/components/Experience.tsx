@@ -5,6 +5,7 @@ import { SectionTitle } from './SectionTitle';
 interface ExperienceItem {
   id: number;
   organization: string;
+  url?: string;
   period: string;
   description: string;
 }
@@ -17,24 +18,28 @@ export const Experience: React.FC = () => {
     {
       id: 5,
       organization: "Mind Lab",
+      url: "https://macaron.im/mindlab",
       period: "04/2026–Present",
       description: "Research Intern, post-training GLM-5.1 / Qwen3.6 35B for tool use and code generation; strengthening agent harness capability. Co-authored δ-mem and MinT."
     },
     {
       id: 1,
       organization: "NYU Center for Data Science",
+      url: "https://cds.nyu.edu/",
       period: "07/2025–01/2026",
       description: "Visiting Student, supervised by Prof. Eunsol Choi"
     },
     {
       id: 2,
       organization: "HKUST(GZ)",
+      url: "https://dsa.hkust-gz.edu.cn/",
       period: "09/2023–Present",
       description: "Ph.D. student, supervised by Prof. Xiaowen Chu and Prof. Xuming HU"
     },
     {
       id: 3,
       organization: "HKUST",
+      url: "https://hkust.edu.hk/",
       period: "12/2022–08/2023",
       description: "Research Intern, supervised by Prof. Tong Zhang"
     },
@@ -50,12 +55,14 @@ export const Experience: React.FC = () => {
     {
       id: 1,
       organization: "HKUST(GZ)",
+      url: "https://dsa.hkust-gz.edu.cn/",
       period: "Fall 2024",
       description: "TA - AIAA 5088 Natural Language Processing and Its Applications"
     },
     {
       id: 2,
       organization: "HKUST(GZ)",
+      url: "https://dsa.hkust-gz.edu.cn/",
       period: "Summer 2024",
       description: "TA - RBCC Red Bird Challenge Camp"
     }
@@ -81,7 +88,18 @@ export const Experience: React.FC = () => {
           transition={{ duration: 0.4, delay: index * 0.1 + 0.2 }}
           className="text-xl font-semibold text-ink dark:text-[#E8E4DC] group-hover:text-accent dark:group-hover:text-[#E89B7A] transition-colors"
         >
-          {item.organization}
+          {item.url ? (
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="no-underline text-inherit hover:text-accent dark:hover:text-[#E89B7A] transition-colors"
+            >
+              {item.organization}
+            </a>
+          ) : (
+            item.organization
+          )}
         </motion.h3>
         <motion.p
           initial={{ opacity: 0 }}
