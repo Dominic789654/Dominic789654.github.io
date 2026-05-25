@@ -107,6 +107,27 @@
     }
     .card .pill { align-self: flex-start; }
     .card h3 { margin: 1rem 0 .6rem; }
+    .oss-strip {
+      margin-top: 1rem;
+      padding-top: .95rem;
+      border-top: 1px dotted var(--rule);
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem 1.1rem;
+      align-items: baseline;
+    }
+    .oss-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--clay);
+    }
+    .oss-item {
+      font-size: 1rem;
+      line-height: 1.35;
+      color: var(--ink2);
+    }
 
     /* Pills + tags */
     .pill {
@@ -342,6 +363,15 @@
           built with <strong>Prof. Tong Zhang</strong>'s group at HKUST. Long-running collaborations with
           <strong>Xiaowen Chu</strong> (HKUST-GZ, IEEE Fellow), Zhenheng Tang (HKUST), Peijie Dong (HKUST-GZ).
         </p>
+        <div class="oss-strip">
+          <span class="oss-label">Open-source code</span>
+          <span class="oss-item">
+            KV-cache compression work upstreamed to
+            <a href="https://github.com/NVIDIA/kvpress" target="_blank" rel="noopener noreferrer">NVIDIA/kvpress ↗</a>
+          </span>
+          <span class="oss-item">Agent plugins for Pi Agent</span>
+          <span class="oss-item">Nanobot plugin tooling</span>
+        </div>
       </div>
     </section>
 
@@ -534,7 +564,7 @@
       </p>
     </section>
 
-    <!-- ═══════════ 7. Theme 3 — compression / NAS ═══════════ -->
+    <!-- ═══════════ 8. Theme 3 — compression / NAS ═══════════ -->
     <section class="slide">
       <div class="eyebrow">Theme 03 — model compression, NAS &amp; specialisation</div>
       <h2>From <em class="italic">"make it small"</em> through <em class="italic">"let it search itself"</em><br>to <em class="italic">"make it specialised."</em></h2>
@@ -573,7 +603,7 @@
       </p>
     </section>
 
-    <!-- ═══════════ 8. Pulling it together ═══════════ -->
+    <!-- ═══════════ 9. Pulling it together ═══════════ -->
     <section class="slide">
       <div class="eyebrow">A consistent thesis</div>
       <h2>Three lines, one north star.</h2>
@@ -606,7 +636,7 @@
       </div>
     </section>
 
-    <!-- ═══════════ 9. What's next ═══════════ -->
+    <!-- ═══════════ 10. What's next ═══════════ -->
     <section class="slide">
       <div class="eyebrow">What I want to do next</div>
       <h2>The next bottleneck.</h2>
@@ -646,7 +676,7 @@
       </p>
     </section>
 
-    <!-- ═══════════ 10. Thanks ═══════════ -->
+    <!-- ═══════════ 11. Thanks ═══════════ -->
     <section class="slide cover">
       <div class="ornament">✦</div>
       <div class="eyebrow">Thank you</div>
@@ -665,7 +695,7 @@
 
   <!-- Persistent UI -->
   <div class="mark" id="mark">Xiang Liu — Research Pitch</div>
-  <div class="pager"><strong id="cur">1</strong> / <span id="total">10</span></div>
+  <div class="pager"><strong id="cur">1</strong> / <span id="total">11</span></div>
   <div class="nav-hint">← →   ·   space   ·   click</div>
 
   <script>
