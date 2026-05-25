@@ -9,6 +9,11 @@ export const Awards: React.FC = () => {
 
   const awards = [
     {
+      id: 9,
+      title: "ICML 2026 Top Reviewer",
+      description: "Selected as top reviewer",
+    },
+    {
       id: 1,
       title: "NeurIPS 2025 Travel Award",
       description: "2025",
