@@ -1,9 +1,10 @@
 import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { SectionTitle } from './SectionTitle';
-import chunkkvFig from '../assets/images/papers/chunkkv.png';
-import longgenFig from '../assets/images/papers/longgenbench.png';
+import semanticIntegrityFig from '../assets/images/papers/semantic-integrity.png';
+import mdnFig from '../assets/images/papers/mdn.png';
 import diffadaptFig from '../assets/images/papers/diffadapt.png';
+import reasoningServingFig from '../assets/images/papers/reasoning-serving.png';
 
 interface FeaturedPaper {
   id: string;
@@ -16,22 +17,22 @@ interface FeaturedPaper {
 
 const featured: FeaturedPaper[] = [
   {
-    id: 'chunkkv',
-    title: 'ChunkKV: Semantic-Preserving KV Cache Compression for Efficient Long-Context LLM Inference',
-    venue: 'NeurIPS 2025',
+    id: 'semantic-integrity',
+    title: 'Semantic Integrity Matters: Benchmarking and Preserving High-Density Reasoning in KV Cache Compression',
+    venue: 'ICML 2026',
     oneliner:
-      'Token-level eviction throws away semantic locality. ChunkKV groups related tokens into chunks and keeps only the most informative ones — preserving meaning that single-token methods destroy.',
-    figure: chunkkvFig,
-    link: 'https://arxiv.org/abs/2502.00299',
+      'KV cache compression can silently damage dense reasoning traces. We benchmark semantic integrity and study how to preserve reasoning-critical context under compression.',
+    figure: semanticIntegrityFig,
+    link: 'https://arxiv.org/abs/2502.01941',
   },
   {
-    id: 'longgenbench',
-    title: 'LongGenBench: Long-context Generation Benchmark',
-    venue: 'EMNLP Findings 2024',
+    id: 'mdn',
+    title: 'MDN: Parallelizing Stepwise Momentum for Delta Linear Attention',
+    venue: 'ICML 2026',
     oneliner:
-      'Long-context evaluations focused on retrieval — but real applications generate long answers. LongGenBench is the first benchmark targeting long-context generation, exposing a gap mainstream LLMs hide.',
-    figure: longgenFig,
-    link: 'https://arxiv.org/abs/2410.04199',
+      'Delta linear attention is bottlenecked by stepwise momentum. MDN parallelizes the recurrence so long-context sequence modeling can keep momentum without serial decoding costs.',
+    figure: mdnFig,
+    link: 'https://arxiv.org/abs/2605.05838',
   },
   {
     id: 'diffadapt',
@@ -41,6 +42,15 @@ const featured: FeaturedPaper[] = [
       'Reasoning models overthink easy questions and underthink hard ones — a U-shaped entropy curve we visualise across difficulty. DiffAdapt adapts compute per-difficulty, cutting tokens without losing accuracy.',
     figure: diffadaptFig,
     link: 'https://arxiv.org/abs/2510.19669',
+  },
+  {
+    id: 'reasoning-serving',
+    title: 'Reasoning Language Model Inference Serving Unveiled: An Empirical Study',
+    venue: 'ICLR 2026',
+    oneliner:
+      'Reasoning workloads shift inference bottlenecks through longer traces, bursty token budgets, and scheduler pressure. This study maps where serving systems spend time.',
+    figure: reasoningServingFig,
+    link: 'https://arxiv.org/pdf/2510.18672',
   },
 ];
 
@@ -59,12 +69,12 @@ const PaperCard: React.FC<{ paper: FeaturedPaper; index: number }> = ({ paper, i
       transition={{ duration: 0.55, delay: index * 0.12, ease: 'easeOut' }}
       className="no-underline group block border border-rule dark:border-[#4A443C] bg-paper dark:bg-[#2A2520] overflow-hidden transition-all duration-300 hover:border-accent/40 dark:hover:border-[#E89B7A]/40"
     >
-      <div className="overflow-hidden bg-paper-2 dark:bg-[#262220] border-b border-rule dark:border-[#4A443C]">
+      <div className="aspect-[16/7] overflow-hidden bg-white dark:bg-[#F7F3EA] border-b border-rule dark:border-[#4A443C]">
         <img
           src={paper.figure}
           alt={`${paper.title} — figure`}
           loading="lazy"
-          className="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.015]"
+          className="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-[1.015]"
         />
       </div>
       <div className="p-5 md:p-6">
