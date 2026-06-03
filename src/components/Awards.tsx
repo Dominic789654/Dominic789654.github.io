@@ -10,8 +10,8 @@ export const Awards: React.FC = () => {
   const awards = [
     {
       id: 9,
-      title: "ICML 2026 Top Reviewer",
-      description: "Selected as top reviewer",
+      title: "ICML 2026 Gold Reviewer",
+      description: "Selected as gold reviewer",
     },
     {
       id: 1,
