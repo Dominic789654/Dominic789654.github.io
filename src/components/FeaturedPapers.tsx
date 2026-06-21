@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, useInView } from 'framer-motion';
+import { ExternalLink } from 'lucide-react';
 import { SectionTitle } from './SectionTitle';
 import macaronFig from '../assets/images/papers/macaron.png';
 import mindlabLogo from '../assets/images/papers/mindlab-logo.svg';
@@ -16,6 +17,7 @@ interface FeaturedPaper {
   figure: string;
   link: string;
   logo?: string;
+  coverage?: { label: string; url: string };
 }
 
 const featured: FeaturedPaper[] = [
@@ -28,6 +30,10 @@ const featured: FeaturedPaper[] = [
     figure: macaronFig,
     link: 'https://macaron.im/mindlab/research/macaron-v1-preview',
     logo: mindlabLogo,
+    coverage: {
+      label: '机器之心',
+      url: 'https://mp.weixin.qq.com/s/RwHYeilWaq9cUEuaymFqkg',
+    },
   },
   {
     id: 'semantic-integrity',
@@ -112,6 +118,38 @@ const PaperCard: React.FC<{ paper: FeaturedPaper; index: number }> = ({ paper, i
         <p className="mt-3 font-serif text-[15px] leading-relaxed text-ink-2 dark:text-[#D5D0C6]">
           {paper.oneliner}
         </p>
+        {paper.coverage && (
+          <div className="mt-3">
+            <span
+              role="link"
+              tabIndex={0}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(
+                  paper.coverage!.url,
+                  '_blank',
+                  'noopener,noreferrer',
+                );
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(
+                    paper.coverage!.url,
+                    '_blank',
+                    'noopener,noreferrer',
+                  );
+                }
+              }}
+              className="inline-flex items-center gap-1.5 font-mono text-xs text-accent dark:text-[#E89B7A] border-b border-dotted border-accent/40 dark:border-[#E89B7A]/40 hover:border-accent dark:hover:border-[#E89B7A] cursor-pointer"
+            >
+              <ExternalLink size={12} className="opacity-70" />
+              {paper.coverage.label}
+            </span>
+          </div>
+        )}
       </div>
     </motion.a>
   );
