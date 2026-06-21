@@ -15,6 +15,13 @@ export const News: React.FC = () => {
 
   const newsItems: NewsItem[] = [
     {
+      id: -1,
+      date: "Jun 2026",
+      content:
+        "Macaron v1 (Preview) is out from Macaron AI's Mind Lab! Read the technical report: macaron.im/mindlab/research/macaron-v1-preview 🥐",
+      isNew: true,
+    },
+    {
       id: 0,
       date: "May 2026",
       content:

@@ -10,15 +10,15 @@ import {
   Moon,
 } from "lucide-react";
 import avatar from "../assets/images/profile/avatar.jpeg";
-import cv from "../assets/cv/XiangLiu_resume_2026_0519.pdf";
+import cv from "../assets/cv/XiangLiu_resume_2026_0610.pdf";
 import { useTheme } from "../contexts/ThemeContext";
 import { useCitations } from "../contexts/CitationContext";
 
 const HIGHLIGHTS = [
   {
-    title: "Energy-to-Token",
+    title: "Macaron v1",
     description:
-      "New position paper on evaluating LLM inference as energy-to-token production.",
+      "Macaron v1 (Preview) released at Macaron AI Mind Lab, where I am a research intern.",
   },
   {
     title: "ICML 2026",
