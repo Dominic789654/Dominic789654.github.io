@@ -28,8 +28,8 @@ function App() {
             <News />
             <Research />
             <FeaturedPapers />
-            <Publications part="selected" />
             <Experience />
+            <Publications part="selected" />
             <Publications part="rest" />
             <Awards />
             <Service />

@@ -20,7 +20,7 @@ export const Experience: React.FC = () => {
       organization: "Mind Lab",
       url: "https://macaron.im/mindlab",
       period: "04/2026–Present",
-      description: "Research Intern, post-training GLM-5.1 / Qwen3.6 35B for tool use and code generation; strengthening agent harness capability. Co-authored δ-mem and MinT."
+      description: "Research Intern (Remote). Post-trained GLM-5.1 and Qwen3.6 35B for tool use and code generation, improving agent capability on ViTaBench, PinchBench, Tau3Bench, SWE-Bench, and Terminal2Bench; strengthened model harness for long-horizon tool calling and code execution. Co-authored δ-mem, MinT, and the Macaron v1 technical report."
     },
     {
       id: 1,
@@ -124,7 +124,7 @@ export const Experience: React.FC = () => {
   return (
     <section id="experience" className="py-8">
       <SectionTitle icon="🔬" title="Research Experience" />
-      <div ref={containerRef} className="mt-6 space-y-8">
+      <div ref={containerRef} className="mt-6 grid gap-x-8 gap-y-8 md:grid-cols-2">
         {experiences.map((exp, idx) => (
           <ExperienceItemComponent key={exp.id} item={exp} index={idx} />
         ))}
@@ -132,7 +132,7 @@ export const Experience: React.FC = () => {
 
       <div className="mt-12">
         <SectionTitle icon="👨‍🏫" title="Teaching Experience" />
-        <div className="mt-6 space-y-8">
+        <div className="mt-6 grid gap-x-8 gap-y-8 md:grid-cols-2">
           {teachingExperiences.map((exp, idx) => (
             <ExperienceItemComponent key={exp.id} item={exp} index={idx} />
           ))}
