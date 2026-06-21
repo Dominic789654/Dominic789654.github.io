@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { SectionTitle } from './SectionTitle';
 import macaronFig from '../assets/images/papers/macaron.png';
+import mindlabLogo from '../assets/images/papers/mindlab-logo.svg';
 import semanticIntegrityFig from '../assets/images/papers/semantic-integrity.png';
 import mdnFig from '../assets/images/papers/mdn.png';
 import diffadaptFig from '../assets/images/papers/diffadapt.png';
@@ -14,6 +15,7 @@ interface FeaturedPaper {
   oneliner: string;
   figure: string;
   link: string;
+  logo?: string;
 }
 
 const featured: FeaturedPaper[] = [
@@ -25,6 +27,7 @@ const featured: FeaturedPaper[] = [
       'Built during my internship at Macaron AI Mind Lab. Macaron v1 is a personal agent for everyday life, achieving state-of-the-art results across agentic benchmarks including Macaron Livingbench, A2UI Bench, VitaBench, and PinchBench.',
     figure: macaronFig,
     link: 'https://macaron.im/mindlab/research/macaron-v1-preview',
+    logo: mindlabLogo,
   },
   {
     id: 'semantic-integrity',
@@ -88,9 +91,21 @@ const PaperCard: React.FC<{ paper: FeaturedPaper; index: number }> = ({ paper, i
         />
       </div>
       <div className="p-5 md:p-6">
-        <p className="font-mono text-xs tracking-widest uppercase text-accent dark:text-[#E89B7A]">
-          {paper.venue}
-        </p>
+        <div className="flex items-center gap-2.5">
+          {paper.logo && (
+            <span className="inline-flex items-center rounded bg-white px-2 py-1 ring-1 ring-rule/60 dark:ring-white/20">
+              <img
+                src={paper.logo}
+                alt="Macaron AI Mind Lab"
+                className="h-3.5 w-auto"
+                loading="lazy"
+              />
+            </span>
+          )}
+          <p className="font-mono text-xs tracking-widest uppercase text-accent dark:text-[#E89B7A]">
+            {paper.venue}
+          </p>
+        </div>
         <h3 className="mt-2 font-serif text-lg md:text-xl font-medium text-ink dark:text-[#E8E4DC] leading-snug group-hover:text-accent dark:group-hover:text-[#E89B7A] transition-colors">
           {paper.title}
         </h3>
