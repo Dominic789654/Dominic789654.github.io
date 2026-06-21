@@ -6,8 +6,66 @@ interface PublicationsProps {
   part?: "selected" | "rest";
 }
 
+// Topic taxonomy for grouping Preprints and Full Publication List.
+const TOPICS = [
+  "Efficient Inference & KV Cache",
+  "Reasoning & Test-time Compute",
+  "Model Compression & Efficient Training",
+  "Evaluation & Benchmarks",
+  "Memory, Agents & Retrieval",
+  "Domain Applications",
+] as const;
+
+// Map each publication id to a topic. Shared by Preprints and Full list.
+const TOPIC_OF: Record<number, (typeof TOPICS)[number]> = {
+  // Efficient Inference & KV Cache
+  19: "Efficient Inference & KV Cache",
+  18: "Efficient Inference & KV Cache",
+  37: "Efficient Inference & KV Cache",
+  9: "Efficient Inference & KV Cache",
+  12: "Efficient Inference & KV Cache",
+  20: "Efficient Inference & KV Cache",
+  33: "Efficient Inference & KV Cache",
+  30: "Efficient Inference & KV Cache",
+  41: "Efficient Inference & KV Cache",
+  // Reasoning & Test-time Compute
+  32: "Reasoning & Test-time Compute",
+  11: "Reasoning & Test-time Compute",
+  31: "Reasoning & Test-time Compute",
+  29: "Reasoning & Test-time Compute",
+  // Model Compression & Efficient Training
+  26: "Model Compression & Efficient Training",
+  14: "Model Compression & Efficient Training",
+  17: "Model Compression & Efficient Training",
+  22: "Model Compression & Efficient Training",
+  25: "Model Compression & Efficient Training",
+  27: "Model Compression & Efficient Training",
+  28: "Model Compression & Efficient Training",
+  10: "Model Compression & Efficient Training",
+  21: "Model Compression & Efficient Training",
+  // Evaluation & Benchmarks
+  42: "Evaluation & Benchmarks",
+  23: "Evaluation & Benchmarks",
+  34: "Evaluation & Benchmarks",
+  16: "Evaluation & Benchmarks",
+  // Memory, Agents & Retrieval
+  45: "Memory, Agents & Retrieval",
+  44: "Memory, Agents & Retrieval",
+  43: "Memory, Agents & Retrieval",
+  38: "Memory, Agents & Retrieval",
+  35: "Memory, Agents & Retrieval",
+  13: "Memory, Agents & Retrieval",
+  // Domain Applications
+  15: "Domain Applications",
+  36: "Domain Applications",
+  39: "Domain Applications",
+  8: "Domain Applications",
+  24: "Domain Applications",
+};
+
 export const Publications: React.FC<PublicationsProps> = ({ part }) => {
   const [isFullListExpanded, setIsFullListExpanded] = React.useState(false);
+  const [isPreprintsExpanded, setIsPreprintsExpanded] = React.useState(false);
   const [isSelectedExpanded, setIsSelectedExpanded] = React.useState(false);
   const SELECTED_PREVIEW_COUNT = 6;
 
@@ -649,6 +707,39 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
     {} as Record<string, number>,
   );
 
+  // Render a publication list grouped by topic. Keeps a running index so the
+  // staggered card animations stay sequential across topic groups.
+  const renderGroupedByTopic = (pubs: typeof fullPublications) => {
+    let runningIndex = 0;
+    return (
+      <div className="mt-6 space-y-10">
+        {TOPICS.map((topic) => {
+          const group = pubs.filter((pub) => TOPIC_OF[pub.id] === topic);
+          if (group.length === 0) return null;
+          return (
+            <div key={topic}>
+              <h3 className="font-mono text-sm font-medium tracking-wide text-accent dark:text-[#E89B7A] uppercase border-b border-rule dark:border-[#4A443C] pb-2">
+                {topic}
+                <span className="ml-2 text-ink-4 dark:text-[#9A958B] normal-case">
+                  ({group.length})
+                </span>
+              </h3>
+              <div className="mt-4 grid gap-6 md:grid-cols-2">
+                {group.map((pub) => (
+                  <PublicationCard
+                    key={pub.id}
+                    publication={pub}
+                    index={runningIndex++}
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <>
       {part !== "rest" && (
@@ -691,12 +782,31 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
       {part !== "selected" && (
         <>
       <section id="preprints" className="py-8">
-        <SectionTitle icon="📝" title="Preprints" />
-        <div className="mt-6 space-y-6">
-          {preprints.map((pub, idx) => (
-            <PublicationCard key={pub.id} publication={pub} index={idx} />
-          ))}
+        <div
+          role="button"
+          tabIndex={0}
+          className="w-full flex items-center justify-between text-left cursor-pointer"
+          onClick={() => setIsPreprintsExpanded(!isPreprintsExpanded)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              setIsPreprintsExpanded(!isPreprintsExpanded);
+            }
+          }}
+          aria-expanded={isPreprintsExpanded}
+          aria-controls="preprints-content"
+        >
+          <SectionTitle icon="📝" title="Preprints" />
+          <span
+            className="text-lg font-bold text-accent dark:text-[#E89B7A]"
+            aria-hidden="true"
+          >
+            {isPreprintsExpanded ? "−" : "+"}
+          </span>
         </div>
+        {isPreprintsExpanded && (
+          <div id="preprints-content">{renderGroupedByTopic(preprints)}</div>
+        )}
       </section>
 
       <section id="full-publications" className="py-8">
@@ -741,11 +851,7 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
                   ))}
               </div>
             </div>
-            <div className="mt-6 space-y-6">
-              {fullPublications.map((pub, idx) => (
-                <PublicationCard key={pub.id} publication={pub} index={idx} />
-              ))}
-            </div>
+            {renderGroupedByTopic(fullPublications)}
           </div>
         )}
       </section>
