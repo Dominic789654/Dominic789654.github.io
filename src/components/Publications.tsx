@@ -8,6 +8,8 @@ interface PublicationsProps {
 
 export const Publications: React.FC<PublicationsProps> = ({ part }) => {
   const [isFullListExpanded, setIsFullListExpanded] = React.useState(false);
+  const [isSelectedExpanded, setIsSelectedExpanded] = React.useState(false);
+  const SELECTED_PREVIEW_COUNT = 5;
 
   const selectedPublications = [
     {
@@ -112,6 +114,15 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
   ];
 
   const preprints = [
+    {
+      id: 45,
+      title: "Macaron v1 Technical Report (Preview)",
+      authors: "Mind Lab Team — …, Xiang Liu, … (Macaron AI)",
+      venue: "Macaron AI Mind Lab Technical Report, 2026",
+      links: {
+        paper: "https://macaron.im/mindlab/research/macaron-v1-preview",
+      },
+    },
     {
       id: 42,
       title:
@@ -224,6 +235,15 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
   ];
 
   const fullPublications = [
+    {
+      id: 45,
+      title: "Macaron v1 Technical Report (Preview)",
+      authors: "Mind Lab Team — …, Xiang Liu, … (Macaron AI)",
+      venue: "Macaron AI Mind Lab Technical Report, 2026",
+      links: {
+        paper: "https://macaron.im/mindlab/research/macaron-v1-preview",
+      },
+    },
     {
       id: 42,
       title:
@@ -647,10 +667,25 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
           </span>
         </div>
         <div className="mt-6 space-y-6">
-          {selectedPublications.map((pub, idx) => (
+          {(isSelectedExpanded
+            ? selectedPublications
+            : selectedPublications.slice(0, SELECTED_PREVIEW_COUNT)
+          ).map((pub, idx) => (
             <PublicationCard key={pub.id} publication={pub} index={idx} />
           ))}
         </div>
+        {selectedPublications.length > SELECTED_PREVIEW_COUNT && (
+          <button
+            type="button"
+            onClick={() => setIsSelectedExpanded(!isSelectedExpanded)}
+            aria-expanded={isSelectedExpanded}
+            className="mt-6 font-mono text-xs text-accent dark:text-[#E89B7A] border-b border-dotted border-accent/40 dark:border-[#E89B7A]/40 hover:border-accent dark:hover:border-[#E89B7A]"
+          >
+            {isSelectedExpanded
+              ? "− Show fewer"
+              : `+ Show ${selectedPublications.length - SELECTED_PREVIEW_COUNT} more`}
+          </button>
+        )}
       </section>
       )}
       {part !== "selected" && (

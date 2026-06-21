@@ -60,7 +60,7 @@ export const Awards: React.FC = () => {
   return (
     <section id="awards" className="py-8">
       <SectionTitle icon="🏆" title="Awards & Honors" />
-      <div ref={containerRef} className="mt-6 space-y-4">
+      <div ref={containerRef} className="mt-6 grid gap-4 md:grid-cols-2">
         {awards.map((award, idx) => (
           <motion.div
             key={award.id}

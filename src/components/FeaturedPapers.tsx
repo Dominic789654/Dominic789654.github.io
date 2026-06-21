@@ -107,7 +107,7 @@ export const FeaturedPapers: React.FC = () => {
     <section id="featured" className="py-8">
       <SectionTitle icon="✦" title="Featured Papers" />
       <div className="grid gap-6 md:gap-7">
-        {featured.map((paper, idx) => (
+        {featured.slice(0, 3).map((paper, idx) => (
           <PaperCard key={paper.id} paper={paper} index={idx} />
         ))}
       </div>
