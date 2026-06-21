@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { SectionTitle } from './SectionTitle';
+import macaronFig from '../assets/images/papers/macaron.png';
 import semanticIntegrityFig from '../assets/images/papers/semantic-integrity.png';
 import mdnFig from '../assets/images/papers/mdn.png';
 import diffadaptFig from '../assets/images/papers/diffadapt.png';
@@ -16,6 +17,15 @@ interface FeaturedPaper {
 }
 
 const featured: FeaturedPaper[] = [
+  {
+    id: 'macaron-v1',
+    title: 'Macaron v1 (Preview): A Personal Agent for Everyday Life',
+    venue: 'Macaron AI · 2026',
+    oneliner:
+      'Built during my internship at Macaron AI Mind Lab. Macaron v1 is a personal agent that leads across agentic benchmarks — Macaron Livingbench, A2UI Bench, VitaBench, and PinchBench — outperforming GLM 5.1, GPT 5.4, Claude Opus 4.6, and Gemini 3.1 Pro.',
+    figure: macaronFig,
+    link: 'https://macaron.im/mindlab/research/macaron-v1-preview',
+  },
   {
     id: 'semantic-integrity',
     title: 'Semantic Integrity Matters: Benchmarking and Preserving High-Density Reasoning in KV Cache Compression',
