@@ -22,7 +22,7 @@ const featured: FeaturedPaper[] = [
     title: 'Macaron v1 (Preview): A Personal Agent for Everyday Life',
     venue: 'Macaron AI · 2026',
     oneliner:
-      'Built during my internship at Macaron AI Mind Lab. Macaron v1 is a personal agent that leads across agentic benchmarks — Macaron Livingbench, A2UI Bench, VitaBench, and PinchBench — outperforming GLM 5.1, GPT 5.4, Claude Opus 4.6, and Gemini 3.1 Pro.',
+      'Built during my internship at Macaron AI Mind Lab. Macaron v1 is a personal agent for everyday life, achieving state-of-the-art results across agentic benchmarks including Macaron Livingbench, A2UI Bench, VitaBench, and PinchBench.',
     figure: macaronFig,
     link: 'https://macaron.im/mindlab/research/macaron-v1-preview',
   },

@@ -55,13 +55,6 @@ export const About: React.FC = () => {
     },
   ];
 
-  const highlightContent = (
-    <>
-      I am actively seeking LLM research internship opportunities for
-      Summer/Fall 2026.
-    </>
-  );
-
   return (
     <section id="about" className="py-8">
       <SectionTitle icon="👋" title="About Me" />
@@ -76,21 +69,6 @@ export const About: React.FC = () => {
             {para.content}
           </motion.p>
         ))}
-
-        {/* Highlight with pulse */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.5, delay: 0.36 }}
-          className="mt-4 text-accent dark:text-[#E89B7A] font-medium px-4 py-3 border border-accent/20 dark:border-[#E89B7A]/30 bg-accent-soft dark:bg-[#E89B7A]/12"
-        >
-          <motion.span
-            animate={isInView ? { opacity: [0.6, 1, 0.6] } : { opacity: 0.6 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            {highlightContent}
-          </motion.span>
-        </motion.p>
       </div>
     </section>
   );
