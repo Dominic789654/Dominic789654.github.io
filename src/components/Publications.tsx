@@ -9,7 +9,7 @@ interface PublicationsProps {
 export const Publications: React.FC<PublicationsProps> = ({ part }) => {
   const [isFullListExpanded, setIsFullListExpanded] = React.useState(false);
   const [isSelectedExpanded, setIsSelectedExpanded] = React.useState(false);
-  const SELECTED_PREVIEW_COUNT = 5;
+  const SELECTED_PREVIEW_COUNT = 6;
 
   const selectedPublications = [
     {
@@ -666,7 +666,7 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
             (auto-refreshed weekly from DBLP / arXiv)
           </span>
         </div>
-        <div className="mt-6 space-y-6">
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
           {(isSelectedExpanded
             ? selectedPublications
             : selectedPublications.slice(0, SELECTED_PREVIEW_COUNT)
