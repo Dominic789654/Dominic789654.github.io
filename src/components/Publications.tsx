@@ -28,6 +28,7 @@ const TOPIC_OF: Record<number, (typeof TOPICS)[number]> = {
   33: "Efficient Inference & KV Cache",
   30: "Efficient Inference & KV Cache",
   41: "Efficient Inference & KV Cache",
+  46: "Efficient Inference & KV Cache",
   // Reasoning & Test-time Compute
   32: "Reasoning & Test-time Compute",
   11: "Reasoning & Test-time Compute",
@@ -124,6 +125,17 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
       },
     },
     {
+      id: 15,
+      title:
+        "Perovskite-LLM: Knowledge-Enhanced Large Language Models for Perovskite Solar Cell Research",
+      authors:
+        "Xiang Liu*, Penglei Sun*, Shuyan Chen, Longhan Zhang, Peijie Dong, Huajie You, Yongqi Zhang, Chang Yan, Xiaowen Chu, Tong-yi Zhang",
+      venue: "EMNLP 2025 Findings",
+      links: {
+        paper: "https://arxiv.org/abs/2502.12669",
+      },
+    },
+    {
       id: 5,
       title:
         "FlowKV: Enhancing Multi-Turn Conversational Coherence in LLMs via Isolated Key-Value Cache Management",
@@ -172,6 +184,16 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
   ];
 
   const preprints = [
+    {
+      id: 46,
+      title: "NestedKV: Nested Memory Routing for Long-Context KV Cache Compression",
+      authors:
+        "Hong Chen, Xiang Liu, Yubo Gao, Yuxuan Fan, Bo Wang, Yuanlin Chu, Yuanguo Lin, Xuming Hu",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/abs/2605.26678",
+      },
+    },
     {
       id: 45,
       title: "Macaron v1 Technical Report (Preview)",
@@ -293,6 +315,16 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
   ];
 
   const fullPublications = [
+    {
+      id: 46,
+      title: "NestedKV: Nested Memory Routing for Long-Context KV Cache Compression",
+      authors:
+        "Hong Chen, Xiang Liu, Yubo Gao, Yuxuan Fan, Bo Wang, Yuanlin Chu, Yuanguo Lin, Xuming Hu",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/abs/2605.26678",
+      },
+    },
     {
       id: 45,
       title: "Macaron v1 Technical Report (Preview)",

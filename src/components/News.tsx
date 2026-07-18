@@ -5,7 +5,7 @@ import { SectionTitle } from "./SectionTitle";
 interface NewsItem {
   id: number;
   date: string;
-  content: string;
+  content: React.ReactNode;
   isNew: boolean;
 }
 
@@ -17,15 +17,38 @@ export const News: React.FC = () => {
     {
       id: -1,
       date: "Jun 2026",
-      content:
-        "Macaron v1 (Preview) is out from Macaron AI's Mind Lab! Read the technical report: macaron.im/mindlab/research/macaron-v1-preview 🥐",
+      content: (
+        <>
+          Macaron v1 (Preview) is out from Macaron AI&apos;s Mind Lab! Read the{` `}
+          <a
+            href="https://macaron.im/mindlab/research/macaron-v1-preview"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            technical report
+          </a>{` `}
+          🥐
+        </>
+      ),
       isNew: true,
     },
     {
       id: 0,
       date: "May 2026",
-      content:
-        "New position paper on arXiv: Energy-to-Token — rethinking how we evaluate LLM inference. Project page: dominic789654.github.io/energy-to-token ⚡",
+      content: (
+        <>
+          New position paper on arXiv: Energy-to-Token — rethinking how we
+          evaluate LLM inference. Visit the{` `}
+          <a
+            href="https://dominic789654.github.io/energy-to-token/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            project page
+          </a>{` `}
+          ⚡
+        </>
+      ),
       isNew: true,
     },
     {
