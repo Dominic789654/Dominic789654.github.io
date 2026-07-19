@@ -298,6 +298,27 @@
     }
     .tl-detail em { font-style: italic; color: var(--ink3); }
 
+    /* Dense slides are tuned explicitly for the deck's 1280 × 720 canvas. */
+    .timeline-slide { padding-top: 5vh; padding-bottom: 7vh; }
+    .timeline-slide h2 { margin-bottom: .7rem; }
+    .timeline-slide .timeline { gap: .55rem; margin-top: .55rem; }
+    .timeline-slide .tl-row { padding-bottom: .55rem; }
+    .timeline-slide .tl-detail {
+      font-size: 1.02rem;
+      line-height: 1.3;
+      margin-top: .2rem;
+    }
+    .portfolio-slide { padding-top: 5vh; padding-bottom: 7vh; }
+    .portfolio-slide h2 { font-size: 3.5rem; margin-bottom: 1rem; }
+    .portfolio-slide .paper-row { padding: .62rem .5rem; }
+    .portfolio-slide .paper-title { font-size: 1.2rem; line-height: 1.3; }
+    .portfolio-slide .paper-meta { font-size: .78rem; }
+    .portfolio-slide .fig figcaption {
+      font-size: .68rem;
+      margin-top: .55rem;
+      padding-top: .55rem;
+    }
+
     /* Print → PDF (each slide one page) */
     @media print {
       html, body { overflow: visible; height: auto; }
@@ -322,7 +343,7 @@
       <div class="eyebrow">Research Pitch · 2026</div>
       <h1>Xiang Liu</h1>
       <p class="role">Building the inference-cost layer<br>for large language models.</p>
-      <div class="meta">PhD Candidate &nbsp;·&nbsp; HKUST(GZ) &nbsp;·&nbsp; xliu886@connect.hkust-gz.edu.cn</div>
+      <div class="meta">PhD Student &nbsp;·&nbsp; HKUST(GZ) &nbsp;·&nbsp; xliu886@connect.hkust-gz.edu.cn</div>
     </section>
 
     <!-- ═══════════ 2. At a glance ═══════════ -->
@@ -335,7 +356,7 @@
       <hr class="rule">
       <div class="cols-3" style="margin-top: 1.8rem">
         <div>
-          <div class="stat">1,177</div>
+          <div class="stat">1,238</div>
           <div class="stat-label">Citations</div>
         </div>
         <div>
@@ -366,17 +387,16 @@
         <div class="oss-strip">
           <span class="oss-label">Open-source code</span>
           <span class="oss-item">
-            KV-cache compression work upstreamed to
+            ChunkKV available in
             <a href="https://github.com/NVIDIA/kvpress" target="_blank" rel="noopener noreferrer">NVIDIA/kvpress ↗</a>
           </span>
-          <span class="oss-item">Agent plugins for Pi Agent</span>
-          <span class="oss-item">Nanobot plugin tooling</span>
+          <span class="oss-item">Agent plugins for Pi Agent &amp; Nanobot</span>
         </div>
       </div>
     </section>
 
     <!-- ═══════════ 3. Education & path ═══════════ -->
-    <section class="slide">
+    <section class="slide timeline-slide">
       <div class="eyebrow">Education &amp; path</div>
       <h2>How I got here.</h2>
       <div class="timeline">
@@ -391,13 +411,13 @@
           <div class="tl-when">2026 – present</div>
           <div>
             <div class="tl-where">Research Intern &nbsp;·&nbsp; Mind Lab (Remote)</div>
-            <p class="tl-detail">Post-training <strong>GLM-5.1</strong> and <strong>Qwen3.6 35B</strong> for tool use, code, and the agent <em class="italic">harness</em> layer. Co-authored <strong>δ-mem</strong> and <strong>MinT</strong>.</p>
+            <p class="tl-detail">Post-training <strong>GLM-5.1</strong> and <strong>Qwen3.6 35B</strong> for tool use, code, and the agent <em class="italic">harness</em> layer. Co-authored <strong>Macaron v1</strong>, <strong>δ-mem</strong>, and <strong>MinT</strong>.</p>
           </div>
         </div>
         <div class="tl-row">
           <div class="tl-when">2025 – 2026</div>
           <div>
-            <div class="tl-where">Visiting Researcher &nbsp;·&nbsp; NYU Center for Data Science</div>
+            <div class="tl-where">Visiting Student &nbsp;·&nbsp; NYU Center for Data Science</div>
             <p class="tl-detail">With <strong>Prof. Eunsol Choi</strong>. Built <strong>DiffAdapt</strong> (ICLR 2026) — <em>efficient reasoning that adapts compute per problem difficulty.</em></p>
           </div>
         </div>
@@ -405,7 +425,7 @@
           <div class="tl-when">2022 – 2023</div>
           <div>
             <div class="tl-where">M.S. Computer Science · HKU &nbsp;&nbsp;|&nbsp;&nbsp; Research Intern · HKUST</div>
-            <p class="tl-detail">With <strong>Prof. Tong Zhang</strong>. Worked on LLM-efficiency training — <strong>LISA</strong> (187 cites) and core author of <strong>LMFlow</strong>, an open-source fine-tuning framework.</p>
+            <p class="tl-detail">With <strong>Prof. Tong Zhang</strong>. Worked on LLM-efficiency training — <strong>LISA</strong> (196 cites) and core author of <strong>LMFlow</strong>, an open-source fine-tuning framework.</p>
           </div>
         </div>
         <div class="tl-row">
@@ -428,7 +448,7 @@
           <h3>Efficient<br>LLM Inference</h3>
           <p style="margin-top: .4rem">
             KV-cache compression and long-context generation —
-            the throughput bottleneck of every LLM service today.
+            a major memory and throughput bottleneck in long-context serving.
           </p>
         </div>
         <div class="card">
@@ -450,7 +470,7 @@
       </div>
       <p class="small" style="margin-top: 1.8rem">
         The three lines all answer the same question from different angles:
-        <em class="italic">what can we drop without anyone noticing?</em>
+        <em class="italic">what can we compress or adapt while preserving user-visible quality?</em>
       </p>
     </section>
 
@@ -481,7 +501,7 @@
     </section>
 
     <!-- ═══════════ 6. Theme 1 — broader portfolio ═══════════ -->
-    <section class="slide">
+    <section class="slide portfolio-slide">
       <div class="eyebrow">Theme 01 — beyond ChunkKV</div>
       <h2>A coherent KV-cache program.</h2>
       <div class="cols-2" style="margin-top: 1.2rem; gap: 2.5rem; align-items: start">
@@ -492,7 +512,7 @@
         <div class="paper-list" style="margin-top: 0">
         <a class="paper-row" href="https://arxiv.org/abs/2410.04199" target="_blank" rel="noopener noreferrer">
           <span class="paper-title"><span class="lead">LongGenBench</span> — first long-context <em class="italic">generation</em> benchmark</span>
-          <span class="paper-meta"><span class="star">★</span>EMNLP Findings 2024 · <strong>57 cites</strong></span>
+          <span class="paper-meta"><span class="star">★</span>EMNLP Findings 2024 · <strong>61 cites</strong></span>
         </a>
         <a class="paper-row" href="https://arxiv.org/abs/2502.01941" target="_blank" rel="noopener noreferrer">
           <span class="paper-title"><span class="lead">Semantic Integrity Matters</span> — benchmarking dense reasoning under KV compression</span>
@@ -502,17 +522,9 @@
           <span class="paper-title"><span class="lead">FlowKV</span> — multi-turn coherence via isolated KV management</span>
           <span class="paper-meta"><span class="star">★</span>NeurIPS 2025 Workshop</span>
         </a>
-        <a class="paper-row" href="https://openreview.net/pdf?id=KHM2YOGgX9" target="_blank" rel="noopener noreferrer">
-          <span class="paper-title"><span class="lead">OracleKV</span> — question-independent KV compression</span>
-          <span class="paper-meta">ICML 2025 Workshop · 10 cites</span>
-        </a>
-        <a class="paper-row" href="https://arxiv.org/abs/2506.19505" target="_blank" rel="noopener noreferrer">
-          <span class="paper-title"><span class="lead">AnTKV</span> — anchor-token-aware sub-bit vector quantization</span>
-          <span class="paper-meta">arXiv 2025 · 5 cites</span>
-        </a>
-        <a class="paper-row" href="https://arxiv.org/abs/2502.17535" target="_blank" rel="noopener noreferrer">
-          <span class="paper-title"><span class="lead">The Lottery LLM Hypothesis</span> — what abilities should compression preserve?</span>
-          <span class="paper-meta">ICLR 2025 Blog Track · 13 cites</span>
+        <a class="paper-row" href="https://arxiv.org/abs/2605.26678" target="_blank" rel="noopener noreferrer">
+          <span class="paper-title"><span class="lead">NestedKV</span> — multi-timescale memory routing for KV compression</span>
+          <span class="paper-meta">arXiv 2026</span>
         </a>
         </div>
       </div>
@@ -523,7 +535,7 @@
     </section>
 
     <!-- ═══════════ 7. Theme 2 — reasoning + agents ═══════════ -->
-    <section class="slide">
+    <section class="slide portfolio-slide">
       <div class="eyebrow">Theme 02 — reasoning &amp; agent systems</div>
       <h2>Where the cost goes <em class="italic">after</em> deployment.</h2>
       <div class="cols-2" style="margin-top: 1.2rem; gap: 2.5rem; align-items: start">
@@ -542,36 +554,28 @@
         </a>
         <a class="paper-row" href="https://arxiv.org/abs/2302.12246" target="_blank" rel="noopener noreferrer">
           <span class="paper-title"><span class="lead">Active Prompting with CoT</span> for LLMs</span>
-          <span class="paper-meta">ACL 2024 · <strong>430 cites</strong></span>
-        </a>
-        <a class="paper-row" href="https://arxiv.org/abs/2505.15340" target="_blank" rel="noopener noreferrer">
-          <span class="paper-title"><span class="lead">SSR</span> — speculative parallel scaling reasoning at test time</span>
-          <span class="paper-meta">arXiv 2025 · 2 cites</span>
+          <span class="paper-meta">ACL 2024 · <strong>441 cites</strong></span>
         </a>
         <a class="paper-row" href="https://openreview.net/forum?id=KPs1EgGKcT" target="_blank" rel="noopener noreferrer">
           <span class="paper-title"><span class="lead">LLM Agent Memory</span> — survey: a unified representation–management view</span>
           <span class="paper-meta">Preprint 2026 · 21-author cross-org effort</span>
         </a>
-        <a class="paper-row" href="https://arxiv.org/abs/2311.08364" target="_blank" rel="noopener noreferrer">
-          <span class="paper-title"><span class="lead">Plum</span> — prompt learning using metaheuristics</span>
-          <span class="paper-meta">ACL Findings 2024 · 49 cites</span>
-        </a>
         </div>
       </div>
       <p class="small" style="margin-top: 1.4rem">
-        Active Prompting is among the most-cited prompting works of its year;
-        the agent-memory survey is the natural taxonomy for the next round of agent systems.
+        Together, these works connect adaptive reasoning, serving behavior, prompting,
+        and persistent memory across the agent stack.
       </p>
     </section>
 
     <!-- ═══════════ 8. Theme 3 — compression / NAS ═══════════ -->
-    <section class="slide">
+    <section class="slide portfolio-slide">
       <div class="eyebrow">Theme 03 — model compression, NAS &amp; specialisation</div>
-      <h2>From <em class="italic">"make it small"</em> through <em class="italic">"let it search itself"</em><br>to <em class="italic">"make it specialised."</em></h2>
+      <h2>From smaller models to<br><em class="italic">specialised systems.</em></h2>
       <div class="paper-list">
         <a class="paper-row" href="https://arxiv.org/abs/2403.17919" target="_blank" rel="noopener noreferrer">
           <span class="paper-title"><span class="lead">LISA</span> — layerwise importance sampling for memory-efficient fine-tuning</span>
-          <span class="paper-meta"><span class="star">★</span>NeurIPS 2024 · <strong>187 cites</strong></span>
+          <span class="paper-meta"><span class="star">★</span>NeurIPS 2024 · <strong>196 cites</strong></span>
         </a>
         <a class="paper-row" href="https://arxiv.org/abs/2502.12669" target="_blank" rel="noopener noreferrer">
           <span class="paper-title"><span class="lead">Perovskite-LLM</span> — knowledge-enhanced LLMs for solar cell research</span>
@@ -579,23 +583,15 @@
         </a>
         <a class="paper-row" href="https://arxiv.org/abs/2406.02924" target="_blank" rel="noopener noreferrer">
           <span class="paper-title"><span class="lead">Pruner-Zero</span> — evolving symbolic pruning metrics from scratch</span>
-          <span class="paper-meta">ICML 2024 · <strong>105 cites</strong></span>
-        </a>
-        <a class="paper-row" href="https://proceedings.neurips.cc/paper_files/paper/2024/file/ff997469ac66cf893c4183efeb22212a-Paper-Conference.pdf" target="_blank" rel="noopener noreferrer">
-          <span class="paper-title"><span class="lead">Discovering Sparsity Allocation</span> for layer-wise pruning</span>
-          <span class="paper-meta">NeurIPS 2024 · <strong>63 cites</strong></span>
+          <span class="paper-meta">ICML 2024 · <strong>110 cites</strong></span>
         </a>
         <a class="paper-row" href="https://arxiv.org/abs/2402.02105" target="_blank" rel="noopener noreferrer">
           <span class="paper-title"><span class="lead">ParZC</span> — parametric zero-cost proxies for efficient NAS</span>
           <span class="paper-meta">AAAI 2024 Oral · 27 cites</span>
         </a>
-        <a class="paper-row" href="https://arxiv.org/abs/2502.04411" target="_blank" rel="noopener noreferrer">
-          <span class="paper-title"><span class="lead">Mediator</span> — memory-efficient LLM merging with uncertainty routing</span>
-          <span class="paper-meta">arXiv 2025 · 16 cites</span>
-        </a>
         <a class="paper-row" href="https://arxiv.org/abs/2505.19433" target="_blank" rel="noopener noreferrer">
           <span class="paper-title"><span class="lead">Can Compressed LLMs Truly Act?</span> — agentic eval of compression</span>
-          <span class="paper-meta">ICML 2025 · 21 cites</span>
+          <span class="paper-meta">ICML 2025 · 22 cites</span>
         </a>
       </div>
       <p class="small" style="margin-top: 1.6rem">
@@ -611,7 +607,7 @@
         Inference is the <span class="accent">economics layer</span> of LLM products.
         Whatever the team is building — KV-cache infra, a compressed model,
         an agent runtime — the question I keep answering is the same:
-        <em class="italic">what can we drop without anyone noticing?</em>
+        <em class="italic">what can we compress or adapt while preserving user-visible quality?</em>
       </p>
       <hr class="rule" style="margin-top: 2.2rem">
       <div class="cols-3" style="margin-top: 1.6rem">
@@ -624,13 +620,13 @@
         <div>
           <h3 class="accent" style="font-size: 1.3rem">Methods</h3>
           <p class="small" style="margin-top: .4rem">
-            ChunkKV, FlowKV, OracleKV, AnTKV, DiffAdapt, SSR, LISA contributions.
+            ChunkKV, NestedKV, FlowKV, DiffAdapt, reasoning-serving, and LISA contributions.
           </p>
         </div>
         <div>
           <h3 class="accent" style="font-size: 1.3rem">Frameworks</h3>
           <p class="small" style="margin-top: .4rem">
-            Lottery LLM hypothesis, agent-memory taxonomy — the conceptual scaffolding others can build on.
+            Energy-to-token evaluation and agent-memory taxonomy — conceptual scaffolding others can build on.
           </p>
         </div>
       </div>
@@ -645,8 +641,9 @@
           <span class="pill">Direction A</span>
           <h3 style="margin-top: 1rem">Long-horizon agent memory</h3>
           <p style="margin-top: .8rem">
-            KV cache solved per-call cost. Persistent agent memory is the
-            next O(N²). I'm extending the ChunkKV idea into a
+            KV-cache optimization reduces per-request inference cost.
+            Persistent memory introduces a new scaling bottleneck across
+            interactions. I'm extending the ChunkKV idea into a
             <em class="italic">tiered representation</em> — token / latent /
             parameter — under a single management interface.
           </p>
