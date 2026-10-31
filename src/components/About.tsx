@@ -11,9 +11,7 @@ export const About: React.FC = () => {
       id: 1,
       content: (
         <>
-          I study efficient and reliable large language models, with a focus on
-          token-efficient reasoning, long-context inference, evaluation,
-          retrieval, and agentic systems.
+          My research focuses on accelerating the arrival of AGI.
         </>
       ),
     },

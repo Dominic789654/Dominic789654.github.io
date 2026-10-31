@@ -122,9 +122,7 @@ export const Header: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="mt-5 max-w-2xl font-serif text-sm md:text-base leading-7 text-ink-2 dark:text-[#D5D0C6]"
             >
-              I work on efficient and reliable large language models, especially
-              token-efficient inference, long-context evaluation, retrieval, and
-              agentic workflows.
+              My research focuses on accelerating the arrival of AGI.
             </motion.p>
 
             <motion.div
