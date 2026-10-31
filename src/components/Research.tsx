@@ -7,10 +7,7 @@ export const Research: React.FC = () => {
       <SectionTitle icon="🌋" title="Research Interests" />
       <div className="mt-4 font-serif text-lg text-ink-2 dark:text-[#D5D0C6] leading-relaxed">
         <p>
-          My research focuses on natural language processing and machine
-          learning, especially efficient LLM inference, long-context modeling,
-          retrieval, and agentic systems. I aim to build language models that
-          are reliable, efficient, and useful in everyday workflows.
+          My research focuses on accelerating the arrival of AGI.
         </p>
       </div>
     </section>
