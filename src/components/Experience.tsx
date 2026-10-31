@@ -16,10 +16,16 @@ export const Experience: React.FC = () => {
 
   const experiences: ExperienceItem[] = [
     {
+      id: 6,
+      organization: "UniPat",
+      period: "07/2026–Present",
+      description: "Algorithm Research Intern."
+    },
+    {
       id: 5,
       organization: "Mind Lab",
       url: "https://macaron.im/mindlab",
-      period: "04/2026–Present",
+      period: "04/2026–07/2026",
       description: "Research Intern (Remote). Post-trained GLM-5.1 and Qwen3.6 35B for tool use and code generation, improving agent capability on ViTaBench, PinchBench, Tau3Bench, SWE-Bench, and Terminal2Bench; strengthened model harness for long-horizon tool calling and code execution. Co-authored δ-mem, MinT, and the Macaron v1 technical report."
     },
     {
@@ -38,7 +44,7 @@ export const Experience: React.FC = () => {
     },
     {
       id: 3,
-      organization: "HKUST",
+      organization: "HKUST Statistics and Machine Learning Research Group",
       url: "https://hkust.edu.hk/",
       period: "12/2022–08/2023",
       description: "Research Intern, supervised by Prof. Tong Zhang"

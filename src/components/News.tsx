@@ -15,6 +15,91 @@ export const News: React.FC = () => {
 
   const newsItems: NewsItem[] = [
     {
+      id: -8,
+      date: "2026",
+      content: (
+        <>
+          δ-mem was accepted to NeurIPS 2026. Read the{` `}
+          <a
+            href="https://arxiv.org/abs/2605.12357"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            paper
+          </a>
+          .
+        </>
+      ),
+      isNew: true,
+    },
+    {
+      id: -7,
+      date: "2026",
+      content:
+        "The LLM Agent Memory survey was accepted to AACL-IJCNLP 2026.",
+      isNew: true,
+    },
+    {
+      id: -6,
+      date: "Oct 2026",
+      content: (
+        <>
+          NestedKV was accepted to EMNLP 2026 (main conference, poster). Read the{` `}
+          <a
+            href="https://aclanthology.org/2026.emnlp-main.462/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            paper
+          </a>
+          .
+        </>
+      ),
+      isNew: true,
+    },
+    {
+      id: -5,
+      date: "Oct 2026",
+      content: (
+        <>
+          CondenseVLM was accepted to EMNLP 2026 (main conference, poster). Read the{` `}
+          <a
+            href="https://aclanthology.org/2026.emnlp-main.771/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            paper
+          </a>
+          .
+        </>
+      ),
+      isNew: true,
+    },
+    {
+      id: -4,
+      date: "Oct 2026",
+      content: (
+        <>
+          EVOQUANT was accepted to FinNLP 2026 (EMNLP workshop, poster). Read the{` `}
+          <a
+            href="https://aclanthology.org/2026.finnlp-1.60/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            paper
+          </a>
+          .
+        </>
+      ),
+      isNew: true,
+    },
+    {
+      id: -2,
+      date: "Jul 2026",
+      content: "Started as an Algorithm Research Intern at UniPat.",
+      isNew: true,
+    },
+    {
       id: -1,
       date: "Jun 2026",
       content: (

@@ -54,6 +54,8 @@ const TOPIC_OF: Record<number, (typeof TOPICS)[number]> = {
   44: "Memory, Agents & Retrieval",
   43: "Memory, Agents & Retrieval",
   38: "Memory, Agents & Retrieval",
+  47: "Model Compression & Efficient Training",
+  48: "Domain Applications",
   35: "Memory, Agents & Retrieval",
   13: "Memory, Agents & Retrieval",
   // Domain Applications
@@ -185,16 +187,6 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
 
   const preprints = [
     {
-      id: 46,
-      title: "NestedKV: Nested Memory Routing for Long-Context KV Cache Compression",
-      authors:
-        "Hong Chen, Xiang Liu, Yubo Gao, Yuxuan Fan, Bo Wang, Yuanlin Chu, Yuanguo Lin, Xuming Hu",
-      venue: "arXiv preprint",
-      links: {
-        paper: "https://arxiv.org/abs/2605.26678",
-      },
-    },
-    {
       id: 45,
       title: "Macaron v1 Technical Report (Preview)",
       authors: "Mind Lab Team — …, Xiang Liu, … (Macaron AI)",
@@ -214,27 +206,6 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
         paper: "https://arxiv.org/abs/2605.11733",
         code: "https://github.com/Dominic789654/energy-to-token",
         blog: "https://dominic789654.github.io/energy-to-token/",
-      },
-    },
-    {
-      id: 43,
-      title: "δ-mem: Efficient Online Memory for Large Language Models",
-      authors:
-        "Jingdi Lei, Di Zhang, Junxian Li, Weida Wang, Kaixuan Fan, Xiang Liu, Qihan Liu, Xiaoteng Ma, Baian Chen, Soujanya Poria",
-      venue: "arXiv preprint",
-      links: {
-        paper: "https://arxiv.org/abs/2605.12357",
-      },
-    },
-    {
-      id: 38,
-      title:
-        "LLM Agent Memory: A Survey from a Unified Representation–Management Perspective",
-      authors:
-        "Zhenheng Tang, Xin He, Tiancheng Zhao, Fanjunduo Wei, Xiang Liu, Peijie Dong, Qian Wang, Qi Li, Huacan Wang, Ronghao Chen, Sen Hu, Weidong Guo, Yu Xu, Haolan Chen, Kunfeng Lai, Kaiyong Zhao, Keyan Ding, Ivor W. Tsang, Yew-Soon Ong, Bo Li, Xiaowen Chu",
-      venue: "Preprints, 2026",
-      links: {
-        paper: "https://www.preprints.org/manuscript/202603.0359/v1",
       },
     },
     {
@@ -320,9 +291,32 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
       title: "NestedKV: Nested Memory Routing for Long-Context KV Cache Compression",
       authors:
         "Hong Chen, Xiang Liu, Yubo Gao, Yuxuan Fan, Bo Wang, Yuanlin Chu, Yuanguo Lin, Xuming Hu",
-      venue: "arXiv preprint",
+      venue: "EMNLP 2026 Main, Poster",
       links: {
-        paper: "https://arxiv.org/abs/2605.26678",
+        paper: "https://aclanthology.org/2026.emnlp-main.462/",
+        code: "https://github.com/ChenHong30/NestedKV",
+      },
+    },
+    {
+      id: 47,
+      title:
+        "From Saliency Ranking to Evidence Preservation: Visual Token Condensation for Efficient Multimodal Reasoning",
+      authors:
+        "Xin Zou, Di Lu, Yibo Yan, Shuliang Liu, Yizhou Wang, Xiang Liu, Linfeng Zhang, Xuming Hu",
+      venue: "EMNLP 2026 Main, Poster",
+      links: {
+        paper: "https://aclanthology.org/2026.emnlp-main.771/",
+      },
+    },
+    {
+      id: 48,
+      title:
+        "EVOQUANT: Self-Evolving Verifier-Guided Strategy Optimization for Robust Quantitative Trading",
+      authors:
+        "Jie Mao, Changlun Li, Xiang Li, Qiqi Duan, Jinhui Yuan, Xiang Liu, Yuyu Luo, Jing Tang, Nan Tang",
+      venue: "FinNLP 2026 (EMNLP Workshop), Poster",
+      links: {
+        paper: "https://aclanthology.org/2026.finnlp-1.60/",
       },
     },
     {
@@ -372,10 +366,11 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
       id: 43,
       title: "δ-mem: Efficient Online Memory for Large Language Models",
       authors:
-        "Jingdi Lei, Di Zhang, Junxian Li, Weida Wang, Kaixuan Fan, Xiang Liu, Qihan Liu, Xiaoteng Ma, Baian Chen, Soujanya Poria",
-      venue: "arXiv preprint",
+        "Jingdi Lei*, Di Zhang*, Junxian Li, Weida Wang, Kaixuan Fan, Xiang Liu, Qihan Liu, Xiaoteng Ma, Baian Chen, Soujanya Poria",
+      venue: "NeurIPS 2026",
       links: {
         paper: "https://arxiv.org/abs/2605.12357",
+        code: "https://github.com/declare-lab/delta-Mem",
       },
     },
     {
@@ -394,10 +389,10 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
       title:
         "LLM Agent Memory: A Survey from a Unified Representation–Management Perspective",
       authors:
-        "Zhenheng Tang, Xin He, Tiancheng Zhao, Fanjunduo Wei, Xiang Liu, Peijie Dong, Qian Wang, Qi Li, Huacan Wang, Ronghao Chen, Sen Hu, Weidong Guo, Yu Xu, Haolan Chen, Kunfeng Lai, Kaiyong Zhao, Keyan Ding, Ivor W. Tsang, Yew-Soon Ong, Bo Li, Xiaowen Chu",
-      venue: "Preprints, 2026",
+        "Zhenheng Tang*, Xin He*, Tiancheng Zhao*, Fanjunduo Wei*, Xiang Liu, Peijie Dong, Qian Wang, Qi Li, Huacan Wang, Ronghao Chen, Sen Hu, Weidong Guo, Yu Xu, Haolan Chen, Kunfeng Lai, Kaiyong Zhao, Keyan Ding, Ivor W. Tsang, Yew-Soon Ong, Bo Li, Xiaowen Chu",
+      venue: "AACL-IJCNLP 2026",
       links: {
-        paper: "https://www.preprints.org/manuscript/202603.0359/v1",
+        paper: "https://www.preprints.org/manuscript/202603.0359/v2",
       },
     },
     {

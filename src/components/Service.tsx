@@ -9,6 +9,11 @@ export const Service: React.FC = () => {
 
   const services = [
     {
+      id: 3,
+      title: "Area Chair",
+      items: "NAACL 2027 Area Chair (ARR Oct)"
+    },
+    {
       id: 1,
       title: "Conference Reviewer",
       items: "ICLR 2025-2026, ICML 2025-2026, ACL 2024-2026, NeurIPS 2024-2026, EMNLP 2023-2026, COLM 2026, AAAI 2026"

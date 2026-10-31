@@ -18,7 +18,7 @@ const HIGHLIGHTS = [
   {
     title: "Macaron v1",
     description:
-      "Macaron v1 (Preview) released at Macaron AI Mind Lab, where I am a research intern.",
+      "Macaron v1 (Preview), from my research internship at Macaron AI Mind Lab.",
   },
   {
     title: "ICML 2026",

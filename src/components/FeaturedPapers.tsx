@@ -6,6 +6,7 @@ import macaronFig from '../assets/images/papers/macaron.png';
 import mindlabLogo from '../assets/images/papers/mindlab-logo.svg';
 import semanticIntegrityFig from '../assets/images/papers/semantic-integrity.png';
 import mdnFig from '../assets/images/papers/mdn.png';
+import nestedkvFig from '../assets/images/papers/nestedkv.png';
 import diffadaptFig from '../assets/images/papers/diffadapt.png';
 import reasoningServingFig from '../assets/images/papers/reasoning-serving.png';
 
@@ -52,6 +53,15 @@ const featured: FeaturedPaper[] = [
       'Delta linear attention is bottlenecked by stepwise momentum. MDN parallelizes the recurrence so long-context sequence modeling can keep momentum without serial decoding costs.',
     figure: mdnFig,
     link: 'https://arxiv.org/abs/2605.05838',
+  },
+  {
+    id: 'nestedkv',
+    title: 'NestedKV: Nested Memory Routing for Long-Context KV Cache Compression',
+    venue: 'EMNLP 2026 Main, Poster',
+    oneliner:
+      'Training-free KV cache compression that scores tokens against global, block-level, and recent key anchors, then routes high-surprise tokens to the strongest scale.',
+    figure: nestedkvFig,
+    link: 'https://aclanthology.org/2026.emnlp-main.462/',
   },
   {
     id: 'diffadapt',
@@ -160,7 +170,7 @@ export const FeaturedPapers: React.FC = () => {
     <section id="featured" className="py-8">
       <SectionTitle icon="✦" title="Featured Papers" />
       <div className="grid gap-6 md:gap-7 md:grid-cols-2">
-        {featured.slice(0, 3).map((paper, idx) => (
+        {featured.slice(0, 4).map((paper, idx) => (
           <PaperCard key={paper.id} paper={paper} index={idx} />
         ))}
       </div>
