@@ -35,22 +35,15 @@ export const News: React.FC = () => {
     {
       id: -7,
       date: "2026",
-      content:
-        "The LLM Agent Memory survey was accepted to AACL-IJCNLP 2026.",
-      isNew: true,
-    },
-    {
-      id: -6,
-      date: "Oct 2026",
       content: (
         <>
-          NestedKV was accepted to EMNLP 2026 (main conference, poster). Read the{` `}
+          The LLM Agent Memory survey was accepted to AACL-IJCNLP 2026. Read the{` `}
           <a
-            href="https://aclanthology.org/2026.emnlp-main.462/"
+            href="https://www.preprints.org/manuscript/202603.0359/v2"
             target="_blank"
             rel="noopener noreferrer"
           >
-            paper
+            preprint
           </a>
           .
         </>
@@ -58,19 +51,26 @@ export const News: React.FC = () => {
       isNew: true,
     },
     {
-      id: -5,
+      id: -6,
       date: "Oct 2026",
       content: (
         <>
-          CondenseVLM was accepted to EMNLP 2026 (main conference, poster). Read the{` `}
+          <a
+            href="https://aclanthology.org/2026.emnlp-main.462/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            NestedKV
+          </a>
+          {` and `}
           <a
             href="https://aclanthology.org/2026.emnlp-main.771/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            paper
+            CondenseVLM
           </a>
-          .
+          {` were accepted to EMNLP 2026 (main conference, poster).`}
         </>
       ),
       isNew: true,
@@ -94,9 +94,21 @@ export const News: React.FC = () => {
       isNew: true,
     },
     {
+      id: -9,
+      date: "Oct 2026",
+      content: "NAACL 2027 Area Chair (ARR Oct).",
+      isNew: true,
+    },
+    {
       id: -2,
       date: "Jul 2026",
       content: "Started as an Algorithm Research Intern at UniPat.",
+      isNew: true,
+    },
+    {
+      id: -10,
+      date: "Jul 2026",
+      content: "Research internship at Mind Lab / Macaron AI ended.",
       isNew: true,
     },
     {
@@ -115,7 +127,7 @@ export const News: React.FC = () => {
           🥐
         </>
       ),
-      isNew: true,
+      isNew: false,
     },
     {
       id: 0,
@@ -134,14 +146,14 @@ export const News: React.FC = () => {
           ⚡
         </>
       ),
-      isNew: true,
+      isNew: false,
     },
     {
       id: 1,
       date: "May 2026",
       content:
         "Two papers accepted by ICML 2026: Semantic Integrity Matters and MDN! See you in Seoul! 🎉",
-      isNew: true,
+      isNew: false,
     },
     {
       id: 2,
