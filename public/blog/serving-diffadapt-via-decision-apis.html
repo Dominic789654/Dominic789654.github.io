@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Serving DiffAdapt via Decision APIs — Xiang Liu</title>
+  <meta name="description" content="Research note on serving DiffAdapt through decision APIs. No new experiments are claimed." />
+  <meta name="author" content="Xiang Liu" />
+  <link rel="canonical" href="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.html" />
+  <link rel="alternate" hreflang="en" href="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.html" />
+  <link rel="alternate" hreflang="zh-Hans" href="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.zh.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Serving DiffAdapt via Decision APIs" />
+  <meta property="og:description" content="A research note on difficulty-adaptive controllers inside LLM serving. Not an empirical paper." />
+  <meta property="og:url" content="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.html" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Noto+Serif+SC:wght@400;500;600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./note.css" />
+  <script>
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search).get("theme");
+        var saved = localStorage.getItem("theme");
+        var theme = q === "light" || q === "dark" ? q
+          : saved === "light" || saved === "dark" ? saved
+          : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.dataset.theme = theme;
+        if (theme === "dark") document.documentElement.classList.add("dark");
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#note">Skip to note</a>
+  <div class="progress" aria-hidden="true"><span id="read-bar"></span></div>
+  <header class="mast">
+    <div class="mast-inner">
+      <a class="brand" href="../">Xiang Liu</a>
+      <span class="slash" aria-hidden="true">/</span>
+      <a class="crumb" href="../#blog">Blog</a>
+      <span class="mast-spacer"></span>
+      <nav class="langs" aria-label="Language">
+        <a href="./serving-diffadapt-via-decision-apis.html" hreflang="en" aria-current="page">EN</a>
+        <a href="./serving-diffadapt-via-decision-apis.zh.html" hreflang="zh-Hans" lang="zh-Hans">中文</a>
+      </nav>
+      <button class="theme" id="theme" type="button" aria-label="Switch color theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="frame">
+    <nav class="toc" aria-label="Contents">
+      <p class="toc-label">Contents</p>
+      <ol>
+        <li><a href="#diffadapt">What DiffAdapt already shows</a></li>
+        <li><a href="#decisions">What decision APIs change</a></li>
+        <li><a href="#middleware">The missing middleware</a></li>
+        <li><a href="#directions">Open directions</a></li>
+        <li><a href="#caveats">Caveats</a></li>
+        <li><a href="#references">References</a></li>
+      </ol>
+    </nav>
+
+    <header class="titleblock">
+      <h1>Serving DiffAdapt via Decision APIs</h1>
+      <p class="sub">Research note · draft · Xiang Liu · Oct 2026</p>
+    </header>
+
+    <article class="prose" id="note">
+      <p class="lede">Test-time compute—chain-of-thought, long thinking traces, search—has become a first-class lever for LLM reasoning (<a href="https://arxiv.org/abs/2201.11903" target="_blank" rel="noopener noreferrer">Wei et al., 2022</a>; <a href="https://arxiv.org/abs/2408.03314" target="_blank" rel="noopener noreferrer">Snell et al., 2024</a>; <a href="https://lilianweng.github.io/posts/2025-05-01-thinking/" target="_blank" rel="noopener noreferrer">Weng, 2025</a>). More thinking is not uniformly better: models overthink easy problems, burn tokens on traces that do not change the answer, and create stragglers under shared serving (<a href="https://arxiv.org/abs/2503.16419" target="_blank" rel="noopener noreferrer">Sui et al., 2025</a>; <a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>).</p>
+
+      <p>Two recent threads suggest a cleaner control loop. <strong>DiffAdapt</strong> allocates Easy / Normal / Hard inference strategies from a lightweight probe on prefill hidden states (<a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">Liu et al., 2025</a>). <strong>Decision interfaces</strong>—TypeSafe’s System One / Jev (<a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>; <a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe blog</a>) and SGLang’s <code>/v1/decisions</code> (plus <code>/v1/systemone</code>) (<a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang docs</a>)—turn typed questions into label probabilities with <strong>no text generation</strong>. This note sketches how those pieces fit. <strong>No new experiments are claimed</strong>; open directions only.</p>
+
+      <h2 id="diffadapt">What DiffAdapt already shows</h2>
+      <p>Across reasoning models, token-level entropy of traces forms a <strong>U-shape</strong> over problem difficulty: high entropy on easy items despite high accuracy (overthinking), low entropy in a mid band, high entropy again on hard items (about 22–25% entropy drop from easy to mid). DiffAdapt maps that onto three fixed strategies (prompt + temperature + max tokens) via a small MLP on the last-layer prefill state—<strong>no LLM fine-tune</strong>. On five models and eight benchmarks it matches or improves accuracy while cutting tokens by up to <strong>22.4%</strong> (<a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">Liu et al., 2025</a>; ICLR 2026).</p>
+      <p>Limitations the paper flags: routing is <strong>prefill-only</strong>; strategy labels come from a proxy sampling protocol; aggressive Easy budgets can truncate rare cases (~2% truncation in their LLM-as-judge check).</p>
+
+      <h2 id="decisions">What decision APIs change</h2>
+      <p>Per <a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang’s decision-models docs</a> (checked Oct 2026):</p>
+      <ul class="rules">
+        <li><code>POST /v1/decisions</code> scores <code>choice</code> / <code>score</code> / <code>yes_no</code> from next-token scores at answer labels; <strong>completion tokens = 0</strong>; returns <code>probabilities</code>, and <code>label_mass</code> (full-vocab mass on the offered labels). Thinking is forced off.</li>
+        <li><code>POST /v1/systemone</code> mirrors the System One request shape (<code>noul</code> / <code>choice</code> / <code>score</code>) for TypeSafe-compatible clients; for ordinary chat models it uses the same scoring path. Decision checkpoints (e.g. Jev-style) use their own calibrated path.</li>
+        <li>Docs emphasize: returned probabilities are <strong>not</strong> calibrated correctness—validate thresholds on labeled data.</li>
+      </ul>
+      <p><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>: System One models return typed decisions (Choice / Score / Noul) rather than free text; <strong>Jev</strong> is their flagship. <a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a> reports Jev stronger on content judgments than on predicting other systems’ behavior, and that in their H200 ShareGPT replay, length-aware scheduling with Jev raised SLO attainment sharply (blog summary: 75%→99%; P90 TTFT 8.3 s→0.17 s under the reported load). Not re-run here.</p>
+      <p>Engine asymmetry: <strong>SGLang documents <code>/v1/decisions</code> today</strong>; a portable DiffAdapt×decision stack is SGLang-native unless the surface is ported.</p>
+
+      <h2 id="middleware">The missing middleware</h2>
+      <p>DiffAdapt decides <em>how hard to think</em>. Decision APIs decide <em>structured facts about the request</em> at admission (and, in principle, mid-generation via <code>/v1/score</code>). Serving still mostly uses fixed rules for priority, max tokens, speculative depth, and KV reservation—despite evidence that reasoning workloads straggle when difficulty is unmodeled (<a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>).</p>
+      <blockquote class="hypothesis"><strong>Hypothesis:</strong> pack Easy/Normal/Hard (plus “think?”, expected length) as one decision call; feed the result into the scheduler—DiffAdapt’s control signal without a custom probe path, or as a calibrated complement to the probe.</blockquote>
+
+      <h2 id="directions">Open directions (not yet run)</h2>
+      <h3>1. Decision-native DiffAdapt</h3>
+      <p>Replace or ablate the MLP probe with <code>/v1/decisions</code>: <code>choice</code> over Easy/Normal/Hard, optional <code>score</code> for length, <code>yes_no</code> for thinking. Gate with <code>label_mass</code> (low mass → escalate to Normal). Reuse DiffAdapt Stage-1 labels where available.</p>
+      <h3>2. Difficulty-aware serving</h3>
+      <p>Map decision outputs → <code>max_tokens</code>, think on/off, speculative aggressiveness, KV / priority. Evaluate accuracy, goodput, P90 TTFT, peak KV—aligned with JevServe’s length-prediction story and DiffAdapt’s token savings (<a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>).</p>
+      <h3>3. Online re-decide</h3>
+      <p>After <em>k</em> tokens or an entropy spike, re-ask continue / early-stop / upgrade (prefer Easy→Normal upgrades). Compare to early-exit CoT (<a href="https://arxiv.org/abs/2504.15895" target="_blank" rel="noopener noreferrer">Yang et al., 2025</a>).</p>
+      <h3>4. Bake-off</h3>
+      <p>Probe vs chat-model <code>/v1/decisions</code> vs Jev on the same difficulty labels, especially OOD (math → MMLU-Pro / GPQA).</p>
+      <p class="close">If one paper: <strong>Serving DiffAdapt via Decision APIs</strong>—adaptive strategies + admission control on a standardized decision surface.</p>
+
+      <h2 id="caveats">Caveats</h2>
+      <ul class="clean">
+        <li>Do not treat <code>label_mass</code> / System One <code>confidence</code> as calibrated correctness (<a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang</a>; <a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>).</li>
+        <li>Mid-decode decisions must fit engine latency budgets; gateway-time decisions are the easy win today (<a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a>).</li>
+        <li>Claims about DiffAdapt numbers and JevServe SLO figures are from the cited sources only; this note adds no new measurements.</li>
+      </ul>
+
+      <h2 id="references">References (selected)</h2>
+      <ol class="refs">
+        <li>Liu et al. <a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">DiffAdapt</a>. arXiv:2510.19669, 2025 (ICLR 2026).</li>
+        <li><a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang Decision models</a> (docs checked Oct 2026).</li>
+        <li><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe System One / Jev</a>.</li>
+        <li>SSAIL Lab. <a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">Rethinking LLM Serving with System One Models</a>.</li>
+        <li>Weng. <a href="https://lilianweng.github.io/posts/2025-05-01-thinking/" target="_blank" rel="noopener noreferrer">Why We Think</a>. Lil’Log, 2025.</li>
+        <li>Snell et al. <a href="https://arxiv.org/abs/2408.03314" target="_blank" rel="noopener noreferrer">Scaling LLM test-time compute</a>. 2024.</li>
+        <li>Wei et al. <a href="https://arxiv.org/abs/2201.11903" target="_blank" rel="noopener noreferrer">Chain-of-thought prompting</a>. NeurIPS 2022.</li>
+        <li>Sui et al. <a href="https://arxiv.org/abs/2503.16419" target="_blank" rel="noopener noreferrer">Stop overthinking (survey)</a>. 2025.</li>
+        <li>Li et al. <a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Reasoning LM inference serving unveiled</a>. 2025.</li>
+        <li>Yang et al. <a href="https://arxiv.org/abs/2504.15895" target="_blank" rel="noopener noreferrer">DEER</a>. 2025.</li>
+        <li>Kwon et al. <a href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener noreferrer">vLLM / PagedAttention</a>. SOSP 2023.</li>
+        <li>Zheng et al. <a href="https://arxiv.org/abs/2312.07104" target="_blank" rel="noopener noreferrer">SGLang</a>. 2024.</li>
+      </ol>
+    </article>
+
+    <footer class="colophon">
+      <p><a href="./serving-diffadapt-via-decision-apis.zh.html" hreflang="zh-Hans" lang="zh-Hans">中文版</a> · Homepage note for <a href="https://dominic789654.github.io/">Xiang Liu</a>. Open research notes — not an empirical paper.</p>
+    </footer>
+  </div>
+  <script src="./note.js"></script>
+</body>
+</html>

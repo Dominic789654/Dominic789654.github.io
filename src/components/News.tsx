@@ -17,6 +17,21 @@ export const News: React.FC = () => {
 
   const newsItems: NewsItem[] = [
     {
+      id: -12,
+      date: "Oct 2026",
+      content: (
+        <>
+          Opened a <a href="#blog">Blog</a>, starting with a research note on
+          Serving DiffAdapt via Decision APIs ({""}
+          <a href="blog/serving-diffadapt-via-decision-apis.html">English</a>
+          {" · "}
+          <a href="blog/serving-diffadapt-via-decision-apis.zh.html" lang="zh-Hans">中文</a>
+          ).
+        </>
+      ),
+      isNew: true,
+    },
+    {
       id: -8,
       date: "2026",
       content: (

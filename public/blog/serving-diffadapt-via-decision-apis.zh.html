@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>用 Decision API 承载 DiffAdapt — 刘翔</title>
+  <meta name="description" content="研究札记：用 decision API 承载 DiffAdapt。不宣称新实验。" />
+  <meta name="author" content="Xiang Liu" />
+  <link rel="canonical" href="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.zh.html" />
+  <link rel="alternate" hreflang="en" href="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.html" />
+  <link rel="alternate" hreflang="zh-Hans" href="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.zh.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="用 Decision API 承载 DiffAdapt" />
+  <meta property="og:description" content="研究札记，非正式论文。不宣称新实验。" />
+  <meta property="og:url" content="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.zh.html" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Noto+Serif+SC:wght@400;500;600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./note.css" />
+  <script>
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search).get("theme");
+        var saved = localStorage.getItem("theme");
+        var theme = q === "light" || q === "dark" ? q
+          : saved === "light" || saved === "dark" ? saved
+          : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.dataset.theme = theme;
+        if (theme === "dark") document.documentElement.classList.add("dark");
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#note">跳到正文</a>
+  <div class="progress" aria-hidden="true"><span id="read-bar"></span></div>
+  <header class="mast">
+    <div class="mast-inner">
+      <a class="brand" href="../">Xiang Liu</a>
+      <span class="slash" aria-hidden="true">/</span>
+      <a class="crumb" href="../#blog">Blog</a>
+      <span class="mast-spacer"></span>
+      <nav class="langs" aria-label="语言">
+        <a href="./serving-diffadapt-via-decision-apis.html" hreflang="en">EN</a>
+        <a href="./serving-diffadapt-via-decision-apis.zh.html" hreflang="zh-Hans" lang="zh-Hans" aria-current="page">中文</a>
+      </nav>
+      <button class="theme" id="theme" type="button" aria-label="切换配色">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="frame">
+    <nav class="toc" aria-label="目录">
+      <p class="toc-label">目录</p>
+      <ol>
+        <li><a href="#diffadapt">DiffAdapt 已给出的结论</a></li>
+        <li><a href="#decisions">Decision API 改变了什么</a></li>
+        <li><a href="#middleware">缺失的中间件</a></li>
+        <li><a href="#directions">开放方向</a></li>
+        <li><a href="#caveats">注意事项</a></li>
+        <li><a href="#references">精选引用</a></li>
+      </ol>
+    </nav>
+
+    <header class="titleblock">
+      <h1>用 Decision API 承载 DiffAdapt</h1>
+      <p class="sub">研究札记 · 草稿 · 刘翔 · 2026 年 10 月</p>
+    </header>
+
+    <article class="prose" id="note">
+      <p class="lede">测试时算力（思维链、长思考轨迹、搜索）已成为 LLM 推理的一等杠杆（<a href="https://arxiv.org/abs/2201.11903" target="_blank" rel="noopener noreferrer">Wei et al., 2022</a>；<a href="https://arxiv.org/abs/2408.03314" target="_blank" rel="noopener noreferrer">Snell et al., 2024</a>；<a href="https://lilianweng.github.io/posts/2025-05-01-thinking/" target="_blank" rel="noopener noreferrer">Weng, 2025</a>）。更多思考并不总更好：模型会在简单题上过度思考、烧掉并不改答案的 token，并在共享 serving 下制造长尾（<a href="https://arxiv.org/abs/2503.16419" target="_blank" rel="noopener noreferrer">Sui et al., 2025</a>；<a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>）。</p>
+
+      <p>两条近期线索指向更干净的控制环路。<strong>DiffAdapt</strong> 用轻量探针读 prefill 隐状态，为每题选择 Easy / Normal / Hard 推理策略（<a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">Liu et al., 2025</a>）。<strong>Decision 接口</strong>——TypeSafe 的 System One / Jev（<a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>；<a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe 博客</a>）与 SGLang 的 <code>/v1/decisions</code>（及 <code>/v1/systemone</code>）（<a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang 文档</a>）——把带类型的问题变成标签概率，<strong>不生成任何文本</strong>。本文勾勒二者如何拼合。<strong>不宣称新实验</strong>；以下仅为开放方向。</p>
+
+      <h2 id="diffadapt">DiffAdapt 已给出的结论</h2>
+      <p>在多款推理模型上，轨迹 token 熵对题目难度呈 <strong>U 形</strong>：简单题高熵却高正确率（过度思考）、中等难度低熵、难题高熵（约自简单到中等下降 22–25%）。DiffAdapt 用最后一层 prefill 隐状态上的小型 MLP，映射到三套固定策略（prompt + temperature + max tokens）——<strong>不微调基座 LLM</strong>。五模型、八基准上准确率持平或提升，token 最多减少约 <strong>22.4%</strong>（<a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">Liu et al., 2025</a>；ICLR 2026）。</p>
+      <p>论文自述局限：路由仅 <strong>prefill</strong>；策略标签来自代理采样协议；激进 Easy 预算偶发截断（其 LLM-as-judge 检查中约 2%）。</p>
+
+      <h2 id="decisions">Decision API 改变了什么</h2>
+      <p>据 <a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang decision-models 文档</a>（2026-10 核对）：</p>
+      <ul class="rules">
+        <li><code>POST /v1/decisions</code> 在答案标签位置用 next-token 分数回答 <code>choice</code> / <code>score</code> / <code>yes_no</code>；<strong>completion tokens = 0</strong>；返回 <code>probabilities</code> 与 <code>label_mass</code>（所给标签在全词表上的质量）。思考默认关闭。</li>
+        <li><code>POST /v1/systemone</code> 兼容 System One 请求形状（<code>noul</code> / <code>choice</code> / <code>score</code>）；普通 chat 模型走同一打分路径，决策专用 checkpoint（如 Jev 类）走各自校准路径。</li>
+        <li>文档明确：返回概率 <strong>不是</strong> 校准后的正确率——阈值需用标注数据验证。</li>
+      </ul>
+      <p><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>：System One 返回类型化决策（Choice / Score / Noul）而非自由文本；<strong>Jev</strong> 为其旗舰。<a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a> 报告 Jev 在内容判断上更强、在预测「其他系统会做什么」上较弱；在其 H200 ShareGPT 回放中，用 Jev 做长度感知调度使 SLO 达成率大幅上升（博客摘要：75%→99%；所报负载下 P90 TTFT 8.3 s→0.17 s）。本文未复现。</p>
+      <p>引擎不对称：<strong>SGLang 已文档化 <code>/v1/decisions</code></strong>；可移植的 DiffAdapt×decision 栈目前偏 SGLang-native，除非移植该接口。</p>
+
+      <h2 id="middleware">缺失的中间件</h2>
+      <p>DiffAdapt 决定 <em>该多认真想</em>。Decision API 在准入时（原则上也可在生成中段经 <code>/v1/score</code>）决定 <em>关于请求的结构化事实</em>。Serving 对优先级、max tokens、投机深度、KV 预留仍多靠固定规则——尽管难度未建模时推理负载易长尾（<a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>）。</p>
+      <blockquote class="hypothesis"><strong>假设：</strong>把 Easy/Normal/Hard（外加「是否 think」、期望长度）打成一次 decision 调用，结果喂给调度器——即 DiffAdapt 的控制信号，而不必单独部署探针，或作为探针的校准互补。</blockquote>
+
+      <h2 id="directions">开放方向（尚未跑）</h2>
+      <h3>1. Decision 原生 DiffAdapt</h3>
+      <p>用 <code>/v1/decisions</code> 替换或对照 MLP：<code>choice</code>∈{Easy,Normal,Hard}，可选 <code>score</code> 估长度、<code>yes_no</code> 控 think；低 <code>label_mass</code> 则升到 Normal。尽量复用 DiffAdapt Stage-1 标签。</p>
+      <h3>2. 难度感知 serving</h3>
+      <p>决策输出 → <code>max_tokens</code>、think 开关、投机激进程度、KV/优先级。评准确率、goodput、P90 TTFT、峰值 KV——对齐 JevServe 长度预测叙事与 DiffAdapt 的 token 节省（<a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>）。</p>
+      <h3>3. 在线重决策</h3>
+      <p>生成 <em>k</em> token 或熵尖峰后再问 continue / early-stop / 升级（优先 Easy→Normal）。对照早期退出 CoT（<a href="https://arxiv.org/abs/2504.15895" target="_blank" rel="noopener noreferrer">Yang et al., 2025</a>）。</p>
+      <h3>4. Bake-off</h3>
+      <p>探针 vs chat <code>/v1/decisions</code> vs Jev，同难度标签，尤其 OOD（数学 → MMLU-Pro / GPQA）。</p>
+      <p class="close">若成文一篇：<strong>Serving DiffAdapt via Decision APIs</strong>——自适应策略 + 准入控制，落在标准 decision 接口上。</p>
+
+      <h2 id="caveats">注意事项</h2>
+      <ul class="clean">
+        <li>勿将 <code>label_mass</code> / System One <code>confidence</code> 当作校准正确率（<a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang</a>；<a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>）。</li>
+        <li>解码中决策须贴合引擎时延预算；网关侧决策是今日易赢点（<a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a>）。</li>
+        <li>DiffAdapt 数字与 JevServe SLO 数字均仅引自原文；本文无新测。</li>
+      </ul>
+
+      <h2 id="references">精选引用</h2>
+      <p>与英文版同一列表，链接相同。</p>
+      <ol class="refs">
+        <li>Liu et al. <a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">DiffAdapt</a>. arXiv:2510.19669, 2025 (ICLR 2026).</li>
+        <li><a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang Decision models</a> (docs checked Oct 2026).</li>
+        <li><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe System One / Jev</a>.</li>
+        <li>SSAIL Lab. <a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">Rethinking LLM Serving with System One Models</a>.</li>
+        <li>Weng. <a href="https://lilianweng.github.io/posts/2025-05-01-thinking/" target="_blank" rel="noopener noreferrer">Why We Think</a>. Lil’Log, 2025.</li>
+        <li>Snell et al. <a href="https://arxiv.org/abs/2408.03314" target="_blank" rel="noopener noreferrer">Scaling LLM test-time compute</a>. 2024.</li>
+        <li>Wei et al. <a href="https://arxiv.org/abs/2201.11903" target="_blank" rel="noopener noreferrer">Chain-of-thought prompting</a>. NeurIPS 2022.</li>
+        <li>Sui et al. <a href="https://arxiv.org/abs/2503.16419" target="_blank" rel="noopener noreferrer">Stop overthinking (survey)</a>. 2025.</li>
+        <li>Li et al. <a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Reasoning LM inference serving unveiled</a>. 2025.</li>
+        <li>Yang et al. <a href="https://arxiv.org/abs/2504.15895" target="_blank" rel="noopener noreferrer">DEER</a>. 2025.</li>
+        <li>Kwon et al. <a href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener noreferrer">vLLM / PagedAttention</a>. SOSP 2023.</li>
+        <li>Zheng et al. <a href="https://arxiv.org/abs/2312.07104" target="_blank" rel="noopener noreferrer">SGLang</a>. 2024.</li>
+      </ol>
+    </article>
+
+    <footer class="colophon">
+      <p><a href="./serving-diffadapt-via-decision-apis.html" hreflang="en">English</a> · <a href="https://dominic789654.github.io/">主页</a> 研究札记，非正式论文。</p>
+    </footer>
+  </div>
+  <script src="./note.js"></script>
+</body>
+</html>
