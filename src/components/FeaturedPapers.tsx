@@ -2,11 +2,13 @@ import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
 import { SectionTitle } from './SectionTitle';
+import dmemFig from '../assets/images/papers/dmem.png';
+import nestedkvFig from '../assets/images/papers/nestedkv.png';
+import condenseFig from '../assets/images/papers/condensevlm.png';
 import macaronFig from '../assets/images/papers/macaron.png';
 import mindlabLogo from '../assets/images/papers/mindlab-logo.svg';
 import semanticIntegrityFig from '../assets/images/papers/semantic-integrity.png';
 import mdnFig from '../assets/images/papers/mdn.png';
-import nestedkvFig from '../assets/images/papers/nestedkv.png';
 import diffadaptFig from '../assets/images/papers/diffadapt.png';
 import reasoningServingFig from '../assets/images/papers/reasoning-serving.png';
 
@@ -23,11 +25,39 @@ interface FeaturedPaper {
 
 const featured: FeaturedPaper[] = [
   {
+    id: 'dmem',
+    title: 'δ-mem: Efficient Online Memory for Large Language Models',
+    venue: 'NeurIPS 2026',
+    oneliner:
+      'A compact online memory state on a frozen attention backbone, updated by a delta rule, for long-term assistants and agents.',
+    figure: dmemFig,
+    link: 'https://arxiv.org/abs/2605.12357',
+  },
+  {
+    id: 'nestedkv',
+    title: 'NestedKV: Nested Memory Routing for Long-Context KV Cache Compression',
+    venue: 'EMNLP 2026 Main, Poster',
+    oneliner:
+      'Training-free KV cache compression that scores tokens against global, block-level, and recent key anchors, then routes high-surprise tokens to the strongest scale.',
+    figure: nestedkvFig,
+    link: 'https://aclanthology.org/2026.emnlp-main.462/',
+  },
+  {
+    id: 'condensevlm',
+    title:
+      'From Saliency Ranking to Evidence Preservation: Visual Token Condensation for Efficient Multimodal Reasoning',
+    venue: 'EMNLP 2026 Main, Poster',
+    oneliner:
+      'CondenseVLM keeps salient, contextual, and spatially compatible visual evidence instead of ranking patches by a single saliency score.',
+    figure: condenseFig,
+    link: 'https://aclanthology.org/2026.emnlp-main.771/',
+  },
+  {
     id: 'macaron-v1',
     title: 'Macaron v1 (Preview): A Personal Agent for Everyday Life',
     venue: 'Macaron AI · 2026',
     oneliner:
-      'Built during my internship at Macaron AI Mind Lab. Macaron v1 is a personal agent for everyday life, achieving state-of-the-art results across agentic benchmarks including Macaron Livingbench, A2UI Bench, VitaBench, and PinchBench.',
+      'Built during my Mind Lab internship, which ended in July 2026. Macaron v1 is a personal agent for everyday life, with strong results on Macaron Livingbench, A2UI Bench, VitaBench, and PinchBench.',
     figure: macaronFig,
     link: 'https://macaron.im/mindlab/research/macaron-v1-preview',
     logo: mindlabLogo,
@@ -53,15 +83,6 @@ const featured: FeaturedPaper[] = [
       'Delta linear attention is bottlenecked by stepwise momentum. MDN parallelizes the recurrence so long-context sequence modeling can keep momentum without serial decoding costs.',
     figure: mdnFig,
     link: 'https://arxiv.org/abs/2605.05838',
-  },
-  {
-    id: 'nestedkv',
-    title: 'NestedKV: Nested Memory Routing for Long-Context KV Cache Compression',
-    venue: 'EMNLP 2026 Main, Poster',
-    oneliner:
-      'Training-free KV cache compression that scores tokens against global, block-level, and recent key anchors, then routes high-surprise tokens to the strongest scale.',
-    figure: nestedkvFig,
-    link: 'https://aclanthology.org/2026.emnlp-main.462/',
   },
   {
     id: 'diffadapt',

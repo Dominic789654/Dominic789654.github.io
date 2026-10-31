@@ -10,6 +10,8 @@ interface NewsItem {
 }
 
 export const News: React.FC = () => {
+  const FRONT_COUNT = 5;
+  const [showEarlier, setShowEarlier] = React.useState(false);
   const containerRef = React.useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
@@ -26,24 +28,6 @@ export const News: React.FC = () => {
             rel="noopener noreferrer"
           >
             paper
-          </a>
-          .
-        </>
-      ),
-      isNew: true,
-    },
-    {
-      id: -7,
-      date: "2026",
-      content: (
-        <>
-          The LLM Agent Memory survey was accepted to AACL-IJCNLP 2026. Read the{` `}
-          <a
-            href="https://www.preprints.org/manuscript/202603.0359/v2"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            preprint
           </a>
           .
         </>
@@ -94,22 +78,35 @@ export const News: React.FC = () => {
       isNew: true,
     },
     {
+      id: -2,
+      date: "Jul 2026",
+      content:
+        "Started as an Algorithm Research Intern at UniPat. Research internship at Mind Lab / Macaron AI ended.",
+      isNew: true,
+    },
+    {
       id: -9,
       date: "Oct 2026",
       content: "NAACL 2027 Area Chair (ARR Oct).",
       isNew: true,
     },
     {
-      id: -2,
-      date: "Jul 2026",
-      content: "Started as an Algorithm Research Intern at UniPat.",
-      isNew: true,
-    },
-    {
-      id: -10,
-      date: "Jul 2026",
-      content: "Research internship at Mind Lab / Macaron AI ended.",
-      isNew: true,
+      id: -7,
+      date: "2026",
+      content: (
+        <>
+          The LLM Agent Memory survey was accepted to AACL-IJCNLP 2026. Read the{` `}
+          <a
+            href="https://www.preprints.org/manuscript/202603.0359/v2"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            preprint
+          </a>
+          .
+        </>
+      ),
+      isNew: false,
     },
     {
       id: -1,
@@ -181,7 +178,7 @@ export const News: React.FC = () => {
       <SectionTitle icon="📰" title="What's New" />
       <div ref={containerRef} className="mt-4">
         <ul className="border-t border-rule dark:border-[#4A443C]">
-          {newsItems.map((item, idx) => (
+          {(showEarlier ? newsItems : newsItems.slice(0, FRONT_COUNT)).map((item, idx) => (
             <motion.li
               key={item.id}
               initial={{ opacity: 0, x: 40 }}
@@ -213,6 +210,18 @@ export const News: React.FC = () => {
             </motion.li>
           ))}
         </ul>
+        {newsItems.length > FRONT_COUNT && (
+          <button
+            type="button"
+            onClick={() => setShowEarlier((open) => !open)}
+            aria-expanded={showEarlier}
+            className="mt-4 font-mono text-xs text-accent dark:text-[#E89B7A] border-b border-dotted border-accent/40 dark:border-[#E89B7A]/40 hover:border-accent dark:hover:border-[#E89B7A]"
+          >
+            {showEarlier
+              ? "− Show fewer"
+              : `+ ${newsItems.length - FRONT_COUNT} earlier`}
+          </button>
+        )}
       </div>
     </section>
   );
