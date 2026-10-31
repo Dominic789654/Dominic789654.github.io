@@ -1,6 +1,7 @@
 import React from "react";
 import { SectionTitle } from "./SectionTitle";
 import { PublicationCard } from "./PublicationCard";
+import { summarizePublications } from "./publicationStats";
 
 interface PublicationsProps {
   part?: "selected" | "rest";
@@ -45,11 +46,13 @@ const TOPIC_OF: Record<number, (typeof TOPICS)[number]> = {
   10: "Model Compression & Efficient Training",
   21: "Model Compression & Efficient Training",
   // Evaluation & Benchmarks
+  50: "Evaluation & Benchmarks",
   42: "Evaluation & Benchmarks",
   23: "Evaluation & Benchmarks",
   34: "Evaluation & Benchmarks",
   16: "Evaluation & Benchmarks",
   // Memory, Agents & Retrieval
+  49: "Memory, Agents & Retrieval",
   45: "Memory, Agents & Retrieval",
   44: "Memory, Agents & Retrieval",
   43: "Memory, Agents & Retrieval",
@@ -187,7 +190,18 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
 
   const preprints = [
     {
+      id: 49,
+      title:
+        "Macaron-V1: Towards Open Continual Learning with Self-Improvement and Mixture-of-LoRA",
+      authors: "Mind Lab — Vin Bo, Asher Cai, …, Xiang Liu, …, Mindverse Team",
+      venue: "Technical Report, 2026 (arXiv)",
+      links: {
+        paper: "https://arxiv.org/abs/2608.09819",
+      },
+    },
+    {
       id: 45,
+      isPreview: true,
       title: "Macaron v1 Technical Report (Preview)",
       authors: "Mind Lab Team — …, Xiang Liu, … (Macaron AI)",
       venue: "Macaron AI Mind Lab Technical Report, 2026",
@@ -262,17 +276,6 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
       },
     },
     {
-      id: 13,
-      title:
-        "CAFES: A Collaborative Multi-Agent Framework for Multi-Granular Multimodal Essay Scoring",
-      authors:
-        "Jiamin Su, Yibo Yan, Zhuoran Gao, Han Zhang, Xiang Liu, Xuming Hu",
-      venue: "arXiv preprint",
-      links: {
-        paper: "https://arxiv.org/pdf/2505.13965",
-      },
-    },
-    {
       id: 17,
       title:
         "Mediator: Memory-efficient llm merging with less parameter conflicts and uncertainty based routing",
@@ -286,6 +289,17 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
   ];
 
   const fullPublications = [
+    {
+      id: 50,
+      title:
+        "Probing the Plasticity and Correlation of LLM Value Systems: LLM Value Rankings are Not Stable",
+      authors:
+        "Zhenheng Tang, Qihua Pan, Jingya Shen, Xiang Liu, Qian Wang, Bo Li, Xiaowen Chu",
+      venue: "ACL 2026 Findings",
+      links: {
+        paper: "https://aclanthology.org/2026.findings-acl.1715/",
+      },
+    },
     {
       id: 46,
       title: "NestedKV: Nested Memory Routing for Long-Context KV Cache Compression",
@@ -320,7 +334,18 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
       },
     },
     {
+      id: 49,
+      title:
+        "Macaron-V1: Towards Open Continual Learning with Self-Improvement and Mixture-of-LoRA",
+      authors: "Mind Lab — Vin Bo, Asher Cai, …, Xiang Liu, …, Mindverse Team",
+      venue: "Technical Report, 2026 (arXiv)",
+      links: {
+        paper: "https://arxiv.org/abs/2608.09819",
+      },
+    },
+    {
       id: 45,
+      isPreview: true,
       title: "Macaron v1 Technical Report (Preview)",
       authors: "Mind Lab Team — …, Xiang Liu, … (Macaron AI)",
       venue: "Macaron AI Mind Lab Technical Report, 2026",
@@ -519,10 +544,10 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
       title:
         "CAFES: A Collaborative Multi-Agent Framework for Multi-Granular Multimodal Essay Scoring",
       authors:
-        "Jiamin Su, Yibo Yan, Zhuoran Gao, Han Zhang, Xiang Liu, Xuming Hu",
-      venue: "arXiv preprint",
+        "Jiamin Su, Yibo Yan, Zhuoran Gao, Han Zhang, Xiang Liu, Huiyu Zhou, Xuming Hu",
+      venue: "ALVR 2026 Workshop",
       links: {
-        paper: "https://arxiv.org/pdf/2505.13965",
+        paper: "https://aclanthology.org/2026.alvr-main.10/",
       },
     },
     {
@@ -723,16 +748,7 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
     },
   ];
 
-  const conferenceCounts = [...fullPublications].reduce(
-    (acc, pub) => {
-      const venue = pub.venue.split(" ")[0];
-      if (venue) {
-        acc[venue] = (acc[venue] || 0) + 1;
-      }
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
+  const publicationStats = summarizePublications(fullPublications);
 
   // Render a publication list grouped by topic. Keeps a running index so the
   // staggered card animations stay sequential across topic groups.
@@ -865,18 +881,24 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
               <h3 className="text-lg font-semibold text-ink dark:text-[#E8E4DC]">
                 Publication Stats
               </h3>
-              <div className="flex flex-wrap gap-x-4 gap-y-2 mt-2">
-                {Object.entries(conferenceCounts)
-                  .sort(([, a], [, b]) => b - a)
-                  .map(([conf, count]) => (
-                    <span
-                      key={conf}
-                      className="font-mono text-sm font-medium text-ink-3 dark:text-[#B8B2A6]"
-                    >
-                      {conf}: {count}
-                    </span>
-                  ))}
+              <div className="grid gap-4 mt-4 sm:grid-cols-2">
+                {publicationStats.map(({ category, count, venues }) => (
+                  <div key={category}>
+                    <p className="font-mono text-sm font-medium text-ink-2 dark:text-[#D5D0C6]">
+                      {category}: {count}
+                    </p>
+                    {venues.length > 0 && (
+                      <p className="mt-1 font-mono text-xs leading-5 text-ink-3 dark:text-[#B8B2A6]">
+                        {venues.map(([venue, total]) => `${venue} ${total}`).join(" · ")}
+                      </p>
+                    )}
+                  </div>
+                ))}
               </div>
+              <p className="mt-4 font-serif text-sm leading-6 text-ink-3 dark:text-[#B8B2A6]">
+                Main-conference counts exclude Findings, workshops, and blog tracks.
+                The earlier Macaron Preview is listed for reference and excluded from these counts.
+              </p>
             </div>
             {renderGroupedByTopic(fullPublications)}
           </div>

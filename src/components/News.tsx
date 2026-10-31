@@ -78,6 +78,30 @@ export const News: React.FC = () => {
       isNew: true,
     },
     {
+      id: -9,
+      date: "Oct 2026",
+      content: "NAACL 2027 Area Chair (ARR Oct).",
+      isNew: true,
+    },
+    {
+      id: -10,
+      date: "Aug 2026",
+      content: (
+        <>
+          The full Macaron-V1 technical report is now on{` `}
+          <a
+            href="https://arxiv.org/abs/2608.09819"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            arXiv
+          </a>
+          , following the June Preview.
+        </>
+      ),
+      isNew: false,
+    },
+    {
       id: -2,
       date: "Jul 2026",
       content:
@@ -85,10 +109,31 @@ export const News: React.FC = () => {
       isNew: true,
     },
     {
-      id: -9,
-      date: "Oct 2026",
-      content: "NAACL 2027 Area Chair (ARR Oct).",
-      isNew: true,
+      id: -11,
+      date: "Jul 2026",
+      content: (
+        <>
+          Probing the Plasticity and Correlation of LLM Value Systems appeared
+          in{` `}
+          <a
+            href="https://aclanthology.org/2026.findings-acl.1715/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ACL 2026 Findings
+          </a>
+          ; CAFES appeared at the{` `}
+          <a
+            href="https://aclanthology.org/2026.alvr-main.10/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ALVR 2026 workshop
+          </a>
+          .
+        </>
+      ),
+      isNew: false,
     },
     {
       id: -7,

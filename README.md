@@ -18,6 +18,8 @@ The Vite dev server runs at `http://localhost:5173` by default.
 - `npm run build` builds the production site into `dist/`.
 - `npm run preview` previews the production build locally.
 - `npm run lint` runs ESLint.
+- `npm run test:content` checks publication metadata, track counts, research
+  copy, experience date formatting, and news ordering without network access.
 - `npm run deploy` manually publishes `dist/` with `gh-pages`.
 
 ## Project Structure
@@ -44,7 +46,13 @@ When updating a paper status:
 1. Update the relevant entry in `src/components/Publications.tsx`.
 2. Update `public/publications.bib` if the BibTeX status changed.
 3. Add a news item in `src/components/News.tsx` for major acceptances.
-4. Run `npm run build`, `npm run lint`, and `npx tsc -b`.
+4. Run `npm run build`, `npm run lint`, `npx tsc -b`, and `npm run test:content`.
+
+Publication statistics are computed from the full list, with main conferences,
+Findings, workshops, journals, blog tracks, technical reports, and preprints
+counted separately. Keep venue labels explicit and check
+`src/components/publicationStats.ts` when adding a new venue. An earlier report
+version can use `isPreview: true` to remain listed without being counted twice.
 
 ## Deployment
 

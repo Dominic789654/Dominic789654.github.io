@@ -18,41 +18,41 @@ export const Experience: React.FC = () => {
     {
       id: 6,
       organization: "UniPat",
-      period: "07/2026–Present",
+      period: "2026–Present",
       description: "Algorithm Research Intern."
     },
     {
       id: 5,
       organization: "Mind Lab",
       url: "https://macaron.im/mindlab",
-      period: "04/2026–07/2026",
+      period: "2026",
       description: "Research Intern (Remote). Post-trained GLM-5.1 and Qwen3.6 35B for tool use and code generation, improving agent capability on ViTaBench, PinchBench, Tau3Bench, SWE-Bench, and Terminal2Bench; strengthened model harness for long-horizon tool calling and code execution. Co-authored δ-mem, MinT, and the Macaron v1 technical report."
     },
     {
       id: 1,
       organization: "NYU Center for Data Science",
       url: "https://cds.nyu.edu/",
-      period: "07/2025–01/2026",
+      period: "2025–2026",
       description: "Visiting Student, supervised by Prof. Eunsol Choi"
     },
     {
       id: 2,
       organization: "HKUST(GZ)",
       url: "https://dsa.hkust-gz.edu.cn/",
-      period: "09/2023–Present",
+      period: "2023–Present",
       description: "Ph.D. student, supervised by Prof. Xiaowen Chu and Prof. Xuming HU"
     },
     {
       id: 3,
       organization: "HKUST Statistics and Machine Learning Research Group",
       url: "https://hkust.edu.hk/",
-      period: "12/2022–08/2023",
+      period: "2022–2023",
       description: "Research Intern, supervised by Prof. Tong Zhang"
     },
     {
       id: 4,
       organization: "Baidu Research Cognitive Computing Lab",
-      period: "12/2021–06/2022",
+      period: "2021–2022",
       description: "Research Intern, supervised by Mingming Sun"
     }
   ];
@@ -62,14 +62,14 @@ export const Experience: React.FC = () => {
       id: 1,
       organization: "HKUST(GZ)",
       url: "https://dsa.hkust-gz.edu.cn/",
-      period: "Fall 2024",
+      period: "2024",
       description: "TA - AIAA 5088 Natural Language Processing and Its Applications"
     },
     {
       id: 2,
       organization: "HKUST(GZ)",
       url: "https://dsa.hkust-gz.edu.cn/",
-      period: "Summer 2024",
+      period: "2024",
       description: "TA - RBCC Red Bird Challenge Camp"
     }
   ];
