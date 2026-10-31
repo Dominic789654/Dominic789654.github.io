@@ -86,7 +86,7 @@
         <li><code>POST /v1/systemone</code> mirrors the System One request shape (<code>noul</code> / <code>choice</code> / <code>score</code>) for TypeSafe-compatible clients; for ordinary chat models it uses the same scoring path. Decision checkpoints (e.g. Jev-style) use their own calibrated path.</li>
         <li>Docs emphasize: returned probabilities are <strong>not</strong> calibrated correctness—validate thresholds on labeled data.</li>
       </ul>
-      <p><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>: System One models return typed decisions (Choice / Score / Noul) rather than free text; <strong>Jev</strong> is their flagship. <a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a> reports Jev stronger on content judgments than on predicting other systems’ behavior, and that <strong>output-length</strong> predictions can lift vLLM SLO attainment from <strong>75% → 99%</strong> and cut P90 TTFT from <strong>8.3 s → 0.17 s</strong> in their H200 replay (figures from that post—not re-run here).</p>
+      <p><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>: System One models return typed decisions (Choice / Score / Noul) rather than free text; <strong>Jev</strong> is their flagship. <a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a> reports Jev stronger on content judgments than on predicting other systems’ behavior, and that in their H200 ShareGPT replay, length-aware scheduling with Jev raised SLO attainment sharply (blog summary: 75%→99%; P90 TTFT 8.3 s→0.17 s under the reported load). Not re-run here.</p>
       <p>Engine asymmetry: <strong>SGLang documents <code>/v1/decisions</code> today</strong>; a portable DiffAdapt×decision stack is SGLang-native unless the surface is ported.</p>
 
       <h2 id="middleware">The missing middleware</h2>
@@ -123,7 +123,7 @@
         <li>Sui et al. <a href="https://arxiv.org/abs/2503.16419" target="_blank" rel="noopener noreferrer">Stop overthinking (survey)</a>. 2025.</li>
         <li>Li et al. <a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Reasoning LM inference serving unveiled</a>. 2025.</li>
         <li>Yang et al. <a href="https://arxiv.org/abs/2504.15895" target="_blank" rel="noopener noreferrer">DEER</a>. 2025.</li>
-        <li>Kwon et al. vLLM / PagedAttention. SOSP 2023.</li>
+        <li>Kwon et al. <a href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener noreferrer">vLLM / PagedAttention</a>. SOSP 2023.</li>
         <li>Zheng et al. <a href="https://arxiv.org/abs/2312.07104" target="_blank" rel="noopener noreferrer">SGLang</a>. 2024.</li>
       </ol>
     </article>

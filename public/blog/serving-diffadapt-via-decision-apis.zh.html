@@ -86,7 +86,7 @@
         <li><code>POST /v1/systemone</code> 兼容 System One 请求形状（<code>noul</code> / <code>choice</code> / <code>score</code>）；普通 chat 模型走同一打分路径，决策专用 checkpoint（如 Jev 类）走各自校准路径。</li>
         <li>文档明确：返回概率 <strong>不是</strong> 校准后的正确率——阈值需用标注数据验证。</li>
       </ul>
-      <p><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>：System One 返回类型化决策（Choice / Score / Noul）而非自由文本；<strong>Jev</strong> 为其旗舰。<a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a> 报告 Jev 在内容判断上更强、在预测「其他系统会做什么」上较弱；其 <strong>输出长度</strong> 预测在 H200 回放中可将 vLLM SLO 达成率自 <strong>75% → 99%</strong>，P90 TTFT 自 <strong>8.3 s → 0.17 s</strong>（数字来自该文，本文未复现）。</p>
+      <p><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>：System One 返回类型化决策（Choice / Score / Noul）而非自由文本；<strong>Jev</strong> 为其旗舰。<a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a> 报告 Jev 在内容判断上更强、在预测「其他系统会做什么」上较弱；在其 H200 ShareGPT 回放中，用 Jev 做长度感知调度使 SLO 达成率大幅上升（博客摘要：75%→99%；所报负载下 P90 TTFT 8.3 s→0.17 s）。本文未复现。</p>
       <p>引擎不对称：<strong>SGLang 已文档化 <code>/v1/decisions</code></strong>；可移植的 DiffAdapt×decision 栈目前偏 SGLang-native，除非移植该接口。</p>
 
       <h2 id="middleware">缺失的中间件</h2>
@@ -124,7 +124,7 @@
         <li>Sui et al. <a href="https://arxiv.org/abs/2503.16419" target="_blank" rel="noopener noreferrer">Stop overthinking (survey)</a>. 2025.</li>
         <li>Li et al. <a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Reasoning LM inference serving unveiled</a>. 2025.</li>
         <li>Yang et al. <a href="https://arxiv.org/abs/2504.15895" target="_blank" rel="noopener noreferrer">DEER</a>. 2025.</li>
-        <li>Kwon et al. vLLM / PagedAttention. SOSP 2023.</li>
+        <li>Kwon et al. <a href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener noreferrer">vLLM / PagedAttention</a>. SOSP 2023.</li>
         <li>Zheng et al. <a href="https://arxiv.org/abs/2312.07104" target="_blank" rel="noopener noreferrer">SGLang</a>. 2024.</li>
       </ol>
     </article>
