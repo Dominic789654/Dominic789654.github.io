@@ -16,19 +16,22 @@ import { useCitations } from "../contexts/CitationContext";
 
 const HIGHLIGHTS = [
   {
-    title: "Macaron v1",
-    description:
-      "Macaron v1 (Preview) released at Macaron AI Mind Lab, where I am a research intern.",
+    title: "NeurIPS 2026",
+    description: "δ-mem accepted to NeurIPS 2026.",
   },
   {
-    title: "ICML 2026",
+    title: "EMNLP 2026",
     description:
-      "Semantic Integrity Matters and MDN accepted to ICML 2026.",
+      "NestedKV and CondenseVLM accepted (main conference, poster).",
   },
   {
-    title: "ICLR 2026",
+    title: "UniPat",
     description:
-      "DiffAdapt and reasoning-model serving study accepted to ICLR 2026.",
+      "Algorithm Research Intern since July 2026. Mind Lab internship ended July 2026.",
+  },
+  {
+    title: "NAACL 2027",
+    description: "Area Chair for the ARR October cycle.",
   },
 ];
 
@@ -173,7 +176,7 @@ export const Header: React.FC = () => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.2 }}
-              className="mt-8 grid gap-3 md:grid-cols-3"
+              className="mt-8 grid gap-3 sm:grid-cols-2"
             >
               {HIGHLIGHTS.map((highlight) => (
                 <div

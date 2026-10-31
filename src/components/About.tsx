@@ -31,7 +31,7 @@ export const About: React.FC = () => {
           <a href="https://xuminghu.github.io/">
             Prof. Xuming HU
           </a>
-          . I was also a visiting student at NYU Center for Data Science,
+          . I was also a visiting PhD student at NYU Center for Data Science,
           working with{" "}
           <a href="https://eunsol.github.io/">
             Prof. Eunsol Choi

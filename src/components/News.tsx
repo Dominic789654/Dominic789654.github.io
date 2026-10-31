@@ -10,10 +10,104 @@ interface NewsItem {
 }
 
 export const News: React.FC = () => {
+  const FRONT_COUNT = 5;
+  const [showEarlier, setShowEarlier] = React.useState(false);
   const containerRef = React.useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   const newsItems: NewsItem[] = [
+    {
+      id: -8,
+      date: "2026",
+      content: (
+        <>
+          δ-mem was accepted to NeurIPS 2026. Read the{` `}
+          <a
+            href="https://arxiv.org/abs/2605.12357"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            paper
+          </a>
+          .
+        </>
+      ),
+      isNew: true,
+    },
+    {
+      id: -6,
+      date: "Oct 2026",
+      content: (
+        <>
+          <a
+            href="https://aclanthology.org/2026.emnlp-main.462/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            NestedKV
+          </a>
+          {` and `}
+          <a
+            href="https://aclanthology.org/2026.emnlp-main.771/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            CondenseVLM
+          </a>
+          {` were accepted to EMNLP 2026 (main conference, poster).`}
+        </>
+      ),
+      isNew: true,
+    },
+    {
+      id: -4,
+      date: "Oct 2026",
+      content: (
+        <>
+          EVOQUANT was accepted to FinNLP 2026 (EMNLP workshop, poster). Read the{` `}
+          <a
+            href="https://aclanthology.org/2026.finnlp-1.60/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            paper
+          </a>
+          .
+        </>
+      ),
+      isNew: true,
+    },
+    {
+      id: -2,
+      date: "Jul 2026",
+      content:
+        "Started as an Algorithm Research Intern at UniPat. Research internship at Mind Lab / Macaron AI ended.",
+      isNew: true,
+    },
+    {
+      id: -9,
+      date: "Oct 2026",
+      content: "NAACL 2027 Area Chair (ARR Oct).",
+      isNew: true,
+    },
+    {
+      id: -7,
+      date: "2026",
+      content: (
+        <>
+          The LLM Agent Memory survey was accepted to AACL-IJCNLP 2026. Read the{` `}
+          <a
+            href="https://www.preprints.org/manuscript/202603.0359/v2"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            preprint
+          </a>
+          .
+        </>
+      ),
+      isNew: false,
+    },
     {
       id: -1,
       date: "Jun 2026",
@@ -30,7 +124,7 @@ export const News: React.FC = () => {
           🥐
         </>
       ),
-      isNew: true,
+      isNew: false,
     },
     {
       id: 0,
@@ -49,14 +143,14 @@ export const News: React.FC = () => {
           ⚡
         </>
       ),
-      isNew: true,
+      isNew: false,
     },
     {
       id: 1,
       date: "May 2026",
       content:
         "Two papers accepted by ICML 2026: Semantic Integrity Matters and MDN! See you in Seoul! 🎉",
-      isNew: true,
+      isNew: false,
     },
     {
       id: 2,
@@ -84,7 +178,7 @@ export const News: React.FC = () => {
       <SectionTitle icon="📰" title="What's New" />
       <div ref={containerRef} className="mt-4">
         <ul className="border-t border-rule dark:border-[#4A443C]">
-          {newsItems.map((item, idx) => (
+          {(showEarlier ? newsItems : newsItems.slice(0, FRONT_COUNT)).map((item, idx) => (
             <motion.li
               key={item.id}
               initial={{ opacity: 0, x: 40 }}
@@ -116,6 +210,18 @@ export const News: React.FC = () => {
             </motion.li>
           ))}
         </ul>
+        {newsItems.length > FRONT_COUNT && (
+          <button
+            type="button"
+            onClick={() => setShowEarlier((open) => !open)}
+            aria-expanded={showEarlier}
+            className="mt-4 font-mono text-xs text-accent dark:text-[#E89B7A] border-b border-dotted border-accent/40 dark:border-[#E89B7A]/40 hover:border-accent dark:hover:border-[#E89B7A]"
+          >
+            {showEarlier
+              ? "− Show fewer"
+              : `+ ${newsItems.length - FRONT_COUNT} earlier`}
+          </button>
+        )}
       </div>
     </section>
   );
