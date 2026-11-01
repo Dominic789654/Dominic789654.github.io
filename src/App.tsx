@@ -6,6 +6,7 @@ import { ScrollProgress } from './components/ScrollProgress';
 import { TableOfContents } from './components/TableOfContents';
 import { About } from './components/About';
 import { News } from './components/News';
+import { Blog } from './components/Blog';
 import { Research } from './components/Research';
 import { FeaturedPapers } from './components/FeaturedPapers';
 import { Publications } from './components/Publications';
@@ -26,6 +27,7 @@ function App() {
           <main className="max-w-4xl mx-auto px-4 py-8">
             <About />
             <News />
+            <Blog />
             <Research />
             <FeaturedPapers />
             <Experience />
