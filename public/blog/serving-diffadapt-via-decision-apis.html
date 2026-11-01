@@ -78,6 +78,10 @@
       <h2 id="diffadapt">What DiffAdapt already shows</h2>
       <p>Across reasoning models, token-level entropy of traces forms a <strong>U-shape</strong> over problem difficulty: high entropy on easy items despite high accuracy (overthinking), low entropy in a mid band, high entropy again on hard items (about 22–25% entropy drop from easy to mid). DiffAdapt maps that onto three fixed strategies (prompt + temperature + max tokens) via a small MLP on the last-layer prefill state—<strong>no LLM fine-tune</strong>. On five models and eight benchmarks it matches or improves accuracy while cutting tokens by up to <strong>22.4%</strong> (<a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">Liu et al., 2025</a>; ICLR 2026).</p>
       <p>Limitations the paper flags: routing is <strong>prefill-only</strong>; strategy labels come from a proxy sampling protocol; aggressive Easy budgets can truncate rare cases (~2% truncation in their LLM-as-judge check).</p>
+      <figure class="fig">
+        <img src="./figures/diffadapt-pipeline.svg" alt="Schematic of DiffAdapt: request, prefill of the base model, last-layer hidden state, small MLP, Easy / Normal / Hard strategy, then decode. Routing is prefill-only." />
+        <figcaption><span class="fignum">Figure 1.</span> DiffAdapt’s prefill-only controller (Liu et al., 2025). A small MLP on the last-layer prefill state picks Easy, Normal, or Hard. Each strategy is a fixed prompt, temperature, and max_tokens; the base model is not fine-tuned. The paper flags prefill-only routing, proxy labels, and about 2% truncation under aggressive Easy budgets in their LLM-as-judge check. The U-shape is that paper’s entropy pattern.</figcaption>
+      </figure>
 
       <h2 id="decisions">What decision APIs change</h2>
       <p>Per <a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang’s decision-models docs</a> (checked Oct 2026):</p>
@@ -88,10 +92,18 @@
       </ul>
       <p><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>: System One models return typed decisions (Choice / Score / Noul) rather than free text; <strong>Jev</strong> is their flagship. <a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a> reports Jev stronger on content judgments than on predicting other systems’ behavior, and that in their H200 ShareGPT replay, length-aware scheduling with Jev raised SLO attainment sharply (blog summary: 75%→99%; P90 TTFT 8.3 s→0.17 s under the reported load). Not re-run here.</p>
       <p>Engine asymmetry: <strong>SGLang documents <code>/v1/decisions</code> today</strong>; a portable DiffAdapt×decision stack is SGLang-native unless the surface is ported.</p>
+      <figure class="fig">
+        <img src="./figures/decision-api-scoring.svg" alt="Schematic of SGLang decision scoring. POST /v1/decisions and POST /v1/systemone meet at next-token scores on the answer labels and return probabilities plus label_mass, with completion tokens equal to zero." />
+        <figcaption><span class="fignum">Figure 2.</span> SGLang decision scoring as documented for <code>/v1/decisions</code> and <code>/v1/systemone</code> (checked Oct 2026). The engine reads next-token scores at the answer labels and returns <code>probabilities</code> plus <code>label_mass</code>, with completion tokens equal to zero and thinking forced off for ordinary chat models. Jev-style checkpoints use their own calibrated path. Those probabilities are not calibrated correctness.</figcaption>
+      </figure>
 
       <h2 id="middleware">The missing middleware</h2>
       <p>DiffAdapt decides <em>how hard to think</em>. Decision APIs decide <em>structured facts about the request</em> at admission (and, in principle, mid-generation via <code>/v1/score</code>). Serving still mostly uses fixed rules for priority, max tokens, speculative depth, and KV reservation—despite evidence that reasoning workloads straggle when difficulty is unmodeled (<a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>).</p>
       <blockquote class="hypothesis"><strong>Hypothesis:</strong> pack Easy/Normal/Hard (plus “think?”, expected length) as one decision call; feed the result into the scheduler—DiffAdapt’s control signal without a custom probe path, or as a calibrated complement to the probe.</blockquote>
+      <figure class="fig">
+        <img src="./figures/serving-control-loop.svg" alt="Proposed serving loop, marked as not measured. A decision call sets Easy, Normal, or Hard, an optional think flag, and an expected length. Low label_mass escalates to Normal. The scheduler then sets budget, thinking, speculation, and KV priority. Decode may re-decide later." />
+        <figcaption><span class="fignum">Figure 3.</span> Proposed middleware — a hypothesis, not a measurement. One decision call, or the DiffAdapt probe as a complement, supplies Easy / Normal / Hard, an optional think flag, and an expected length. Low <code>label_mass</code> escalates to Normal. The scheduler then sets token budget, thinking, speculation, and KV priority. After <em>k</em> tokens or an entropy spike the loop may continue, stop, or upgrade Easy to Normal. Today’s serving mostly uses fixed rules, and <code>/v1/decisions</code> is SGLang-native unless that surface is ported.</figcaption>
+      </figure>
 
       <h2 id="directions">Open directions (not yet run)</h2>
       <h3>1. Decision-native DiffAdapt</h3>

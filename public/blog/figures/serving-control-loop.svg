@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 900" width="440" height="900" role="img">
+  <title>Proposed serving control loop</title>
+  <desc>A proposal, not a measurement. One decision call supplies Easy, Normal, or Hard plus an optional think flag and an expected length. Low label_mass escalates to Normal. The scheduler sets token budget, thinking, speculation, and KV priority. Decode may re-decide later.</desc>
+  <defs>
+    <marker id="arr-f3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path class="marker" d="M0 0 L8 4 L0 8 Z"/>
+    </marker>
+  </defs>
+  <style>
+    .bg { fill: #faf9f5; }
+    .panel { fill: #f0eee6; stroke: #d4cec0; stroke-width: 1; }
+    .panel-accent { fill: rgba(204,120,92,.12); stroke: #cc785c; stroke-width: 1.25; }
+    .panel-muted { fill: transparent; stroke: #b5af9f; stroke-width: 1; stroke-dasharray: 4 3; }
+    .chip { fill: #faf9f5; stroke: #cc785c; stroke-width: 1; }
+    .chip-quiet { fill: #faf9f5; stroke: #d4cec0; stroke-width: 1; }
+    .t { fill: #3d3929; }
+    .tm { fill: #6f6a5e; }
+    .ta { fill: #cc785c; }
+    .line, .curve { stroke: #cc785c; stroke-width: 1.6; fill: none; }
+    .loop { stroke: #cc785c; stroke-width: 1.4; fill: none; stroke-dasharray: 4 3; }
+    .marker, .bar { fill: #cc785c; }
+    .hair { stroke: #e4dfd3; stroke-width: 1; }
+    text { font-family: Newsreader, "Iowan Old Style", Georgia, serif; }
+    .mono { font-family: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; }
+    
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1c1915; }
+      .panel, .chip-quiet { fill: #262220; stroke: #4a443c; }
+      .panel-accent, .chip { fill: rgba(232,155,122,.12); stroke: #e89b7a; }
+      .panel-muted { stroke: #9a958b; }
+      .t { fill: #e8e4dc; }
+      .tm { fill: #b8b2a6; }
+      .ta, .marker, .bar { fill: #e89b7a; }
+      .line, .curve, .loop { stroke: #e89b7a; }
+      .hair { stroke: #3a3530; }
+    }
+  </style>
+  <rect class="bg" width="440" height="900"/>
+  <text class="mono ta" x="20" y="28" font-size="11" letter-spacing="1.4">PROPOSED CONTROL LOOP</text>
+  <text class="tm" x="20" y="48" font-size="13">Hypothesis · not measured</text>
+
+  <rect class="panel-muted" x="20" y="64" width="360" height="72" rx="2"/>
+  <text class="tm mono" x="36" y="86" font-size="11" letter-spacing="0.6">TODAY</text>
+  <text class="tm" x="36" y="108" font-size="13">Fixed rules: priority, max_tokens,</text>
+  <text class="tm" x="36" y="126" font-size="13">speculative depth, KV reservation.</text>
+  <line class="line" x1="200" y1="136" x2="200" y2="156" marker-end="url(#arr-f3)"/>
+
+  <rect class="panel-accent" x="20" y="160" width="360" height="128" rx="2"/>
+  <text class="ta mono" x="36" y="184" font-size="11" letter-spacing="0.6">ADMISSION</text>
+  <text class="t" x="36" y="208" font-size="16">One decision call</text>
+  <text class="t" x="36" y="230" font-size="14">Easy / Normal / Hard</text>
+  <text class="t" x="36" y="250" font-size="14">optional think? · expected length</text>
+  <text class="tm" x="36" y="272" font-size="13">or the DiffAdapt MLP as a complement</text>
+  <line class="line" x1="200" y1="288" x2="200" y2="308" marker-end="url(#arr-f3)"/>
+
+  <rect class="panel" x="20" y="312" width="360" height="58" rx="2"/>
+  <text class="ta mono" x="36" y="334" font-size="11" letter-spacing="0.6">GATE</text>
+  <text class="t" x="36" y="356" font-size="14">low label_mass → escalate to Normal</text>
+  <line class="line" x1="200" y1="370" x2="200" y2="390" marker-end="url(#arr-f3)"/>
+
+  <rect class="panel" x="20" y="394" width="360" height="118" rx="2"/>
+  <text class="ta mono" x="36" y="418" font-size="11" letter-spacing="0.6">SCHEDULER</text>
+  <text class="mono t" x="36" y="442" font-size="13">max_tokens</text>
+  <text class="t" x="36" y="462" font-size="13">think on / off</text>
+  <text class="t" x="36" y="482" font-size="13">speculative aggressiveness</text>
+  <text class="t" x="36" y="502" font-size="13">KV / priority</text>
+  <line class="line" x1="200" y1="512" x2="200" y2="532" marker-end="url(#arr-f3)"/>
+
+  <rect class="panel-accent" x="20" y="536" width="360" height="42" rx="2"/>
+  <text class="t" x="36" y="562" font-size="16">Decode</text>
+  <line class="line" x1="200" y1="578" x2="200" y2="598" marker-end="url(#arr-f3)"/>
+  <text class="tm" x="214" y="594" font-size="12">k tokens or entropy spike</text>
+
+  <rect class="panel" x="20" y="604" width="360" height="150" rx="2"/>
+  <text class="ta mono" x="36" y="628" font-size="11" letter-spacing="0.6">OPTIONAL RE-DECIDE</text>
+  <rect class="chip-quiet" x="36" y="644" width="100" height="32" rx="2"/>
+  <rect class="chip-quiet" x="146" y="644" width="104" height="32" rx="2"/>
+  <rect class="chip-quiet" x="260" y="644" width="104" height="32" rx="2"/>
+  <text class="t" x="86" y="665" font-size="13" text-anchor="middle">continue</text>
+  <text class="t" x="198" y="665" font-size="13" text-anchor="middle">early-stop</text>
+  <text class="t" x="312" y="665" font-size="12" text-anchor="middle">Easy→Normal</text>
+  <text class="tm" x="36" y="698" font-size="12">Continue and Easy→Normal re-enter.</text>
+  <text class="tm" x="36" y="716" font-size="12">Early-stop exits.</text>
+  <text class="tm" x="36" y="736" font-size="12">In principle: decision call or /v1/score.</text>
+
+  <path class="loop" d="M380 660 H416 V453 H380" marker-end="url(#arr-f3)"/>
+  <text class="mono tm" x="398" y="444" font-size="11">loop</text>
+
+  <rect class="bar" x="20" y="774" width="3" height="100"/>
+  <rect class="panel" x="23" y="774" width="357" height="100" rx="2"/>
+  <text class="ta mono" x="40" y="798" font-size="11" letter-spacing="0.8">ENGINE</text>
+  <text class="t" x="40" y="822" font-size="13">/v1/decisions is SGLang-native today.</text>
+  <text class="tm" x="40" y="844" font-size="13">Portable only if that surface is ported.</text>
+</svg>

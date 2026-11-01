@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 876" width="400" height="876" role="img">
+  <title>DiffAdapt prefill router</title>
+  <desc>Request flows through prefill, the last-layer hidden state, and a small MLP to an Easy, Normal, or Hard strategy, then decode. Routing is prefill-only.</desc>
+  <defs>
+    <marker id="arr-f1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path class="marker" d="M0 0 L8 4 L0 8 Z"/>
+    </marker>
+  </defs>
+  <style>
+    .bg { fill: #faf9f5; }
+    .panel { fill: #f0eee6; stroke: #d4cec0; stroke-width: 1; }
+    .panel-accent { fill: rgba(204,120,92,.12); stroke: #cc785c; stroke-width: 1.25; }
+    .panel-muted { fill: transparent; stroke: #b5af9f; stroke-width: 1; stroke-dasharray: 4 3; }
+    .chip { fill: #faf9f5; stroke: #cc785c; stroke-width: 1; }
+    .chip-quiet { fill: #faf9f5; stroke: #d4cec0; stroke-width: 1; }
+    .t { fill: #3d3929; }
+    .tm { fill: #6f6a5e; }
+    .ta { fill: #cc785c; }
+    .line, .curve { stroke: #cc785c; stroke-width: 1.6; fill: none; }
+    .loop { stroke: #cc785c; stroke-width: 1.4; fill: none; stroke-dasharray: 4 3; }
+    .marker, .bar { fill: #cc785c; }
+    .hair { stroke: #e4dfd3; stroke-width: 1; }
+    text { font-family: Newsreader, "Iowan Old Style", Georgia, serif; }
+    .mono { font-family: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; }
+    
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1c1915; }
+      .panel, .chip-quiet { fill: #262220; stroke: #4a443c; }
+      .panel-accent, .chip { fill: rgba(232,155,122,.12); stroke: #e89b7a; }
+      .panel-muted { stroke: #9a958b; }
+      .t { fill: #e8e4dc; }
+      .tm { fill: #b8b2a6; }
+      .ta, .marker, .bar { fill: #e89b7a; }
+      .line, .curve, .loop { stroke: #e89b7a; }
+      .hair { stroke: #3a3530; }
+    }
+  </style>
+  <rect class="bg" width="400" height="876"/>
+  <text class="mono ta" x="20" y="28" font-size="11" letter-spacing="1.4">DIFFADAPT BASELINE</text>
+  <text class="tm" x="20" y="48" font-size="13">Liu et al. · arXiv:2510.19669</text>
+
+  <rect class="panel" x="20" y="64" width="360" height="42" rx="2"/>
+  <text class="t" x="36" y="90" font-size="16">Request</text>
+  <line class="line" x1="200" y1="106" x2="200" y2="124" marker-end="url(#arr-f1)"/>
+
+  <rect class="panel" x="20" y="128" width="360" height="58" rx="2"/>
+  <text class="t" x="36" y="152" font-size="16">Prefill</text>
+  <text class="tm" x="36" y="172" font-size="13">base LLM · no fine-tune</text>
+  <line class="line" x1="200" y1="186" x2="200" y2="204" marker-end="url(#arr-f1)"/>
+
+  <rect class="panel" x="20" y="208" width="360" height="58" rx="2"/>
+  <text class="t" x="36" y="232" font-size="16">Last-layer hidden state</text>
+  <text class="mono tm" x="36" y="252" font-size="12">h_L · after prefill only</text>
+  <line class="line" x1="200" y1="266" x2="200" y2="284" marker-end="url(#arr-f1)"/>
+
+  <rect class="panel" x="20" y="288" width="360" height="54" rx="2"/>
+  <text class="t" x="36" y="312" font-size="16">Small MLP probe</text>
+  <text class="tm" x="36" y="330" font-size="13">only the probe is trained</text>
+  <line class="line" x1="200" y1="342" x2="200" y2="360" marker-end="url(#arr-f1)"/>
+
+  <rect class="panel-accent" x="20" y="364" width="360" height="46" rx="2"/>
+  <text class="t" x="36" y="392" font-size="15">strategy ∈ {Easy, Normal, Hard}</text>
+  <line class="line" x1="200" y1="410" x2="200" y2="428" marker-end="url(#arr-f1)"/>
+
+  <rect class="panel" x="20" y="432" width="360" height="108" rx="2"/>
+  <text class="tm" x="36" y="454" font-size="13">Each strategy is the same kind of triple</text>
+  <text class="mono t" x="36" y="476" font-size="13">prompt + temperature + max_tokens</text>
+  <rect class="chip" x="36" y="492" width="100" height="30" rx="2"/>
+  <rect class="chip" x="150" y="492" width="100" height="30" rx="2"/>
+  <rect class="chip" x="264" y="492" width="100" height="30" rx="2"/>
+  <text class="ta" x="86" y="512" font-size="14" text-anchor="middle">Easy</text>
+  <text class="ta" x="200" y="512" font-size="14" text-anchor="middle">Normal</text>
+  <text class="ta" x="314" y="512" font-size="14" text-anchor="middle">Hard</text>
+  <line class="line" x1="200" y1="540" x2="200" y2="558" marker-end="url(#arr-f1)"/>
+
+  <rect class="panel-accent" x="20" y="562" width="360" height="42" rx="2"/>
+  <text class="t" x="36" y="588" font-size="16">Decode</text>
+
+  <rect class="panel" x="20" y="622" width="360" height="122" rx="2"/>
+  <text class="ta mono" x="36" y="644" font-size="11" letter-spacing="0.8">WHY THREE BUCKETS</text>
+  <polyline class="curve" points="46,678 90,716 134,678"/>
+  <circle class="marker" cx="46" cy="678" r="3"/>
+  <circle class="marker" cx="90" cy="716" r="3"/>
+  <circle class="marker" cx="134" cy="678" r="3"/>
+  <text class="tm" x="46" y="668" font-size="11" text-anchor="middle">Easy</text>
+  <text class="tm" x="90" y="734" font-size="11" text-anchor="middle">Mid</text>
+  <text class="tm" x="134" y="668" font-size="11" text-anchor="middle">Hard</text>
+  <text class="t" x="168" y="690" font-size="13">U-shape vs difficulty.</text>
+  <text class="tm" x="168" y="710" font-size="12">High, then low, then high.</text>
+  <text class="tm" x="168" y="730" font-size="12">Easy to mid, about 22–25% (paper).</text>
+
+  <rect class="bar" x="20" y="762" width="3" height="96"/>
+  <rect class="panel" x="23" y="762" width="357" height="96" rx="2"/>
+  <text class="ta mono" x="40" y="782" font-size="11" letter-spacing="0.6">LIMITS THE PAPER FLAGS</text>
+  <text class="t" x="40" y="802" font-size="13">Routing is prefill-only.</text>
+  <text class="t" x="40" y="820" font-size="13">Labels use a proxy sampling protocol.</text>
+  <text class="t" x="40" y="838" font-size="13">Easy budgets can truncate (~2% judge).</text>
+</svg>

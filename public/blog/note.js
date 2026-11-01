@@ -59,3 +59,23 @@
     sections.forEach(function (section) { io.observe(section); });
   }
 })();
+
+(function () {
+  var images = document.querySelectorAll("figure.fig img");
+  Array.prototype.forEach.call(images, function (img) {
+    var src = img.getAttribute("src");
+    if (!src) return;
+    fetch(src).then(function (res) {
+      if (!res.ok) throw new Error("figure");
+      return res.text();
+    }).then(function (text) {
+      var parsed = new DOMParser().parseFromString(text, "image/svg+xml");
+      var svg = parsed.querySelector("svg");
+      if (!svg || parsed.querySelector("parsererror")) return;
+      svg.setAttribute("role", "img");
+      if (img.alt) svg.setAttribute("aria-label", img.alt);
+      svg.classList.add("fig-svg");
+      img.replaceWith(document.importNode(svg, true));
+    }).catch(function () { /* keep the file image */ });
+  });
+})();

@@ -78,6 +78,10 @@
       <h2 id="diffadapt">DiffAdapt 已给出的结论</h2>
       <p>在多款推理模型上，轨迹 token 熵对题目难度呈 <strong>U 形</strong>：简单题高熵却高正确率（过度思考）、中等难度低熵、难题高熵（约自简单到中等下降 22–25%）。DiffAdapt 用最后一层 prefill 隐状态上的小型 MLP，映射到三套固定策略（prompt + temperature + max tokens）——<strong>不微调基座 LLM</strong>。五模型、八基准上准确率持平或提升，token 最多减少约 <strong>22.4%</strong>（<a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">Liu et al., 2025</a>；ICLR 2026）。</p>
       <p>论文自述局限：路由仅 <strong>prefill</strong>；策略标签来自代理采样协议；激进 Easy 预算偶发截断（其 LLM-as-judge 检查中约 2%）。</p>
+      <figure class="fig">
+        <img src="./figures/diffadapt-pipeline.svg" alt="DiffAdapt 示意：请求经基座模型 prefill、最后一层隐状态与小型 MLP，得到 Easy / Normal / Hard，再解码。路由只发生在 prefill。" />
+        <figcaption><span class="fignum">图 1.</span> DiffAdapt 的 prefill-only 控制器（Liu et al., 2025）。最后一层 prefill 隐状态上的小型 MLP 选择 Easy、Normal 或 Hard。每套策略都是固定的 prompt、temperature 与 max_tokens；基座模型不微调。论文自述的局限是：路由仅 prefill、标签来自代理采样、激进 Easy 预算在其 LLM-as-judge 检查中约截断 2%。U 形是该文的熵模式，不是本文的新测。</figcaption>
+      </figure>
 
       <h2 id="decisions">Decision API 改变了什么</h2>
       <p>据 <a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang decision-models 文档</a>（2026-10 核对）：</p>
@@ -88,10 +92,18 @@
       </ul>
       <p><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>：System One 返回类型化决策（Choice / Score / Noul）而非自由文本；<strong>Jev</strong> 为其旗舰。<a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a> 报告 Jev 在内容判断上更强、在预测「其他系统会做什么」上较弱；在其 H200 ShareGPT 回放中，用 Jev 做长度感知调度使 SLO 达成率大幅上升（博客摘要：75%→99%；所报负载下 P90 TTFT 8.3 s→0.17 s）。本文未复现。</p>
       <p>引擎不对称：<strong>SGLang 已文档化 <code>/v1/decisions</code></strong>；可移植的 DiffAdapt×decision 栈目前偏 SGLang-native，除非移植该接口。</p>
+      <figure class="fig">
+        <img src="./figures/decision-api-scoring.svg" alt="SGLang decision 打分示意。POST /v1/decisions 与 POST /v1/systemone 都在答案标签处读取 next-token 分数，返回 probabilities 与 label_mass，completion tokens 为 0。" />
+        <figcaption><span class="fignum">图 2.</span> SGLang 的 decision 打分，据 <code>/v1/decisions</code> 与 <code>/v1/systemone</code> 文档（2026-10 核对）。引擎在答案标签处读取 next-token 分数，返回 <code>probabilities</code> 与 <code>label_mass</code>；普通 chat 模型 completion tokens = 0，且思考关闭。Jev 类 checkpoint 走各自的校准路径。这些概率不是校准后的正确率。</figcaption>
+      </figure>
 
       <h2 id="middleware">缺失的中间件</h2>
       <p>DiffAdapt 决定 <em>该多认真想</em>。Decision API 在准入时（原则上也可在生成中段经 <code>/v1/score</code>）决定 <em>关于请求的结构化事实</em>。Serving 对优先级、max tokens、投机深度、KV 预留仍多靠固定规则——尽管难度未建模时推理负载易长尾（<a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>）。</p>
       <blockquote class="hypothesis"><strong>假设：</strong>把 Easy/Normal/Hard（外加「是否 think」、期望长度）打成一次 decision 调用，结果喂给调度器——即 DiffAdapt 的控制信号，而不必单独部署探针，或作为探针的校准互补。</blockquote>
+      <figure class="fig">
+        <img src="./figures/serving-control-loop.svg" alt="提议的 serving 环路，标明尚未测量。一次 decision 调用给出 Easy / Normal / Hard、可选是否 think 与期望长度。低 label_mass 则升到 Normal，再由调度器设置预算、思考、投机与 KV 优先级。解码后可选重决策。" />
+        <figcaption><span class="fignum">图 3.</span> 提议的中间件——假设，尚未测量。一次 decision 调用，或把 DiffAdapt 探针作为互补，给出 Easy / Normal / Hard、可选的是否 think，以及期望长度。低 <code>label_mass</code> 则升到 Normal。调度器再设 token 预算、think 开关、投机激进程度与 KV / 优先级。生成 <em>k</em> 个 token 或出现熵尖峰后，可以继续、早停，或把 Easy 升到 Normal。今日 serving 多靠固定规则；<code>/v1/decisions</code> 目前是 SGLang 原生接口，除非移植。</figcaption>
+      </figure>
 
       <h2 id="directions">开放方向（尚未跑）</h2>
       <h3>1. Decision 原生 DiffAdapt</h3>

@@ -420,6 +420,62 @@ ul.clean li::before {
   border-top: 1px dotted var(--rule);
 }
 
+.fig {
+  margin: 1.75rem 0 0.35rem;
+}
+
+.fig img,
+.fig svg {
+  display: block;
+  width: 100%;
+  max-width: 26rem;
+  height: auto;
+  margin-inline: auto;
+  background: var(--paper);
+}
+
+.fig figcaption {
+  max-width: 26rem;
+  margin: 0.75rem auto 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--ink2);
+}
+
+html[lang^="zh"] .fig figcaption {
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.fig .fignum {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-right: 0.4rem;
+}
+
+/* Inlined figures follow the page theme. Specificity beats the SVG's own sheet. */
+.fig svg .bg { fill: var(--paper); }
+.fig svg .panel { fill: var(--paper2); stroke: var(--rule); }
+.fig svg .panel-accent { fill: var(--accent-soft); stroke: var(--accent); }
+.fig svg .panel-muted { fill: transparent; stroke: var(--ink4); }
+.fig svg .chip { fill: var(--paper); stroke: var(--accent); }
+.fig svg .chip-quiet { fill: var(--paper); stroke: var(--rule); }
+.fig svg .t { fill: var(--ink); }
+.fig svg .tm { fill: var(--ink3); }
+.fig svg .ta,
+.fig svg .marker,
+.fig svg .bar { fill: var(--accent); }
+.fig svg .line,
+.fig svg .curve,
+.fig svg .loop { stroke: var(--accent); fill: none; }
+.fig svg .hair { stroke: var(--rule); }
+
 ol.refs {
   margin: 0.4rem 0 0;
   padding-left: 1.35rem;
