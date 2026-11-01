@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 700" width="400" height="700" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 768" width="400" height="768" role="img">
   <title>SGLang decision scoring</title>
-  <desc>A client calls POST /v1/decisions or POST /v1/systemone. The engine scores next-token logits at answer labels and returns probabilities and label_mass with completion tokens equal to zero.</desc>
+  <desc>A client calls POST /v1/decisions or POST /v1/systemone. The engine scores next-token logits at answer labels. /v1/decisions returns probabilities and label_mass; /v1/systemone returns x_label_mass / confidence. Completion tokens are zero. These are not calibrated correctness.</desc>
   <defs>
     <marker id="arr-f2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
       <path class="marker" d="M0 0 L8 4 L0 8 Z"/>
@@ -35,7 +35,7 @@
       .hair { stroke: #3a3530; }
     }
   </style>
-  <rect class="bg" width="400" height="700"/>
+  <rect class="bg" width="400" height="768"/>
   <text class="mono ta" x="20" y="28" font-size="11" letter-spacing="1.4">DECISION SCORING</text>
   <text class="tm" x="20" y="48" font-size="13">SGLang docs · checked Oct 2026</text>
 
@@ -67,18 +67,20 @@
 
   <line class="line" x1="200" y1="382" x2="200" y2="402" marker-end="url(#arr-f2)"/>
 
-  <rect class="panel-accent" x="20" y="406" width="360" height="112" rx="2"/>
-  <text class="mono ta" x="36" y="430" font-size="11" letter-spacing="0.8">RETURN</text>
-  <text class="mono t" x="36" y="454" font-size="14">probabilities</text>
-  <text class="mono t" x="36" y="476" font-size="14">label_mass</text>
-  <text class="tm" x="148" y="476" font-size="12">mass on offered labels</text>
-  <text class="t" x="36" y="502" font-size="14">completion tokens = 0</text>
+  <rect class="panel-accent" x="20" y="406" width="360" height="176" rx="2"/>
+  <text class="mono ta" x="36" y="428" font-size="11" letter-spacing="0.8">RETURN</text>
+  <text class="mono ta" x="36" y="452" font-size="12">/v1/decisions</text>
+  <text class="mono t" x="36" y="474" font-size="14">probabilities · label_mass</text>
+  <text class="mono ta" x="36" y="502" font-size="12">/v1/systemone</text>
+  <text class="mono t" x="36" y="524" font-size="14">x_label_mass / confidence</text>
+  <text class="t" x="36" y="552" font-size="14">completion tokens = 0</text>
 
-  <rect class="bar" x="20" y="538" width="3" height="140"/>
-  <rect class="panel" x="23" y="538" width="357" height="140" rx="2"/>
-  <text class="ta mono" x="40" y="562" font-size="11" letter-spacing="0.8">CAVEAT</text>
-  <text class="t" x="40" y="588" font-size="15">Not calibrated correctness.</text>
-  <text class="tm" x="40" y="612" font-size="13">Returned probabilities are not a</text>
-  <text class="tm" x="40" y="632" font-size="13">calibrated “is this right?” score.</text>
-  <text class="tm" x="40" y="656" font-size="13">Validate thresholds on labeled data.</text>
+  <rect class="bar" x="20" y="600" width="3" height="148"/>
+  <rect class="panel" x="23" y="600" width="357" height="148" rx="2"/>
+  <text class="ta mono" x="40" y="624" font-size="11" letter-spacing="0.8">CAVEAT</text>
+  <text class="t" x="40" y="650" font-size="15">Not calibrated correctness.</text>
+  <text class="tm" x="40" y="674" font-size="13">label_mass, x_label_mass, and</text>
+  <text class="tm" x="40" y="694" font-size="13">confidence are not a calibrated</text>
+  <text class="tm" x="40" y="714" font-size="13">“is this right?” score.</text>
+  <text class="tm" x="40" y="734" font-size="13">Validate thresholds on labeled data.</text>
 </svg>

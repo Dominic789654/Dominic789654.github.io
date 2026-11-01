@@ -93,8 +93,8 @@
       <p><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>：System One 返回类型化决策（Choice / Score / Noul）而非自由文本；<strong>Jev</strong> 为其旗舰。<a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a> 报告 Jev 在内容判断上更强、在预测「其他系统会做什么」上较弱；在其 H200 ShareGPT 回放中，用 Jev 做长度感知调度使 SLO 达成率大幅上升（博客摘要：75%→99%；所报负载下 P90 TTFT 8.3 s→0.17 s）。本文未复现。</p>
       <p>引擎不对称：<strong>SGLang 已文档化 <code>/v1/decisions</code></strong>；可移植的 DiffAdapt×decision 栈目前偏 SGLang-native，除非移植该接口。</p>
       <figure class="fig">
-        <img src="./figures/decision-api-scoring.svg" alt="SGLang decision 打分示意。POST /v1/decisions 与 POST /v1/systemone 都在答案标签处读取 next-token 分数，返回 probabilities 与 label_mass，completion tokens 为 0。" />
-        <figcaption><span class="fignum">图 2.</span> SGLang 的 decision 打分，据 <code>/v1/decisions</code> 与 <code>/v1/systemone</code> 文档（2026-10 核对）。引擎在答案标签处读取 next-token 分数，返回 <code>probabilities</code> 与 <code>label_mass</code>；普通 chat 模型 completion tokens = 0，且思考关闭。Jev 类 checkpoint 走各自的校准路径。这些概率不是校准后的正确率。</figcaption>
+        <img src="./figures/decision-api-scoring.svg" alt="SGLang decision 打分示意。POST /v1/decisions 返回 probabilities 与 label_mass。POST /v1/systemone 返回 x_label_mass 与 confidence。completion tokens 为 0。这些都不是校准后的正确率。" />
+        <figcaption><span class="fignum">图 2.</span> SGLang 的 decision 打分，据 <code>/v1/decisions</code> 与 <code>/v1/systemone</code> 文档（2026-10 核对）。引擎在答案标签处读取 next-token 分数。<code>/v1/decisions</code> 返回 <code>probabilities</code> 与 <code>label_mass</code>；<code>/v1/systemone</code> 返回 System One 字段 <code>x_label_mass</code> / <code>confidence</code>。普通 chat 模型 completion tokens = 0，且思考关闭。Jev 类 checkpoint 走各自的校准路径。这些字段都不是校准后的正确率。</figcaption>
       </figure>
 
       <h2 id="middleware">缺失的中间件</h2>
