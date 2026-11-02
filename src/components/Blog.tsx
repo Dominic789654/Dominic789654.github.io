@@ -52,6 +52,15 @@ const posts: BlogPost[] = [
 ];
 
 export const Blog: React.FC = () => {
+  React.useEffect(() => {
+    // The fragment can arrive before React has mounted the target section.
+    if (window.location.hash !== "#blog") return;
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById("blog")?.scrollIntoView({ behavior: "instant" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <section id="blog" className="py-8">
       <SectionTitle icon="📝" title="Blog" />
