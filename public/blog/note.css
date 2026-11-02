@@ -550,3 +550,29 @@ html[lang^="zh"] .colophon { font-size: 0.98rem; line-height: 1.8; }
   body { background: white; color: black; }
   a { color: black; }
 }
+
+/* Focused reading layout, retaining the homepage's ivory and serif identity. */
+.frame { display:block; width:min(47.5rem, calc(100% - 2.5rem)); padding:3.5rem 0 4.5rem; }
+.titleblock { margin-bottom:2rem; }
+.meta { font-family:var(--sans); font-size:.8rem; color:var(--ink2); line-height:1.6; margin:0 0 1.1rem; }
+h1 { font-size:clamp(2.15rem, 5vw, 3rem); line-height:1.13; }
+.sub { font-size:1.35rem; font-style:normal; }
+.toc { position:sticky; top:3.4rem; z-index:20; background:var(--paper); border-block:1px solid var(--rule); padding:.65rem 0; margin:0; overflow-x:auto; scrollbar-width:thin; }
+.toc ol { display:flex; gap:1.2rem; width:max-content; }
+.toc a { border:0; padding:.3rem 0; font-family:var(--sans); font-size:.78rem; white-space:nowrap; }
+.prose { margin-top:2rem; overflow-wrap:break-word; }
+.prose p { line-height:1.75; }
+.prose h2 { margin-top:3.5rem; padding-top:0; border:0; scroll-margin-top:8rem; }
+.fig { margin:2rem 0; }
+.fig img,.fig figcaption { max-width:100%; }
+.fig img { border:1px solid var(--rule); }
+.fig figcaption { font-family:var(--sans); font-size:.86rem; font-style:normal; line-height:1.6; }
+html[lang^="zh"] .fig figcaption { font-size:.85rem; }
+.colophon { font-size:.95rem; }
+@media(max-width:640px) {
+ .frame { width:calc(100% - 2rem); padding-top:2rem; }
+ h1 { font-size:2.15rem; } html[lang^="zh"] h1 { font-size:1.85rem; }
+ .prose p,.prose li,html[lang^="zh"] .prose p { font-size:1rem; }
+ .prose h2 { margin-top:2.75rem; } .sub { font-size:1.2rem; }
+}
+@media print { .frame { width:100%; } .fig { break-inside:avoid; } }

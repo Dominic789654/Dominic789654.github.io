@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>用 Decision API 承载 DiffAdapt — 刘翔</title>
-  <meta name="description" content="研究札记：用 decision API 承载 DiffAdapt。不宣称新实验。" />
+  <title>Decision API 的 Free Lunch — Xiang Liu</title>
+  <meta name="description" content="一次 Prefill，两种用途：让决策成为 chat 已有计算的副产品。" />
   <meta name="author" content="Xiang Liu" />
   <link rel="canonical" href="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.zh.html" />
   <link rel="alternate" hreflang="en" href="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.html" />
   <link rel="alternate" hreflang="zh-Hans" href="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.zh.html" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="用 Decision API 承载 DiffAdapt" />
-  <meta property="og:description" content="研究札记，非正式论文。不宣称新实验。" />
+  <meta property="og:title" content="Decision API 的 Free Lunch" />
+  <meta property="og:description" content="一次 Prefill，两种用途：让决策成为 chat 已有计算的副产品。" />
   <meta property="og:url" content="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.zh.html" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Noto+Serif+SC:wght@400;500;600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./note.css" />
+  <link rel="stylesheet" href="./note.css?v=20261102" />
   <script>
     (function () {
       try {
@@ -52,99 +52,42 @@
     </div>
   </header>
 
-  <div class="frame">
-    <nav class="toc" aria-label="目录">
-      <p class="toc-label">目录</p>
-      <ol>
-        <li><a href="#diffadapt">DiffAdapt 已给出的结论</a></li>
-        <li><a href="#decisions">Decision API 改变了什么</a></li>
-        <li><a href="#middleware">缺失的中间件</a></li>
-        <li><a href="#directions">开放方向</a></li>
-        <li><a href="#caveats">注意事项</a></li>
-        <li><a href="#references">精选引用</a></li>
-      </ol>
-    </nav>
-
-    <header class="titleblock">
-      <h1>用 Decision API 承载 DiffAdapt</h1>
-      <p class="sub">研究札记 · 草稿 · 刘翔 · 2026 年 10 月</p>
-    </header>
-
-    <article class="prose" id="note">
-      <p class="lede">测试时算力（思维链、长思考轨迹、搜索）已成为 LLM 推理的一等杠杆（<a href="https://arxiv.org/abs/2201.11903" target="_blank" rel="noopener noreferrer">Wei et al., 2022</a>；<a href="https://arxiv.org/abs/2408.03314" target="_blank" rel="noopener noreferrer">Snell et al., 2024</a>；<a href="https://lilianweng.github.io/posts/2025-05-01-thinking/" target="_blank" rel="noopener noreferrer">Weng, 2025</a>）。更多思考并不总更好：模型会在简单题上过度思考、烧掉并不改答案的 token，并在共享 serving 下制造长尾（<a href="https://arxiv.org/abs/2503.16419" target="_blank" rel="noopener noreferrer">Sui et al., 2025</a>；<a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>）。</p>
-
-      <p>两条近期线索指向更干净的控制环路。<strong>DiffAdapt</strong> 用轻量探针读 prefill 隐状态，为每题选择 Easy / Normal / Hard 推理策略（<a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">Liu et al., 2025</a>）。<strong>Decision 接口</strong>——TypeSafe 的 System One / Jev（<a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>；<a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe 博客</a>）与 SGLang 的 <code>/v1/decisions</code>（及 <code>/v1/systemone</code>）（<a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang 文档</a>）——把带类型的问题变成标签概率，<strong>不生成任何文本</strong>。本文勾勒二者如何拼合。<strong>不宣称新实验</strong>；以下仅为开放方向。</p>
-
-      <h2 id="diffadapt">DiffAdapt 已给出的结论</h2>
-      <p>在多款推理模型上，轨迹 token 熵对题目难度呈 <strong>U 形</strong>：简单题高熵却高正确率（过度思考）、中等难度低熵、难题高熵（约自简单到中等下降 22–25%）。DiffAdapt 用最后一层 prefill 隐状态上的小型 MLP，映射到三套固定策略（prompt + temperature + max tokens）——<strong>不微调基座 LLM</strong>。五模型、八基准上准确率持平或提升，token 最多减少约 <strong>22.4%</strong>（<a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">Liu et al., 2025</a>；ICLR 2026）。</p>
-      <p>论文自述局限：路由仅 <strong>prefill</strong>；策略标签来自代理采样协议；激进 Easy 预算偶发截断（其 LLM-as-judge 检查中约 2%）。</p>
-      <figure class="fig">
-        <img src="./figures/diffadapt-pipeline.svg" alt="DiffAdapt 示意：请求经基座模型 prefill、最后一层隐状态与小型 MLP，得到 Easy / Normal / Hard，再解码。路由只发生在 prefill。" />
-        <figcaption><span class="fignum">图 1.</span> DiffAdapt 的 prefill-only 控制器（Liu et al., 2025）。最后一层 prefill 隐状态上的小型 MLP 选择 Easy、Normal 或 Hard。每套策略都是固定的 prompt、temperature 与 max_tokens；基座模型不微调。论文自述的局限是：路由仅 prefill、标签来自代理采样、激进 Easy 预算在其 LLM-as-judge 检查中约截断 2%。U 形是该文的熵模式，不是本文的新测。</figcaption>
-      </figure>
-
-      <h2 id="decisions">Decision API 改变了什么</h2>
-      <p>据 <a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang decision-models 文档</a>（2026-10 核对）：</p>
-      <ul class="rules">
-        <li><code>POST /v1/decisions</code> 在答案标签位置用 next-token 分数回答 <code>choice</code> / <code>score</code> / <code>yes_no</code>；<strong>completion tokens = 0</strong>；返回 <code>probabilities</code> 与 <code>label_mass</code>（所给标签在全词表上的质量）。思考默认关闭。</li>
-        <li><code>POST /v1/systemone</code> 兼容 System One 请求形状（<code>noul</code> / <code>choice</code> / <code>score</code>）；普通 chat 模型走同一打分路径，决策专用 checkpoint（如 Jev 类）走各自校准路径。</li>
-        <li>文档明确：返回概率 <strong>不是</strong> 校准后的正确率——阈值需用标注数据验证。</li>
-      </ul>
-      <p><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>：System One 返回类型化决策（Choice / Score / Noul）而非自由文本；<strong>Jev</strong> 为其旗舰。<a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a> 报告 Jev 在内容判断上更强、在预测「其他系统会做什么」上较弱；在其 H200 ShareGPT 回放中，用 Jev 做长度感知调度使 SLO 达成率大幅上升（博客摘要：75%→99%；所报负载下 P90 TTFT 8.3 s→0.17 s）。本文未复现。</p>
-      <p>引擎不对称：<strong>SGLang 已文档化 <code>/v1/decisions</code></strong>；可移植的 DiffAdapt×decision 栈目前偏 SGLang-native，除非移植该接口。</p>
-      <figure class="fig">
-        <img src="./figures/decision-api-scoring.svg" alt="SGLang decision 打分示意。POST /v1/decisions 返回 probabilities 与 label_mass。POST /v1/systemone 返回 x_label_mass 与 confidence。completion tokens 为 0。这些都不是校准后的正确率。" />
-        <figcaption><span class="fignum">图 2.</span> SGLang 的 decision 打分，据 <code>/v1/decisions</code> 与 <code>/v1/systemone</code> 文档（2026-10 核对）。引擎在答案标签处读取 next-token 分数。<code>/v1/decisions</code> 返回 <code>probabilities</code> 与 <code>label_mass</code>；<code>/v1/systemone</code> 返回 System One 字段 <code>x_label_mass</code> / <code>confidence</code>。普通 chat 模型 completion tokens = 0，且思考关闭。Jev 类 checkpoint 走各自的校准路径。这些字段都不是校准后的正确率。</figcaption>
-      </figure>
-
-      <h2 id="middleware">缺失的中间件</h2>
-      <p>DiffAdapt 决定 <em>该多认真想</em>。Decision API 在准入时（原则上也可在生成中段经 <code>/v1/score</code>）决定 <em>关于请求的结构化事实</em>。Serving 对优先级、max tokens、投机深度、KV 预留仍多靠固定规则——尽管难度未建模时推理负载易长尾（<a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>）。</p>
-      <blockquote class="hypothesis"><strong>假设：</strong>把 Easy/Normal/Hard（外加「是否 think」、期望长度）打成一次 decision 调用，结果喂给调度器——即 DiffAdapt 的控制信号，而不必单独部署探针，或作为探针的校准互补。</blockquote>
-      <figure class="fig">
-        <img src="./figures/serving-control-loop.svg" alt="提议的 serving 环路，标明尚未测量。一次 decision 调用给出 Easy / Normal / Hard、可选是否 think 与期望长度。低 label_mass 则升到 Normal，再由调度器设置预算、思考、投机与 KV 优先级。解码后可选重决策。" />
-        <figcaption><span class="fignum">图 3.</span> 提议的中间件——假设，尚未测量。一次 decision 调用，或把 DiffAdapt 探针作为互补，给出 Easy / Normal / Hard、可选的是否 think，以及期望长度。低 <code>label_mass</code> 则升到 Normal。调度器再设 token 预算、think 开关、投机激进程度与 KV / 优先级。生成 <em>k</em> 个 token 或出现熵尖峰后，可以继续、早停，或把 Easy 升到 Normal。今日 serving 多靠固定规则；<code>/v1/decisions</code> 目前是 SGLang 原生接口，除非移植。</figcaption>
-      </figure>
-
-      <h2 id="directions">开放方向（尚未跑）</h2>
-      <h3>1. Decision 原生 DiffAdapt</h3>
-      <p>用 <code>/v1/decisions</code> 替换或对照 MLP：<code>choice</code>∈{Easy,Normal,Hard}，可选 <code>score</code> 估长度、<code>yes_no</code> 控 think；低 <code>label_mass</code> 则升到 Normal。尽量复用 DiffAdapt Stage-1 标签。</p>
-      <h3>2. 难度感知 serving</h3>
-      <p>决策输出 → <code>max_tokens</code>、think 开关、投机激进程度、KV/优先级。评准确率、goodput、P90 TTFT、峰值 KV——对齐 JevServe 长度预测叙事与 DiffAdapt 的 token 节省（<a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>）。</p>
-      <h3>3. 在线重决策</h3>
-      <p>生成 <em>k</em> token 或熵尖峰后再问 continue / early-stop / 升级（优先 Easy→Normal）。对照早期退出 CoT（<a href="https://arxiv.org/abs/2504.15895" target="_blank" rel="noopener noreferrer">Yang et al., 2025</a>）。</p>
-      <h3>4. Bake-off</h3>
-      <p>探针 vs chat <code>/v1/decisions</code> vs Jev，同难度标签，尤其 OOD（数学 → MMLU-Pro / GPQA）。</p>
-      <p class="close">若成文一篇：<strong>Serving DiffAdapt via Decision APIs</strong>——自适应策略 + 准入控制，落在标准 decision 接口上。</p>
-
-      <h2 id="caveats">注意事项</h2>
-      <ul class="clean">
-        <li>勿将 <code>label_mass</code> / System One <code>confidence</code> 当作校准正确率（<a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang</a>；<a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>）。</li>
-        <li>解码中决策须贴合引擎时延预算；网关侧决策是今日易赢点（<a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a>）。</li>
-        <li>DiffAdapt 数字与 JevServe SLO 数字均仅引自原文；本文无新测。</li>
-      </ul>
-
-      <h2 id="references">精选引用</h2>
-      <p>与英文版同一列表，链接相同。</p>
-      <ol class="refs">
-        <li>Liu et al. <a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">DiffAdapt</a>. arXiv:2510.19669, 2025 (ICLR 2026).</li>
-        <li><a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang Decision models</a> (docs checked Oct 2026).</li>
-        <li><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe System One / Jev</a>.</li>
-        <li>SSAIL Lab. <a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">Rethinking LLM Serving with System One Models</a>.</li>
-        <li>Weng. <a href="https://lilianweng.github.io/posts/2025-05-01-thinking/" target="_blank" rel="noopener noreferrer">Why We Think</a>. Lil’Log, 2025.</li>
-        <li>Snell et al. <a href="https://arxiv.org/abs/2408.03314" target="_blank" rel="noopener noreferrer">Scaling LLM test-time compute</a>. 2024.</li>
-        <li>Wei et al. <a href="https://arxiv.org/abs/2201.11903" target="_blank" rel="noopener noreferrer">Chain-of-thought prompting</a>. NeurIPS 2022.</li>
-        <li>Sui et al. <a href="https://arxiv.org/abs/2503.16419" target="_blank" rel="noopener noreferrer">Stop overthinking (survey)</a>. 2025.</li>
-        <li>Li et al. <a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Reasoning LM inference serving unveiled</a>. 2025.</li>
-        <li>Yang et al. <a href="https://arxiv.org/abs/2504.15895" target="_blank" rel="noopener noreferrer">DEER</a>. 2025.</li>
-        <li>Kwon et al. <a href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener noreferrer">vLLM / PagedAttention</a>. SOSP 2023.</li>
-        <li>Zheng et al. <a href="https://arxiv.org/abs/2312.07104" target="_blank" rel="noopener noreferrer">SGLang</a>. 2024.</li>
-      </ol>
-    </article>
-
-    <footer class="colophon">
-      <p><a href="./serving-diffadapt-via-decision-apis.html" hreflang="en">English</a> · <a href="https://dominic789654.github.io/">主页</a> 研究札记，非正式论文。</p>
-    </footer>
-  </div>
-  <script src="./note.js"></script>
-</body>
-</html>
+<main class="frame"><header class="titleblock"><p class="meta">研究札记 · 刘翔 · 2026年10月 / 更新于 2026年11月2日</p><h1>Decision API 的 Free Lunch</h1><p class="sub">一次 Prefill，两种用途</p></header><nav class="toc" aria-label="文章目录"><ol><li><a href="#interfaces">接口分开不代表计算应该重复</a></li><li><a href="#direct-readout">最紧密的实现是从同一次 Prefill 直接读出</a></li><li><a href="#suffix-branch">带问句的 Decision 也可以共享大部分工作</a></li><li><a href="#engine">引擎需要把共享状态变成明确的执行能力</a></li><li><a href="#evaluation">先测量边际成本再测量决策收益</a></li><li><a href="#takeaway">一次计算可以有不止一个出口</a></li></ol></nav><article class="prose" id="note"><p>Decision API 和 Chat API 看起来是两类产品：前者返回类别、分数或布尔值，后者生成一段回答。但在普通因果生成式语言模型内部，它们可以从同一种计算开始：对输入执行 prefill，得到模型表示，再读取输出。</p>
+<p>这带来了一个很直接的机会。<strong>如果一次 chat 本来就要做 prefill，为什么不能顺便从这次计算里取出一个 decision？</strong></p>
+<p>我关心的不是在 chat 前面再放一个判断模型，也不是先调用一次 decision 接口、再把同一份输入重新送入 chat。更有意思的路径在引擎内部：共享目标模型的 prefill，在生成答案的同时取得控制信号。引擎支持得足够好，决策的边际成本就可能小到接近 free lunch。</p>
+<p>这里“免费”的对象是额外的决策，而不是模型原本就要做的 prefill。本文提出的是这个执行方式，以及它值得如何验证。</p>
+<h2 id="interfaces">接口分开不代表计算应该重复</h2>
+<p>普通自回归 chat 在开始生成前，需要处理输入，建立供后续解码使用的状态。对于候选标签打分式的 decision，模型同样先处理输入，再读取指定位置上各个标签的分数，不必生成一段解释。</p>
+<p><a href="https://docs.sglang.io/docs/supported-models/decision_models">SGLang 的 decision 文档</a> 给出了一个具体例子：普通生成模型可以通过 <code>/v1/decisions</code> 进行类型化判断，其底层使用 <code>/v1/score</code> 的 prefill 打分路径读取候选标签的 next-token 分数。这说明 decision 并不天然要求一套独立于 chat 的模型计算机制。</p>
+<p>如果两次请求分开执行，而相同前缀未被复用，系统就会为同一份输入重复付费：一次为了判断，一次为了回答。把 API 包装做得更漂亮，并不会消除这部分重复工作。</p>
+<p>但如果它们使用同一个模型，并共享相同的输入 token 前缀，重复的那部分计算就有机会被合并。<strong>Decision API 最值得挖掘的效率优势，可能不只是少生成几个 token，而是复用 chat 已经付出的 prefill 成本。</strong></p>
+<figure class="fig"><a href="./figures/shared-prefill.png" aria-label="查看原图 1"><img src="./figures/shared-prefill.png" width="1672" height="941" loading="lazy" decoding="async" alt="一次 prefill 的两种用途。直接读出需要经过训练或验证的控制头；这是一种执行设计，不是已测得的加速结果。" /></a><figcaption><span class="fignum">图 1.</span> 一次 prefill 的两种用途。直接读出需要经过训练或验证的控制头；这是一种执行设计，不是已测得的加速结果。 <a href="./figures/shared-prefill.png">查看原图</a></figcaption></figure>
+<h2 id="direct-readout">最紧密的实现是从同一次 Prefill 直接读出</h2>
+<p>最直接的设计是让一次 prefill 同时留下两类信息：供 chat 继续生成的 KV 状态，以及供决策模块读取的末位置隐藏表示。</p>
+<p>一个轻量控制头读取该表示，给出策略信号；引擎据此设置输出预算、采样参数等支持的执行选项，再从原来的 KV 状态继续解码。整个请求不需要再走一次完整输入处理，也不需要把判断包装成一段文本输出后再解析。</p>
+<p>这条路径的成本很清楚：chat 原有的 prefill 和 decode 之外，新增的是一个小型读出模块及控制逻辑。如果它足够轻，决策就可以成为 chat prefill 的副产品。</p>
+<p><a href="https://arxiv.org/html/2510.19669v5">DiffAdapt</a> 在这里提供了一项可行性证据：它能用 prefill 隐藏状态上的轻量探针选择推理策略。这说明模型读完问题时形成的表示，已经包含可用于控制后续推理的信息。它支持“先利用已有表示做决策”的想法，而不是本文的研究主体，也没有证明所有 decision 都能从同一状态可靠地读出。</p>
+<p>具体到某个决策，控制头仍需要合适的训练或验证。普通 chat 的下一 token 分数，并不会自动成为任意业务问题的答案。重要的是，引擎可以让这个读出复用已有表示，而不是为了取得一个控制信号重新执行整段 prefill。</p>
+<h2 id="suffix-branch">带问句的 Decision 也可以共享大部分工作</h2>
+<p>通用 Decision API 往往需要额外的决策问句与候选标签。例如，输入是一段长对话，决策问的是“这次请求应该使用哪种执行策略”。这时，决策分支与回答分支通常不会拥有完全相同的最终隐藏状态，但仍然可以共享此前的长前缀。</p>
+<p>设公共前缀为 P。引擎先计算 P，并保留它的 KV 状态。决策分支在 P 后接上简短的判断后缀 D，处理 D 后读取标签分数。得到决策后，回答分支从保留的 P 状态出发，处理自己的后缀 C，再继续生成。D 只用于判断，不混入回答分支的上下文。P 必须包含做决策所需的完整请求；C 仅包含回答分支的格式标记或决策后追加的引导，不应藏有决策尚未见过的任务信息。</p>
+<p>这样，新增成本主要来自短后缀 D 的处理、读出和分支管理，而不是再次计算整个 P。D 仍需要访问已有前缀的状态，因此它的成本也受上下文长度影响；但它没有重新运行前缀中每个 token 的完整前向计算。对于长输入、短决策问句，这种共享尤其值得尝试。</p>
+<p>SGLang 已有前缀复用能力，decision 文档也明确提到缓存前缀会被后续打分请求复用。这里引用的现有能力是标签打分和前缀复用，并不表示 SGLang 已经实现了本文设想的原子执行路径。不过，前缀缓存和原子的“decision 后接 chat”执行还不是同一件事。本文设想的引擎集成应当明确保留共享状态、执行决策分支并继续回答，而不是只依赖两个独立 HTTP 请求碰巧命中缓存。</p>
+<figure class="fig"><a href="./figures/prefill-readout-modes.png" aria-label="查看原图 2"><img src="./figures/prefill-readout-modes.png" width="1672" height="941" loading="lazy" decoding="async" alt="两条复用路径：直接消费保留的隐藏状态，或从公共 KV 分叉处理短决策后缀。P 已包含决策所需请求；C 仅为回答格式或后续引导。D 的状态不进入回答分支。" /></a><figcaption><span class="fignum">图 2.</span> 两条复用路径：直接消费保留的隐藏状态，或从公共 KV 分叉处理短决策后缀。P 已包含决策所需请求；C 仅为回答格式或后续引导。D 的状态不进入回答分支。 <a href="./figures/prefill-readout-modes.png">查看原图</a></figcaption></figure>
+<h2 id="engine">引擎需要把共享状态变成明确的执行能力</h2>
+<p>关键接口不一定是增加一个新的 URL，更可能是让引擎表达这样的请求：处理这份上下文，读出这些控制信号，然后沿用状态继续回答。</p>
+<p>为此，需要把三个边界设计清楚。</p>
+<p><strong>共享边界。</strong> <a href="https://github.com/sgl-project/sglang/blob/main/python/sglang/srt/mem_cache/radix_cache.py">前缀缓存的实现</a>需要匹配实际的 token 前缀。可复用的是同一模型、同一权重或适配器配置下，具有一致 token、位置及注意力条件的公共前缀。具有不同主干权重或注意力配置的 decision checkpoint 不能直接复用 chat 的 KV；非因果注意力模型也不能仅因接口形状相同就这样复用（SGLang 文档明确对 <code>noncausal_full_attention</code> 禁用前缀缓存）。语义相同但模板不同的输入，不一定共享同样多的计算。将决策问句尽量放在公共上下文之后，可以保留更长的公共前缀；如果某项策略需要修改前面的系统提示，就不能原样沿用受影响部分的缓存。</p>
+<p><strong>读出边界。</strong> <a href="https://github.com/sgl-project/sglang/blob/main/python/sglang/srt/managers/schedule_batch.py">SGLang 的请求与调度实现</a>区分缓存匹配与输出分数计算。KV cache 是供后续注意力计算使用的状态，不等于可以随时取回全部隐藏状态或最终 logits。直接控制头需要引擎在 prefill 结束时保留或立即消费相应表示；标签打分路径则需要在正确的决策位置读出分数。把这一步做在执行现场，才能避免为取一个结果重新计算。</p>
+<p><strong>控制边界。</strong> 决策要在相关动作发生前可用。输出预算等解码参数通常可以在生成前设置；是否允许调整其他执行选项，取决于具体引擎和模型。决策模块提供信号，引擎负责把它接到真正可生效的控制点。</p>
+<p>这也是共享 prefill 与“外接一个分类服务”的本质区别：前者把决策放到状态已经存在的位置，后者必须重新获得理解输入所需的信息。</p>
+<h2 id="evaluation">先测量边际成本再测量决策收益</h2>
+<p>验证这个想法，需要把两个问题分开：计算是否真的复用了，读出的决策是否真的有用。</p>
+<p>对于计算复用，可以在同一模型和相同工作负载下比较三条路径：独立 decision 与 chat、依赖前缀缓存的两个请求，以及引擎内显式共享 prefill 的融合执行。三条路径必须固定读出方式、决策规则和提示的 token 化方式：不能把训练好的控制头与提示式判断混着比较，再把差异算成引擎收益。以不带决策的 chat 为参照，测量额外的 prefill 工作、决策可用时间、首 token 延迟、吞吐和状态保留开销。首 token 延迟从请求到达算起，包含等待决策的时间；吞吐以固定负载下每秒完成的请求衡量。还应分别报告冷、热缓存、缓存命中率、实际重算的 token 数以及保留 KV 的占用。输入长度、决策后缀长度及并发度都应变化，不能只测一个有利样例。</p>
+<p>对于决策收益，则检查它能否改善具体任务。例如，读取推理策略信号后，是否在保持答案质量的同时减少生成开销。DiffAdapt 可以提供一种任务与基线，但其他可从已有上下文判断的控制问题，也可以沿用同一执行思路。每一种决策都要验证自己的有效性，不能用一个成功的探针替代全部验证。</p>
+<p>如果融合路径相对普通 chat 只增加很小的开销，而控制信号又能节约后续计算，这个 free lunch 就有了实测依据：不是凭空省掉一次推理，而是让原本只服务于生成的 prefill，同时服务于决策。</p>
+<figure class="fig"><a href="./figures/marginal-cost-evaluation.png" aria-label="查看原图 3"><img src="./figures/marginal-cost-evaluation.png" width="1672" height="941" loading="lazy" decoding="async" alt="评估计划，而非性能结果。同一模型、读出方式、决策规则和工作负载下，对比独立调用、前缀缓存与融合执行；分别测量成本和决策收益。" /></a><figcaption><span class="fignum">图 3.</span> 评估计划，而非性能结果。同一模型、读出方式、决策规则和工作负载下，对比独立调用、前缀缓存与融合执行；分别测量成本和决策收益。 <a href="./figures/marginal-cost-evaluation.png">查看原图</a></figcaption></figure>
+<h2 id="takeaway">一次计算可以有不止一个出口</h2>
+<p>Chat 与 decision 在产品接口上可以保持独立，在执行层却未必需要各做一遍输入理解。</p>
+<p><strong>同一次 prefill，一边为回答准备状态，一边提供决策信号。</strong> 这是我想强调的核心机会。DiffAdapt 说明其中一类信号已经可以从 prefill 表示中提取；Decision API 为这些信号提供了易于消费的输出形式；引擎的工作，则是让二者真正共享计算。</p>
+<p>如果这层支持做好，decision 就不必总是一笔额外的模型调用成本。它可以是 chat 本来就要完成的计算，顺手产出的另一种结果。</p></article><footer class="colophon"><p>这是执行方式的提案，尚无本文新增的性能实验。</p><p><a href="./serving-diffadapt-via-decision-apis.html">English version</a> · <a href="../#blog">返回 Blog</a></p></footer></main><script src="./note.js?v=20261102"></script></body></html>

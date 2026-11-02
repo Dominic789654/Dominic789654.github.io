@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Serving DiffAdapt via Decision APIs — Xiang Liu</title>
-  <meta name="description" content="Research note on serving DiffAdapt through decision APIs. No new experiments are claimed." />
+  <title>The Free Lunch in Decision APIs — Xiang Liu</title>
+  <meta name="description" content="One prefill, two uses: making decisions a low-marginal-cost byproduct of chat computation." />
   <meta name="author" content="Xiang Liu" />
   <link rel="canonical" href="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.html" />
   <link rel="alternate" hreflang="en" href="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.html" />
   <link rel="alternate" hreflang="zh-Hans" href="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.zh.html" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Serving DiffAdapt via Decision APIs" />
-  <meta property="og:description" content="A research note on difficulty-adaptive controllers inside LLM serving. Not an empirical paper." />
+  <meta property="og:title" content="The Free Lunch in Decision APIs" />
+  <meta property="og:description" content="One prefill, two uses: making decisions a low-marginal-cost byproduct of chat computation." />
   <meta property="og:url" content="https://dominic789654.github.io/blog/serving-diffadapt-via-decision-apis.html" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Noto+Serif+SC:wght@400;500;600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./note.css" />
+  <link rel="stylesheet" href="./note.css?v=20261102" />
   <script>
     (function () {
       try {
@@ -52,98 +52,42 @@
     </div>
   </header>
 
-  <div class="frame">
-    <nav class="toc" aria-label="Contents">
-      <p class="toc-label">Contents</p>
-      <ol>
-        <li><a href="#diffadapt">What DiffAdapt already shows</a></li>
-        <li><a href="#decisions">What decision APIs change</a></li>
-        <li><a href="#middleware">The missing middleware</a></li>
-        <li><a href="#directions">Open directions</a></li>
-        <li><a href="#caveats">Caveats</a></li>
-        <li><a href="#references">References</a></li>
-      </ol>
-    </nav>
-
-    <header class="titleblock">
-      <h1>Serving DiffAdapt via Decision APIs</h1>
-      <p class="sub">Research note · draft · Xiang Liu · Oct 2026</p>
-    </header>
-
-    <article class="prose" id="note">
-      <p class="lede">Test-time compute—chain-of-thought, long thinking traces, search—has become a first-class lever for LLM reasoning (<a href="https://arxiv.org/abs/2201.11903" target="_blank" rel="noopener noreferrer">Wei et al., 2022</a>; <a href="https://arxiv.org/abs/2408.03314" target="_blank" rel="noopener noreferrer">Snell et al., 2024</a>; <a href="https://lilianweng.github.io/posts/2025-05-01-thinking/" target="_blank" rel="noopener noreferrer">Weng, 2025</a>). More thinking is not uniformly better: models overthink easy problems, burn tokens on traces that do not change the answer, and create stragglers under shared serving (<a href="https://arxiv.org/abs/2503.16419" target="_blank" rel="noopener noreferrer">Sui et al., 2025</a>; <a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>).</p>
-
-      <p>Two recent threads suggest a cleaner control loop. <strong>DiffAdapt</strong> allocates Easy / Normal / Hard inference strategies from a lightweight probe on prefill hidden states (<a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">Liu et al., 2025</a>). <strong>Decision interfaces</strong>—TypeSafe’s System One / Jev (<a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>; <a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe blog</a>) and SGLang’s <code>/v1/decisions</code> (plus <code>/v1/systemone</code>) (<a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang docs</a>)—turn typed questions into label probabilities with <strong>no text generation</strong>. This note sketches how those pieces fit. <strong>No new experiments are claimed</strong>; open directions only.</p>
-
-      <h2 id="diffadapt">What DiffAdapt already shows</h2>
-      <p>Across reasoning models, token-level entropy of traces forms a <strong>U-shape</strong> over problem difficulty: high entropy on easy items despite high accuracy (overthinking), low entropy in a mid band, high entropy again on hard items (about 22–25% entropy drop from easy to mid). DiffAdapt maps that onto three fixed strategies (prompt + temperature + max tokens) via a small MLP on the last-layer prefill state—<strong>no LLM fine-tune</strong>. On five models and eight benchmarks it matches or improves accuracy while cutting tokens by up to <strong>22.4%</strong> (<a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">Liu et al., 2025</a>; ICLR 2026).</p>
-      <p>Limitations the paper flags: routing is <strong>prefill-only</strong>; strategy labels come from a proxy sampling protocol; aggressive Easy budgets can truncate rare cases (~2% truncation in their LLM-as-judge check).</p>
-      <figure class="fig">
-        <img src="./figures/diffadapt-pipeline.svg" alt="Schematic of DiffAdapt: request, prefill of the base model, last-layer hidden state, small MLP, Easy / Normal / Hard strategy, then decode. Routing is prefill-only." />
-        <figcaption><span class="fignum">Figure 1.</span> DiffAdapt’s prefill-only controller (Liu et al., 2025). A small MLP on the last-layer prefill state picks Easy, Normal, or Hard. Each strategy is a fixed prompt, temperature, and max_tokens; the base model is not fine-tuned. The paper flags prefill-only routing, proxy labels, and about 2% truncation under aggressive Easy budgets in their LLM-as-judge check. The U-shape is that paper’s entropy pattern.</figcaption>
-      </figure>
-
-      <h2 id="decisions">What decision APIs change</h2>
-      <p>Per <a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang’s decision-models docs</a> (checked Oct 2026):</p>
-      <ul class="rules">
-        <li><code>POST /v1/decisions</code> scores <code>choice</code> / <code>score</code> / <code>yes_no</code> from next-token scores at answer labels; <strong>completion tokens = 0</strong>; returns <code>probabilities</code>, and <code>label_mass</code> (full-vocab mass on the offered labels). Thinking is forced off.</li>
-        <li><code>POST /v1/systemone</code> mirrors the System One request shape (<code>noul</code> / <code>choice</code> / <code>score</code>) for TypeSafe-compatible clients; for ordinary chat models it uses the same scoring path. Decision checkpoints (e.g. Jev-style) use their own calibrated path.</li>
-        <li>Docs emphasize: returned probabilities are <strong>not</strong> calibrated correctness—validate thresholds on labeled data.</li>
-      </ul>
-      <p><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>: System One models return typed decisions (Choice / Score / Noul) rather than free text; <strong>Jev</strong> is their flagship. <a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a> reports Jev stronger on content judgments than on predicting other systems’ behavior, and that in their H200 ShareGPT replay, length-aware scheduling with Jev raised SLO attainment sharply (blog summary: 75%→99%; P90 TTFT 8.3 s→0.17 s under the reported load). Not re-run here.</p>
-      <p>Engine asymmetry: <strong>SGLang documents <code>/v1/decisions</code> today</strong>; a portable DiffAdapt×decision stack is SGLang-native unless the surface is ported.</p>
-      <figure class="fig">
-        <img src="./figures/decision-api-scoring.svg" alt="Schematic of SGLang decision scoring. POST /v1/decisions returns probabilities and label_mass. POST /v1/systemone returns x_label_mass and confidence. Completion tokens are zero. These are not calibrated correctness." />
-        <figcaption><span class="fignum">Figure 2.</span> SGLang decision scoring as documented for <code>/v1/decisions</code> and <code>/v1/systemone</code> (checked Oct 2026). The engine reads next-token scores at the answer labels. <code>/v1/decisions</code> returns <code>probabilities</code> and <code>label_mass</code>; <code>/v1/systemone</code> returns the System One fields <code>x_label_mass</code> / <code>confidence</code>. Completion tokens are zero, and thinking is forced off for ordinary chat models. Jev-style checkpoints use their own calibrated path. None of these fields is calibrated correctness.</figcaption>
-      </figure>
-
-      <h2 id="middleware">The missing middleware</h2>
-      <p>DiffAdapt decides <em>how hard to think</em>. Decision APIs decide <em>structured facts about the request</em> at admission (and, in principle, mid-generation via <code>/v1/score</code>). Serving still mostly uses fixed rules for priority, max tokens, speculative depth, and KV reservation—despite evidence that reasoning workloads straggle when difficulty is unmodeled (<a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>).</p>
-      <blockquote class="hypothesis"><strong>Hypothesis:</strong> pack Easy/Normal/Hard (plus “think?”, expected length) as one decision call; feed the result into the scheduler—DiffAdapt’s control signal without a custom probe path, or as a calibrated complement to the probe.</blockquote>
-      <figure class="fig">
-        <img src="./figures/serving-control-loop.svg" alt="Proposed serving loop, marked as not measured. A decision call sets Easy, Normal, or Hard, an optional think flag, and an expected length. Low label_mass escalates to Normal. The scheduler then sets budget, thinking, speculation, and KV priority. Decode may re-decide later." />
-        <figcaption><span class="fignum">Figure 3.</span> Proposed middleware — a hypothesis, not a measurement. One decision call, or the DiffAdapt probe as a complement, supplies Easy / Normal / Hard, an optional think flag, and an expected length. Low <code>label_mass</code> escalates to Normal. The scheduler then sets token budget, thinking, speculation, and KV priority. After <em>k</em> tokens or an entropy spike the loop may continue, stop, or upgrade Easy to Normal. Today’s serving mostly uses fixed rules, and <code>/v1/decisions</code> is SGLang-native unless that surface is ported.</figcaption>
-      </figure>
-
-      <h2 id="directions">Open directions (not yet run)</h2>
-      <h3>1. Decision-native DiffAdapt</h3>
-      <p>Replace or ablate the MLP probe with <code>/v1/decisions</code>: <code>choice</code> over Easy/Normal/Hard, optional <code>score</code> for length, <code>yes_no</code> for thinking. Gate with <code>label_mass</code> (low mass → escalate to Normal). Reuse DiffAdapt Stage-1 labels where available.</p>
-      <h3>2. Difficulty-aware serving</h3>
-      <p>Map decision outputs → <code>max_tokens</code>, think on/off, speculative aggressiveness, KV / priority. Evaluate accuracy, goodput, P90 TTFT, peak KV—aligned with JevServe’s length-prediction story and DiffAdapt’s token savings (<a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Li et al., 2025</a>).</p>
-      <h3>3. Online re-decide</h3>
-      <p>After <em>k</em> tokens or an entropy spike, re-ask continue / early-stop / upgrade (prefer Easy→Normal upgrades). Compare to early-exit CoT (<a href="https://arxiv.org/abs/2504.15895" target="_blank" rel="noopener noreferrer">Yang et al., 2025</a>).</p>
-      <h3>4. Bake-off</h3>
-      <p>Probe vs chat-model <code>/v1/decisions</code> vs Jev on the same difficulty labels, especially OOD (math → MMLU-Pro / GPQA).</p>
-      <p class="close">If one paper: <strong>Serving DiffAdapt via Decision APIs</strong>—adaptive strategies + admission control on a standardized decision surface.</p>
-
-      <h2 id="caveats">Caveats</h2>
-      <ul class="clean">
-        <li>Do not treat <code>label_mass</code> / System One <code>confidence</code> as calibrated correctness (<a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang</a>; <a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe</a>).</li>
-        <li>Mid-decode decisions must fit engine latency budgets; gateway-time decisions are the easy win today (<a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">JevServe</a>).</li>
-        <li>Claims about DiffAdapt numbers and JevServe SLO figures are from the cited sources only; this note adds no new measurements.</li>
-      </ul>
-
-      <h2 id="references">References (selected)</h2>
-      <ol class="refs">
-        <li>Liu et al. <a href="https://arxiv.org/abs/2510.19669" target="_blank" rel="noopener noreferrer">DiffAdapt</a>. arXiv:2510.19669, 2025 (ICLR 2026).</li>
-        <li><a href="https://docs.sglang.io/docs/supported-models/decision_models" target="_blank" rel="noopener noreferrer">SGLang Decision models</a> (docs checked Oct 2026).</li>
-        <li><a href="https://docs.typesafe.ai/concepts/system-one" target="_blank" rel="noopener noreferrer">TypeSafe System One / Jev</a>.</li>
-        <li>SSAIL Lab. <a href="https://supercomputing-system-ai-lab.github.io/blogs/rethinking-llm-serving-with-jev/" target="_blank" rel="noopener noreferrer">Rethinking LLM Serving with System One Models</a>.</li>
-        <li>Weng. <a href="https://lilianweng.github.io/posts/2025-05-01-thinking/" target="_blank" rel="noopener noreferrer">Why We Think</a>. Lil’Log, 2025.</li>
-        <li>Snell et al. <a href="https://arxiv.org/abs/2408.03314" target="_blank" rel="noopener noreferrer">Scaling LLM test-time compute</a>. 2024.</li>
-        <li>Wei et al. <a href="https://arxiv.org/abs/2201.11903" target="_blank" rel="noopener noreferrer">Chain-of-thought prompting</a>. NeurIPS 2022.</li>
-        <li>Sui et al. <a href="https://arxiv.org/abs/2503.16419" target="_blank" rel="noopener noreferrer">Stop overthinking (survey)</a>. 2025.</li>
-        <li>Li et al. <a href="https://arxiv.org/abs/2510.18672" target="_blank" rel="noopener noreferrer">Reasoning LM inference serving unveiled</a>. 2025.</li>
-        <li>Yang et al. <a href="https://arxiv.org/abs/2504.15895" target="_blank" rel="noopener noreferrer">DEER</a>. 2025.</li>
-        <li>Kwon et al. <a href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener noreferrer">vLLM / PagedAttention</a>. SOSP 2023.</li>
-        <li>Zheng et al. <a href="https://arxiv.org/abs/2312.07104" target="_blank" rel="noopener noreferrer">SGLang</a>. 2024.</li>
-      </ol>
-    </article>
-
-    <footer class="colophon">
-      <p><a href="./serving-diffadapt-via-decision-apis.zh.html" hreflang="zh-Hans" lang="zh-Hans">中文版</a> · Homepage note for <a href="https://dominic789654.github.io/">Xiang Liu</a>. Open research notes — not an empirical paper.</p>
-    </footer>
-  </div>
-  <script src="./note.js"></script>
-</body>
-</html>
+<main class="frame"><header class="titleblock"><p class="meta">Research note · Xiang Liu · October 2026 / Updated November 2, 2026</p><h1>The Free Lunch in Decision APIs</h1><p class="sub">One Prefill, Two Uses</p></header><nav class="toc" aria-label="Contents"><ol><li><a href="#interfaces">Separate interfaces need not duplicate computation</a></li><li><a href="#direct-readout">The tightest integration reads from the same prefill</a></li><li><a href="#suffix-branch">Prompted decisions can share most of the work too</a></li><li><a href="#engine">The engine should make shared state explicit</a></li><li><a href="#evaluation">Measure marginal cost and decision utility separately</a></li><li><a href="#takeaway">One computation can have more than one output</a></li></ol></nav><article class="prose" id="note"><p>Decision APIs and chat APIs look like different products. One returns a category, a score, or a Boolean judgment; the other generates an answer. Inside an ordinary causal generative language model, however, they can begin with the same kind of computation: prefill the input, obtain model representations, and read an output.</p>
+<p>That suggests a simple opportunity. <strong>If a chat request already needs a prefill pass, why not obtain a decision from that computation as well?</strong></p>
+<p>The idea is not to place another judgment model in front of chat, or to call a decision endpoint and then send the same input through chat again. The more interesting path is inside the engine: share the target model&#x27;s prefill and obtain a control signal alongside the state needed to generate an answer. With sufficiently good engine support, the decision&#x27;s marginal cost could become small enough to approach a free lunch.</p>
+<p>What becomes nearly free is the additional decision, not the prefill that chat already requires. This note proposes that execution model and how to test it.</p>
+<h2 id="interfaces">Separate interfaces need not duplicate computation</h2>
+<p>Before autoregressive chat begins generating, it processes the input and builds state for decoding. A label-scoring decision also processes an input, then reads candidate-label scores at a designated position, without needing to generate an explanation.</p>
+<p><a href="https://docs.sglang.io/docs/supported-models/decision_models">SGLang&#x27;s decision documentation</a> provides a concrete example. An ordinary generation model can answer typed questions through <code>/v1/decisions</code>, using the prefill scoring path of <code>/v1/score</code> to obtain next-token scores for the labels. Decisions do not inherently require a separate computational mechanism from chat.</p>
+<p>If two requests execute independently without reusing their common prefix, the system pays to process that input twice: once to decide, and once to answer. A cleaner API wrapper does not eliminate the duplicated work.</p>
+<p>If the requests use the same model and share an identical token prefix, however, that repeated computation can potentially be combined. <strong>The most interesting efficiency opportunity in decision APIs may be reusing the prefill cost already paid by chat, rather than simply generating fewer output tokens.</strong></p>
+<figure class="fig"><a href="./figures/shared-prefill.png" aria-label="View full-size figure 1"><img src="./figures/shared-prefill.png" width="1672" height="941" loading="lazy" decoding="async" alt="Two uses of one prefill. Direct readout requires a trained or validated control head. This is a proposed execution design, not a measured speedup." /></a><figcaption><span class="fignum">Figure 1.</span> Two uses of one prefill. Direct readout requires a trained or validated control head. This is a proposed execution design, not a measured speedup. <a href="./figures/shared-prefill.png">Full size</a></figcaption></figure>
+<h2 id="direct-readout">The tightest integration reads from the same prefill</h2>
+<p>A direct design retains two outputs of one prefill: the KV state needed to continue chat and the final-position hidden representation needed by a decision readout.</p>
+<p>A lightweight control head consumes that representation and returns a policy signal. The engine applies supported settings, such as an output budget or sampling parameters, and continues decoding from the original KV state. The request does not need another complete pass over the input, or a textual judgment that must be generated and parsed.</p>
+<p>The cost structure is straightforward. Beyond chat&#x27;s existing prefill and decoding work, the system adds a small readout and control logic. If these are sufficiently lightweight, the decision becomes a byproduct of chat prefill.</p>
+<p><a href="https://arxiv.org/html/2510.19669v5">DiffAdapt</a> provides evidence that this can work for one useful signal: a lightweight probe on prefill hidden states can select a reasoning strategy. The representation formed while reading the question already contains information useful for controlling subsequent inference. DiffAdapt supports the feasibility of reading decisions from existing representations; it is not the main subject here, nor proof that every decision can be read reliably from the same state.</p>
+<p>A particular control head still needs suitable training or validation. Ordinary next-token logits at a chat position do not automatically answer arbitrary decision questions. The opportunity is to let a meaningful readout reuse an existing representation instead of rerunning a long prefill merely to obtain a control signal.</p>
+<h2 id="suffix-branch">Prompted decisions can share most of the work too</h2>
+<p>A general decision API often needs an additional question and candidate labels. For example, the input may be a long conversation, followed by a question asking which execution strategy to use. The decision branch and the answer branch will not usually have identical final hidden states, but they can still share the preceding long prefix.</p>
+<p>Let the common prefix be P. The engine computes P and retains its KV state. A decision branch appends a short suffix D, processes D, and reads the label scores. Once the policy is available, the answer branch resumes from the retained state of P, processes its own suffix C, and generates the answer. D is used only for the decision; it does not become part of the answer branch&#x27;s context. P must already contain the complete request needed to make the decision. C contains only answer formatting or post-decision steering, not task information that the decision has yet to see.</p>
+<p>The incremental work is then primarily the decision suffix, its readout, and branch management, rather than another pass over all of P. The suffix still attends to prefix state, so its cost depends on context length. But it does not rerun the full forward computation for every prefix token. This is particularly worth exploring for long inputs and short decision questions.</p>
+<p>SGLang already supports prefix reuse, and its decision documentation explicitly describes cached-prefix reuse by subsequent scoring requests. These existing capabilities establish label scoring and prefix reuse, not an already-implemented atomic route of the kind proposed here. Prefix caching is nevertheless different from an atomic decision-then-chat execution. The proposed integration should explicitly retain shared state, execute the decision branch, and continue the answer, rather than relying only on two independent HTTP requests happening to hit a cache.</p>
+<figure class="fig"><a href="./figures/prefill-readout-modes.png" aria-label="View full-size figure 2"><img src="./figures/prefill-readout-modes.png" width="1672" height="941" loading="lazy" decoding="async" alt="Two reuse paths: consume retained hidden state directly, or fork the shared KV for a short decision suffix. P already contains the request needed for the decision; C is answer formatting or subsequent steering. D does not enter the answer branch." /></a><figcaption><span class="fignum">Figure 2.</span> Two reuse paths: consume retained hidden state directly, or fork the shared KV for a short decision suffix. P already contains the request needed for the decision; C is answer formatting or subsequent steering. D does not enter the answer branch. <a href="./figures/prefill-readout-modes.png">Full size</a></figcaption></figure>
+<h2 id="engine">The engine should make shared state explicit</h2>
+<p>The important interface may not be another URL. It may instead be an engine request that says: process this context, read these control signals, and continue answering from the resulting state.</p>
+<p>Three boundaries need to be defined.</p>
+<p><strong>The sharing boundary.</strong> <a href="https://github.com/sgl-project/sglang/blob/main/python/sglang/srt/mem_cache/radix_cache.py">Prefix-cache implementations</a> match actual token prefixes. Reuse requires a common prefix with matching tokens, positions, and attention conditions under the same model weights and adapter configuration. A decision checkpoint with different backbone weights or attention configuration cannot directly reuse chat KV, and noncausal attention does not become compatible just because the API shape matches (SGLang documents prefix caching as disabled for <code>noncausal_full_attention</code>). Semantically equivalent inputs with different templates may share little computation. Placing the decision question after the common context can preserve a longer shared prefix. If a policy changes an earlier system prompt, the affected cache state cannot simply be reused.</p>
+<p><strong>The readout boundary.</strong> <a href="https://github.com/sgl-project/sglang/blob/main/python/sglang/srt/managers/schedule_batch.py">SGLang’s request and scheduling implementation</a> distinguishes cache matching from output-score computation. KV cache is state for subsequent attention; it is not a store from which all hidden states or final logits can automatically be recovered. A direct control head needs the engine to retain or immediately consume the appropriate representation when prefill finishes. Label scoring needs a readout at the correct decision position. Doing this where the state already exists avoids recomputation just to retrieve an output.</p>
+<p><strong>The control boundary.</strong> A signal must be available before the action it controls. Output budgets and other supported decoding settings can be applied before generation; other adjustments depend on the engine and model. The decision module supplies a signal, and the engine connects it to a control point where it can actually take effect.</p>
+<p>This is the essential difference from attaching a separate classification service. Shared prefill places the decision where the model&#x27;s state already exists. A separate service must acquire the information needed to understand the input again.</p>
+<h2 id="evaluation">Measure marginal cost and decision utility separately</h2>
+<p>Two questions establish whether the idea works: was computation actually reused, and was the resulting decision useful?</p>
+<p>To measure reuse, compare three paths under the same model and workload: independent decision and chat execution, two requests using prefix caching, and explicit engine-level fusion. Hold the readout mode, decision rule, and prompt tokenization fixed across all three paths: comparing a trained head with a prompted decision would confound the engine comparison. Relative to chat without a decision, measure additional prefill work, time until the decision is available, time to first token, throughput, and the overhead of retaining state. Measure time to first token from request arrival, including the wait for the decision, and throughput as completed requests per second under a fixed workload. Report cold and warm caches, cache hit rate, actual recomputed token counts, and retained-KV occupancy. Vary input length, decision-suffix length, and concurrency rather than selecting only one favorable case.</p>
+<p>To measure utility, test a concrete control task. For example, does a reasoning-strategy signal reduce generation work while preserving answer quality? DiffAdapt supplies one possible task and baseline. Other decisions about the existing context could use the same execution pattern, but each needs its own validation; one successful probe cannot validate every readout.</p>
+<p>If fused execution adds little overhead to ordinary chat, and the signal saves subsequent computation, the free lunch has empirical support. No inference pass disappears by magic. A prefill that previously served only generation now serves a decision as well.</p>
+<figure class="fig"><a href="./figures/marginal-cost-evaluation.png" aria-label="View full-size figure 3"><img src="./figures/marginal-cost-evaluation.png" width="1672" height="941" loading="lazy" decoding="async" alt="An evaluation plan, not performance results. Compare separate, prefix-cached, and fused execution under the same model, readout mode, decision rule, and workload; measure cost and decision utility separately." /></a><figcaption><span class="fignum">Figure 3.</span> An evaluation plan, not performance results. Compare separate, prefix-cached, and fused execution under the same model, readout mode, decision rule, and workload; measure cost and decision utility separately. <a href="./figures/marginal-cost-evaluation.png">Full size</a></figcaption></figure>
+<h2 id="takeaway">One computation can have more than one output</h2>
+<p>Chat and decisions can remain separate product interfaces without independently processing the same input at execution time.</p>
+<p><strong>One prefill can prepare the state for an answer and provide a decision signal.</strong> That is the central opportunity. DiffAdapt shows that one class of useful signal can already be extracted from prefill representations. Decision APIs provide a convenient output form. The engine&#x27;s job is to make the underlying computation genuinely shared.</p>
+<p>With that support, a decision need not always cost another model call. It can be another result of computation that chat was going to perform anyway.</p></article><footer class="colophon"><p>An execution-model proposal; no new performance experiments are reported here.</p><p><a href="./serving-diffadapt-via-decision-apis.zh.html">中文版</a> · <a href="../#blog">Back to Blog</a></p></footer></main><script src="./note.js?v=20261102"></script></body></html>

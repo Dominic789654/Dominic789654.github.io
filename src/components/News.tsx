@@ -22,7 +22,7 @@ export const News: React.FC = () => {
       content: (
         <>
           Opened a <a href="#blog">Blog</a>, starting with a research note on
-          Serving DiffAdapt via Decision APIs ({""}
+          the free lunch in Decision APIs ({""}
           <a href="blog/serving-diffadapt-via-decision-apis.html">English</a>
           {" · "}
           <a href="blog/serving-diffadapt-via-decision-apis.zh.html" lang="zh-Hans">中文</a>

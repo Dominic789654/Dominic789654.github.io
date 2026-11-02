@@ -19,9 +19,9 @@ interface BlogPost {
 const posts: BlogPost[] = [
   {
     id: "diffadapt-decisions",
-    date: "Oct 2026",
-    title: "Serving DiffAdapt via Decision APIs",
-    dek: "Draft research note. A DiffAdapt Easy / Normal / Hard controller as a serving signal on decision APIs. No new experiments.",
+    date: "Nov 2026",
+    title: "The Free Lunch in Decision APIs: One Prefill, Two Uses",
+    dek: "If chat already pays for prefill, can a decision come almost for free? A proposal for sharing computation inside the serving engine.",
     links: [
       {
         label: "English",
@@ -64,12 +64,15 @@ export const Blog: React.FC = () => {
           return (
             <li
               key={post.id}
-              className="grid grid-cols-[96px_1fr] gap-x-5 gap-y-1 py-4 border-b border-rule-2 dark:border-[#3A3530] items-start"
+              className="grid grid-cols-1 sm:grid-cols-[96px_1fr] gap-x-5 gap-y-2 py-6 border-b border-rule-2 dark:border-[#3A3530] items-start"
             >
               <span className="pt-1 font-mono text-xs tracking-wide text-ink-3 dark:text-[#B8B2A6] uppercase whitespace-nowrap">
                 {post.date}
               </span>
               <div>
+                {post.id === "diffadapt-decisions" && (
+                  <a href={primary.href} className="block mb-4"><img src="blog/figures/shared-prefill.png" alt="One prefill, two uses: shared model state supplies both a validated decision readout and chat continuation." width={1672} height={941} loading="lazy" className="w-full h-auto border border-rule dark:border-[#4A443C]" /></a>
+                )}
                 <a
                   href={primary.href}
                   lang={primary.lang}

@@ -107,3 +107,31 @@ test('one AGI vision remains, experience uses years, and dated news is newest-fi
 });
 
 console.log('Verified publication summary:', JSON.stringify(summarizePublications(fullPublications)));
+
+test('bilingual blog preserves routes, shared-prefill thesis and execution boundaries', () => {
+  for (const suffix of ['', '.zh']) {
+    const page = read(`public/blog/serving-diffadapt-via-decision-apis${suffix}.html`);
+    assert.match(page, /Free Lunch/);
+    assert.match(page, /noncausal_full_attention/);
+    assert.match(page, /id="evaluation"/);
+    assert.equal((page.match(/<h1>/g) || []).length, 1);
+    assert.equal((page.match(/<figure /g) || []).length, 3);
+    const ids = [...page.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
+    assert.equal(new Set(ids).size, ids.length);
+    for (const match of page.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(match[1]), `Missing anchor ${match[1]}`);
+    for (const match of page.matchAll(/(?:src|href)="\.\/([^"?#]+)(?:\?[^"#]*)?"/g)) {
+      assert.ok(fs.existsSync(new URL(`../public/blog/${match[1]}`, import.meta.url)), `Missing local asset ${match[1]}`);
+    }
+    for (const match of page.matchAll(/<img\b[^>]*>/g)) {
+      assert.match(match[0], /alt="[^"]+"/);
+      assert.match(match[0], /width="\d+"/);
+      assert.match(match[0], /height="\d+"/);
+    }
+  }
+  const english = read('public/blog/serving-diffadapt-via-decision-apis.html');
+  assert.match(english, /complete request needed to make the decision/);
+  assert.match(english, /Hold the readout mode, decision rule, and prompt tokenization fixed/);
+  assert.match(english, /not an already-implemented atomic route/);
+  assert.match(english, /cold and warm caches/);
+  assert.doesNotMatch(english, /22\.4%|user message, etc/);
+});
