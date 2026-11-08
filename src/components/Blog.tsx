@@ -20,9 +20,14 @@ const posts: BlogPost[] = [
   {
     id: "cross-harness-memory",
     date: "Nov 2026",
-    title: "换了模型，不该重新认识我",
+    title: "Switching Models Shouldn't Mean Reintroducing Myself",
     dek: "Personal context should survive a change of model, tool, account, or machine. A design note on evidence and handoff, not a new memory algorithm.",
     links: [
+      {
+        label: "English",
+        href: "blog/cross-harness-memory.en.html",
+        lang: "en",
+      },
       {
         label: "中文",
         href: "blog/cross-harness-memory.zh.html",

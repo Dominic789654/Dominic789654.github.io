@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Switching Models Shouldn't Mean Reintroducing Myself — Xiang Liu</title>
+  <meta name="description" content="Personal context should not stay locked inside one model or tool. A note on evidence, permissions, and handoff, not a new memory algorithm." />
+  <meta name="author" content="Xiang Liu" />
+  <link rel="canonical" href="https://dominic789654.github.io/blog/cross-harness-memory.en.html" />
+  <link rel="alternate" hreflang="en" href="https://dominic789654.github.io/blog/cross-harness-memory.en.html" />
+  <link rel="alternate" hreflang="zh-Hans" href="https://dominic789654.github.io/blog/cross-harness-memory.zh.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:title" content="Switching Models Shouldn't Mean Reintroducing Myself" />
+  <meta property="og:description" content="Cross-tool personal memory: collect evidence first, then retrieve and hand it back per task. A problem framing, not a shipped product." />
+  <meta property="og:url" content="https://dominic789654.github.io/blog/cross-harness-memory.en.html" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Noto+Serif+SC:wght@400;500;600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./note.css?v=20261108" />
+  <script>
+    (function () {
+      try {
+        var q = new URLSearchParams(location.search).get("theme");
+        var saved = localStorage.getItem("theme");
+        var theme = q === "light" || q === "dark" ? q
+          : saved === "light" || saved === "dark" ? saved
+          : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.dataset.theme = theme;
+        if (theme === "dark") document.documentElement.classList.add("dark");
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#note">Skip to note</a>
+  <div class="progress" aria-hidden="true"><span id="read-bar"></span></div>
+  <header class="mast">
+    <div class="mast-inner">
+      <a class="brand" href="../">Xiang Liu</a>
+      <span class="slash" aria-hidden="true">/</span>
+      <a class="crumb" href="../#blog">Blog</a>
+      <span class="mast-spacer"></span>
+      <nav class="langs" aria-label="Language">
+        <a href="./cross-harness-memory.en.html" hreflang="en" lang="en" aria-current="page">EN</a>
+        <a href="./cross-harness-memory.zh.html" hreflang="zh-Hans" lang="zh-Hans">中文</a>
+      </nav>
+      <button class="theme" id="theme" type="button" aria-label="Switch color theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </header>
+
+<main class="frame">
+<header class="titleblock">
+  <p class="meta">Research note · Xiang Liu · November 8, 2026</p>
+  <h1>Switching Models Shouldn't Mean Reintroducing Myself</h1>
+  <p class="sub">Cross-tool memory for a personal agent</p>
+</header>
+<nav class="toc" aria-label="Contents">
+  <ol>
+    <li><a href="#again">Explaining myself again</a></li>
+    <li><a href="#split">Five separate jobs</a></li>
+    <li><a href="#collect">Three inlets</a></li>
+    <li><a href="#scan">Local scan</a></li>
+    <li><a href="#prior">Existing systems</a></li>
+    <li><a href="#wiki">Search or consolidate</a></li>
+    <li><a href="#inject">Handing it back</a></li>
+    <li><a href="#experiment">An unrun experiment</a></li>
+    <li><a href="#appendix">Appendix</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+</nav>
+
+<article class="prose" id="note">
+<p class="lede">When I switch models, developer tools, machines, or even just a project path, I often have to explain the background again: the constraints, the approaches already rejected, and where the work stopped. What interrupts me is usually not that the model cannot search. It is that those facts are locked inside different sessions.</p>
+<p>Memory for a personal agent should not belong to one model or one session. I also do not want every chat compressed into a summary that stays pinned forever. What I want is a layer I control, with sources and permissions: collect the evidence first, retrieve it for the task at hand, consolidate only when that helps, and hand it back through an inlet that tool actually supports.</p>
+<p class="hypothesis">This is not a new theory of memory, and it is not a product I have built. It treats continuity across tools as something that can be taken apart and falsified.</p>
+
+<h2 id="again">Explaining myself again</h2>
+<p>The same work spreads out. The model changes, the harness (the developer tool or runtime) changes, the account changes, the machine may be local or in the cloud, and the project path changes too. A memory feature that works well inside one tool does not fill a gap that the next tool never recorded.</p>
+<p>So the pain is not only “search the history we already kept a bit more accurately.” If the background, the constraints, the dead ends, and the current status were never written down, a later model has nothing to retrieve. In the November 6, 2026 article, Anthropic defines cross-session memory as context that can be read again later, and separates it from weight updates, learning inside a single conversation, and compaction. Dreaming, in that article, is a later pass over logs and notes that were already written.<a href="#src-anthropic">[1]</a></p>
+
+<h2 id="split">Five separate jobs</h2>
+<p>When people say “add memory to the agent,” they often mix five different jobs. Keeping them apart is what stops one of them from pretending to be the others.</p>
+<ul class="clean">
+  <li><strong>Collection.</strong> Were the messages, tool calls, and results written down at the time?</li>
+  <li><strong>Identity and permission.</strong> Whose records are these, and may another project or account see them?</li>
+  <li><strong>Consolidation.</strong> Should facts, decisions, and linked pages be extracted from the raw record?</li>
+  <li><strong>Retrieval.</strong> For this task, should the model see the raw text, the consolidated pages, or both?</li>
+  <li><strong>Injection.</strong> Can the result be handed back through an inlet this tool supports, and will the model use it?</li>
+</ul>
+<p>Collecting is not the same as handing the evidence back reliably. Retrieving is not the same as the model choosing to look. Injecting text into the context is not the same as the model following it.</p>
+
+<h2 id="collect">Three inlets, three partial views</h2>
+<p>I would not send every request through one gateway that is supposed to see the whole workflow. The more stable split is three complementary paths: a local scan for history already on disk, hooks or an SDK for what is happening now, and an API gateway only as an option, responsible solely for the requests it actually routes.</p>
+
+<figure class="fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 640" role="img" aria-labelledby="fig-a-title fig-a-desc">
+  <title id="fig-a-title">Figure A. Three collection inlets</title>
+  <desc id="fig-a-desc">Working context enters local incremental scan, hooks or an SDK, and an optional API gateway as three parallel paths. Each path then joins normalized events. They are not a sequence.</desc>
+  <defs>
+    <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path class="marker" d="M0 0 L8 4 L0 8 Z"/>
+    </marker>
+  </defs>
+  <style>text { font-family: Newsreader, Georgia, serif; }</style>
+  <rect class="bg" width="360" height="640"/>
+  <rect class="panel-accent" x="48" y="12" width="264" height="44" rx="2"/>
+  <text class="t" x="180" y="40" text-anchor="middle" font-size="16">Working context</text>
+  <path class="line" d="M180 56 V72 H22 V352"/>
+  <path class="line" d="M22 140 H48" marker-end="url(#arr-a)"/>
+  <path class="line" d="M22 248 H48" marker-end="url(#arr-a)"/>
+  <path class="line" d="M22 352 H48" marker-end="url(#arr-a)"/>
+  <rect class="panel" x="48" y="84" width="264" height="112" rx="2"/>
+  <text class="mono ta" x="60" y="108" font-size="12">Local incremental scan</text>
+  <text class="t" x="60" y="132" font-size="14">History already on disk</text>
+  <text class="tm" x="60" y="156" font-size="12">Cloud, unsaved, and truncated</text>
+  <text class="tm" x="60" y="174" font-size="12">content may be missing</text>
+  <rect class="panel" x="48" y="208" width="264" height="80" rx="2"/>
+  <text class="mono ta" x="60" y="232" font-size="12">Hooks / SDK</text>
+  <text class="t" x="60" y="256" font-size="14">Events as they happen</text>
+  <text class="tm" x="60" y="276" font-size="12">No pre-install backfill</text>
+  <rect class="panel" x="48" y="300" width="264" height="104" rx="2"/>
+  <text class="mono ta" x="60" y="324" font-size="12">Optional API gateway</text>
+  <text class="t" x="60" y="348" font-size="14">Only routed requests</text>
+  <text class="tm" x="60" y="370" font-size="12">Bypassed tool results</text>
+  <text class="tm" x="60" y="388" font-size="12">stay invisible</text>
+  <path class="line" d="M312 140 H338 V352"/>
+  <path class="line" d="M312 248 H338"/>
+  <path class="line" d="M312 352 H338"/>
+  <path class="line" d="M338 352 V448 H180 V466" marker-end="url(#arr-a)"/>
+  <rect class="panel-accent" x="48" y="466" width="264" height="150" rx="2"/>
+  <text class="mono ta" x="60" y="492" font-size="12">Normalized events</text>
+  <text class="t" x="60" y="518" font-size="14">Source, dedupe, scope, gaps</text>
+  <text class="tm" x="60" y="542" font-size="12">Each inlet joins on its own</text>
+  <text class="tm" x="60" y="562" font-size="12">None is assumed complete</text>
+  <text class="tm" x="60" y="582" font-size="12">Mark a gap; do not fill it in</text>
+</svg>
+<figcaption><span class="fignum">Fig. A.</span> The three inlets complement each other. They are not a sequence, and hosting the gateway locally or in the cloud does not let it see calls that never passed through it.</figcaption>
+</figure>
+
+<p>The Claude Code docs say that each message, tool use, and result is written as plaintext JSONL under <code>~/.claude/projects/</code>. I am citing that path only. I have not read my own sessions or anyone else’s. Resuming reopens the same session ID and appends. Forking copies the history into a new session ID. Hooks can supply the session, working directory, transcript path, and compact events. A cloud session does not read local <code>~/.claude/settings.json</code>, so a hook configured only on this machine should not be assumed to cover the cloud.<a href="#src-claude">[2]</a><a href="#src-hooks">[3]</a></p>
+<p>Codex’s public recorder also writes session rollouts as JSONL. I read the file at commit <code>8806313</code> from November 2, 2026, not the moving <code>main</code> link. That revision shows resume, and that revert creates a new rollout file. I did not audit the whole record schema, so I cannot say that every tool output is kept in full.<a href="#src-codex">[4]</a></p>
+<p>MCP is a different mechanism. It lets a client call tools and read or write an authorized store. Connecting MCP does not start a recording of every conversation. Collection still has to be arranged separately.<a href="#src-codex-mcp">[6]</a><a href="#src-super">[9]</a></p>
+
+<h2 id="scan">A local scan only recovers what was written</h2>
+<p>History from before a hook was installed can only be read from files the tool already wrote. The flow below is a design, not an implementation. It reads only directories the user names. It does not scan a home directory, and it does not guess at a private GUI database.</p>
+
+<figure class="fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 780" role="img" aria-labelledby="fig-b-title fig-b-desc">
+  <title id="fig-b-title">Figure B. Incremental local scan</title>
+  <desc id="fig-b-desc">Start from allowed directories and a version adapter. Read incrementally by file generation and offset. If a record is incomplete, hold the trailing line for the next read. If it is complete, normalize and dedupe, apply the user-configured identity and scope, write the evidence store, and only then commit the checkpoint.</desc>
+  <defs>
+    <marker id="arr-b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path class="marker" d="M0 0 L8 4 L0 8 Z"/>
+    </marker>
+  </defs>
+  <style>text { font-family: Newsreader, Georgia, serif; }</style>
+  <rect class="bg" width="360" height="780"/>
+  <rect class="panel" x="20" y="16" width="320" height="64" rx="2"/>
+  <text class="t" x="36" y="44" font-size="15">Allowed directories</text>
+  <text class="tm" x="36" y="64" font-size="13">Plus a version adapter</text>
+  <path class="line" d="M180 80 V104" marker-end="url(#arr-b)"/>
+  <rect class="panel" x="20" y="112" width="320" height="64" rx="2"/>
+  <text class="t" x="36" y="140" font-size="15">Read by generation and offset</text>
+  <text class="tm" x="36" y="160" font-size="13">A replaced file is not just an offset</text>
+  <path class="line" d="M180 176 V200" marker-end="url(#arr-b)"/>
+  <rect class="panel-accent" x="20" y="208" width="320" height="52" rx="2"/>
+  <text class="t" x="180" y="240" text-anchor="middle" font-size="16">Is this record complete?</text>
+  <path class="line" d="M110 260 V292" marker-end="url(#arr-b)"/>
+  <path class="line" d="M250 260 V292" marker-end="url(#arr-b)"/>
+  <text class="mono ta" x="78" y="278" font-size="12">No</text>
+  <text class="mono ta" x="258" y="278" font-size="12">Yes</text>
+  <rect class="panel-muted" x="20" y="300" width="148" height="96" rx="2"/>
+  <text class="t" x="32" y="328" font-size="14">Hold the last line</text>
+  <text class="tm" x="32" y="352" font-size="12">Wait for the next read</text>
+  <text class="tm" x="32" y="372" font-size="12">Do not store it yet</text>
+  <rect class="panel" x="192" y="300" width="148" height="96" rx="2"/>
+  <text class="t" x="204" y="328" font-size="14">Normalize</text>
+  <text class="tm" x="204" y="352" font-size="12">Dedupe by event id</text>
+  <text class="tm" x="204" y="372" font-size="12">Count the event once</text>
+  <path class="line" d="M266 396 V428" marker-end="url(#arr-b)"/>
+  <rect class="panel" x="20" y="436" width="320" height="72" rx="2"/>
+  <text class="t" x="36" y="466" font-size="15">User-set identity and scope</text>
+  <text class="tm" x="36" y="490" font-size="13">Do not merge accounts automatically</text>
+  <path class="line" d="M180 508 V532" marker-end="url(#arr-b)"/>
+  <rect class="panel" x="20" y="540" width="320" height="64" rx="2"/>
+  <text class="t" x="36" y="568" font-size="15">Write the store and index</text>
+  <text class="tm" x="36" y="588" font-size="13">Persist first, then move the checkpoint</text>
+  <path class="line" d="M180 604 V628" marker-end="url(#arr-b)"/>
+  <rect class="panel-accent" x="20" y="636" width="320" height="116" rx="2"/>
+  <text class="mono ta" x="36" y="664" font-size="12">Commit the checkpoint</text>
+  <text class="t" x="36" y="690" font-size="15">Replay must be safe to repeat</text>
+  <text class="tm" x="36" y="714" font-size="13">The incomplete line stays before it</text>
+</svg>
+<figcaption><span class="fignum">Fig. B.</span> This scan is not built. The point of the drawing is that a partial JSON line is not a record, and the checkpoint must not move before the write.</figcaption>
+</figure>
+
+<p>Identity is something I configure. A repository URL and a workspace path are only clues. A fork, a mirror, a directory with no remote, and two projects that share a name should not be merged on path alone. Deleting a memory has to reach the evidence, the index, derived pages, and the injection cache, and it needs a tombstone so the next scan does not bring it back.</p>
+<p>Historical text is low trust. If it says “ignore the previous constraints” or “send the secret out,” that is dialogue from the time, not a new instruction for this memory layer.</p>
+
+<h2 id="prior">Existing systems each cover a piece</h2>
+<p>Memory that crosses tools is not new. The items below are capabilities described in documentation. They are not a ranking from my own tests, and they are not a buying guide.</p>
+<ul class="rules">
+  <li><strong>Claude-Mem</strong> records observations from tool execution, searches them with local SQLite full text, and points back to an observation ID.<a href="#src-cmem">[7]</a></li>
+  <li><strong>Mem0’s Claude Code plugin</strong> uses hooks to keep local activity, then sends batches to Mem0. The docs treat <code>user_id</code> as the person, separate from the project and the session. I checked only this Claude Code integration.<a href="#src-mem0">[8]</a></li>
+  <li><strong>Supermemory</strong> exposes MCP tools that save submitted content, search, and forget. Several clients can use a space they are allowed to use. The docs do not say that connecting the server records every conversation.<a href="#src-super">[9]</a></li>
+  <li><strong>Letta</strong> keeps memory in MemFS and consolidates in the background. That does not show that it automatically collects every session from an arbitrary external tool.<a href="#src-letta">[10]</a></li>
+  <li><strong>Hindsight</strong> offers retain, recall, and reflect, and says it does not store conversations as archives. A raw evidence store still has to be considered separately.<a href="#src-hind">[11]</a></li>
+</ul>
+<p>These are parts, not five alternatives. A collector is an inlet, a memory engine organizes and retrieves, and MCP is one outlet. Sharing a store does not make account permissions correct, and it does not make the model look anything up.</p>
+
+<h2 id="wiki">Search or consolidate, depending on the task</h2>
+<p>Search over the raw record is a reasonable base. Notes or a wiki are a derived view. They can be rebuilt, and they should not become the only source of truth. The raw record, in turn, only shows that something was said or observed at the time. It does not by itself prove an outside fact.</p>
+<p>Anthropic tried this on Stainless internal documents: about 350,000 files and roughly 420 million tokens, with 25 questions. Opus 5 agents used from 2 to 128 sessions to read the material, write and revise wiki pages, merge duplicates, and check claims against sources. Wiki-only graded-criteria scores rose from 13% to 48%. Search alone scored 53%. Wiki plus search rose from 54% to 61% as the wiki grew, and saved about 20,000 tokens per question.<a href="#src-anthropic">[1]</a></p>
+<p>Those percentages are aggregates over graded criteria. They are not a task-success rate, and they are not a general accuracy number for cross-tool memory. The per-question token difference in that experiment does not include a full accounting of background build and maintenance cost, so it should not be treated as a net saving on every chat.</p>
+<p>The same article has an example that points the other way. A merger packet had 24 questions. More than half required information from several documents, and many also required judgment or calculation. On the items that needed cross-document work or judgment, the wiki scored 87% and search alone scored 73%. That is not the average of all 24 questions. On one Harvey LAB task, most criteria could be met from a single document and the wiki showed no clear gain. On another, the wiki grew larger than the source files. Whether a consolidation layer is worth it depends on the task.</p>
+
+<h2 id="inject">Consolidate in the background, retrieve for the task</h2>
+<p>Background consolidation should not block the work in front of me. While answering, the system should be able to read pages that are already consolidated and recent records that are not, and it should show which is which. New evidence and corrections that come back from the model are written to the raw store. The loop is not a way for the wiki to certify itself.</p>
+
+<figure class="fig">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 560" role="img" aria-labelledby="fig-c-title fig-c-desc">
+  <title id="fig-c-title">Figure C. Background consolidation and online handoff</title>
+  <desc id="fig-c-desc">Raw evidence goes to async consolidation, then to facts and a wiki, then to retrieval. Recent unsummarized records also go from raw evidence to retrieval. An online task with identity and scope goes to retrieval as well. Retrieval passes through a supported injection inlet to a harness. New evidence returns to the raw store on a dashed line.</desc>
+  <defs>
+    <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path class="marker" d="M0 0 L8 4 L0 8 Z"/>
+    </marker>
+  </defs>
+  <style>text { font-family: Newsreader, Georgia, serif; }</style>
+  <rect class="bg" width="360" height="560"/>
+  <rect class="panel-accent" x="12" y="8" width="200" height="48" rx="2"/>
+  <text class="t" x="112" y="38" text-anchor="middle" font-size="15">Raw evidence</text>
+  <text class="mono ta" x="220" y="28" font-size="11">New evidence</text>
+  <text class="tm" x="220" y="46" font-size="12">dashed return</text>
+  <path class="line" d="M70 56 V78" marker-end="url(#arr-c)"/>
+  <path class="line" d="M150 56 V68 H262 V78" marker-end="url(#arr-c)"/>
+  <text class="mono ta" x="16" y="74" font-size="11">background</text>
+  <text class="mono ta" x="168" y="66" font-size="11">not summarized</text>
+  <rect class="panel" x="12" y="78" width="148" height="72" rx="2"/>
+  <text class="t" x="22" y="104" font-size="14">Async consolidate</text>
+  <text class="tm" x="22" y="126" font-size="12">Check and merge</text>
+  <text class="tm" x="22" y="142" font-size="12">Does not block work</text>
+  <rect class="panel-muted" x="188" y="78" width="148" height="72" rx="2"/>
+  <text class="t" x="198" y="104" font-size="14">Recent records</text>
+  <text class="tm" x="198" y="126" font-size="12">Not in the wiki yet</text>
+  <text class="tm" x="198" y="142" font-size="12">Still retrieved</text>
+  <path class="line" d="M86 150 V168" marker-end="url(#arr-c)"/>
+  <path class="line" d="M336 114 H348 V248 H300 V260" marker-end="url(#arr-c)"/>
+  <rect class="panel" x="12" y="168" width="148" height="64" rx="2"/>
+  <text class="t" x="22" y="194" font-size="14">Facts and wiki</text>
+  <text class="tm" x="22" y="216" font-size="12">Sourced, rebuildable</text>
+  <rect class="panel" x="188" y="168" width="148" height="64" rx="2"/>
+  <text class="t" x="198" y="194" font-size="14">Online task</text>
+  <text class="tm" x="198" y="216" font-size="12">Identity and scope</text>
+  <path class="line" d="M86 232 V260" marker-end="url(#arr-c)"/>
+  <path class="line" d="M262 232 V260" marker-end="url(#arr-c)"/>
+  <rect class="panel-accent" x="12" y="260" width="324" height="56" rx="2"/>
+  <text class="t" x="24" y="284" font-size="15">Retrieve and assemble context</text>
+  <text class="tm" x="24" y="304" font-size="12">Wiki, recent raw text, and this task</text>
+  <path class="line" d="M174 316 V332" marker-end="url(#arr-c)"/>
+  <rect class="panel" x="12" y="332" width="324" height="52" rx="2"/>
+  <text class="t" x="24" y="354" font-size="14">Supported injection inlet</text>
+  <text class="tm" x="24" y="374" font-size="12">MCP, an instructions file, or a prompt</text>
+  <path class="line" d="M174 384 V400" marker-end="url(#arr-c)"/>
+  <rect class="panel" x="12" y="400" width="324" height="52" rx="2"/>
+  <text class="t" x="24" y="422" font-size="14">Harness A or harness B</text>
+  <text class="tm" x="24" y="442" font-size="12">Each receives in its own way</text>
+  <path class="loop" d="M336 426 H352 V18 H212" marker-end="url(#arr-c)"/>
+  <text class="tm" x="12" y="490" font-size="12">The dashed line is new evidence returning to the raw store.</text>
+  <text class="tm" x="12" y="510" font-size="12">After injection, the model may ignore it or misuse it.</text>
+  <text class="tm" x="12" y="530" font-size="12">Recent records skip the online task and go to retrieval.</text>
+</svg>
+<figcaption><span class="fignum">Fig. C.</span> Consolidation and online retrieval run at different speeds. The injection inlet has to be one that tool documents, not a dynamic inject assumed to exist everywhere.</figcaption>
+</figure>
+
+<p>The handoff has to be designed per tool. A short evidence packet can go through MCP. A few stable rules, and a pointer to where to search, can live in files the tool already reads, such as <code>CLAUDE.md</code> or <code>AGENTS.md</code>. A one-off human handoff can be a prompt that states its scope. Dynamic injection belongs only on a hook whose docs say it can return context.<a href="#src-claude">[2]</a><a href="#src-hooks">[3]</a><a href="#src-codex-mcp">[6]</a> The Codex SDK docs describe starting, continuing, and resuming a local thread. They do not describe listening to every existing GUI session.<a href="#src-sdk">[5]</a></p>
+<p>Each consolidated item should keep its source events, time, and scope. A preference I stated, a rule a test confirmed, and a guess the model made at the time should not be written as the same kind of thing. When they conflict, keep both and point back to the source instead of letting the latest write overwrite everything.</p>
+
+<h2 id="experiment">A handoff experiment that has not been run</h2>
+<p>The smallest step is not a full wiki. Start with one public log format, such as Claude Code JSONL, and use synthetic data or an export I have explicitly allowed that contains nothing sensitive. Check that a read-only incremental collector can be replayed. Build only a search inlet over the raw evidence. A second tool should read the same store through an MCP it supports, or through an explicit evidence prompt, so one project handoff can be tried. Consolidation and an optional gateway come after that.</p>
+<p>To decide whether consolidation helps, I want an experiment rather than another demo. Let tool A leave constraints, paths that failed, the final decision, and a later correction. Let tool B continue the same project. Along the way, change a path, introduce a branch conflict, an expired fact, a cross-project permission, and a case where historical text tries to act as a new instruction.</p>
+<p>Three conditions, with the same setup:</p>
+<ul class="clean">
+  <li>No memory.</li>
+  <li>Search over the raw record only.</li>
+  <li>A consolidation layer, plus that same search.</li>
+</ul>
+<p>The model, the raw evidence, the online token budget, the current code, and the permissions stay fixed. Handoff runs in both directions, and it is repeated. Record whether the task is completed, whether facts are supported by evidence, whether old facts or another project leak in, whether the model looks anything up, how long the handoff takes, latency, input and output tokens, and the cost of background maintenance. Deletion propagation and secret filtering are separate tests.</p>
+<p>This experiment has not been run. There is no improvement percentage here. If the third condition is no better than the second, or if maintenance cost outweighs the gain, there is no reason to add a wiki.</p>
+
+<h2 id="appendix">Appendix: easy mistakes in a scan</h2>
+<p>The body keeps the judgment. These are implementation boundaries, and they are still only design requirements.</p>
+<ul class="clean">
+  <li>When a file is rotated, truncated, or replaced, record the generation. An offset alone will read the wrong place in the new file.</li>
+  <li>Hold a partial JSON line. Isolate an unknown schema and warn. Do not put it in the normal index.</li>
+  <li>Make the write durable before moving the checkpoint. Replay depends on idempotent writes, not on “nothing was written after the checkpoint.”</li>
+  <li>A hook, a log, and a gateway may see the same event. Keep the sources, and count it once. Do not learn a fork’s shared prefix twice. Hashing only the body can merge events that really did repeat, so prefer an event ID and a source location.</li>
+  <li>Keep a compacted summary separate from the original dialogue. A failed branch is not a final decision. Mark a truncated output as missing. Do not invent the rest.</li>
+  <li>Filter secrets before storage or export. Filtering is not a guarantee of zero leakage. Retention, pause, exclusion, encryption, and project permissions need to be switchable on their own.</li>
+  <li>Display times can use a single zone. Storage should keep the source timezone.</li>
+</ul>
+
+<h2 id="sources">Sources</h2>
+<p>These are the public documents this note actually cites. Except for the Anthropic article, which is dated November 6, 2026, I do not treat the day I read a living document as its publication date. I have not reproduced the experiments, and I have not audited every third-party adapter.</p>
+<ol class="refs">
+  <li id="src-anthropic">Anthropic, <a href="https://www.anthropic.com/research/components-of-agent-memory">The components of agent memory</a>, November 6, 2026.</li>
+  <li id="src-claude">Claude Code, <a href="https://code.claude.com/docs/en/how-claude-code-works">How Claude Code works</a>.</li>
+  <li id="src-hooks">Claude Code, <a href="https://code.claude.com/docs/en/hooks">Hooks reference</a>.</li>
+  <li id="src-codex">OpenAI Codex rollout recorder, commit <a href="https://github.com/openai/codex/blob/8806313db4c82c89efcae3e6ac682bed6f4d6a66/codex-rs/rollout/src/recorder.rs"><code>8806313</code> (November 2, 2026)</a>. Do not treat the same path on <code>main</code> as a stable citation.</li>
+  <li id="src-sdk">OpenAI, <a href="https://developers.openai.com/codex/sdk/">Codex SDK</a>.</li>
+  <li id="src-codex-mcp">OpenAI, <a href="https://developers.openai.com/codex/mcp/">Codex MCP</a>.</li>
+  <li id="src-cmem">Claude-Mem, <a href="https://docs.claude-mem.ai/introduction">Introduction</a>.</li>
+  <li id="src-mem0">Mem0, <a href="https://docs.mem0.ai/integrations/claude-code">Claude Code plugin</a>.</li>
+  <li id="src-super">Supermemory, <a href="https://supermemory.ai/docs/supermemory-mcp/mcp">MCP overview</a>.</li>
+  <li id="src-letta">Letta, <a href="https://docs.letta.com/guides/agents/architectures/sleeptime/">Memory and dreaming</a>.</li>
+  <li id="src-hind">Hindsight, <a href="https://hindsight.vectorize.io/">overview</a>.</li>
+</ol>
+</article>
+<footer class="colophon">
+  <p>This is a problem framing and an experiment design that has not been run. There is no collector, no benchmark result, and no ranking of existing products as if I had tested them.</p>
+  <p><a href="./cross-harness-memory.zh.html" hreflang="zh-Hans" lang="zh-Hans">中文</a> · <a href="../#blog">Back to Blog</a></p>
+</footer>
+</main>
+<script src="./note.js?v=20261108"></script>
+</body>
+</html>
