@@ -49,7 +49,7 @@
 
 <main class="frame">
 <header class="titleblock">
-  <p class="meta">研究札记 · 刘翔 · 2026年11月8日</p>
+  <p class="meta">研究札记 · Xiang Liu · 2026年11月8日</p>
   <h1>换了模型，不该重新认识我</h1>
   <p class="sub">个人 Agent 的跨工具记忆</p>
 </header>
@@ -92,40 +92,46 @@
 <p>我不会把所有流量都送进一个什么都能看见的网关。更稳的是三条互补的路：本地扫描补已经落下的历史，hooks 或 SDK 补正在发生的事，API 网关只作为可选项，并且只对自己路由过的请求负责。</p>
 
 <figure class="fig">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 640" role="img" aria-labelledby="fig-a-title fig-a-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 620" role="img" aria-labelledby="fig-a-title fig-a-desc">
   <title id="fig-a-title">图 A. 三条采集入口</title>
-  <desc id="fig-a-desc">工作中的上下文同时进入本地增量扫描、Hooks 或 SDK、以及可选的 API 网关。三条路汇成带来源和缺失标记的标准化事件。本地扫描补已落盘历史，但看不见云端和未落盘内容。Hooks 是实时的，但不补安装前的历史。网关只看见经过它的请求和响应。</desc>
+  <desc id="fig-a-desc">工作中的上下文分别进入本地增量扫描、Hooks 或 SDK、以及可选的 API 网关。每一条再各自进入标准化事件。三条路并行，没有先后依赖。</desc>
   <defs>
     <marker id="arr-a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
       <path class="marker" d="M0 0 L8 4 L0 8 Z"/>
     </marker>
   </defs>
   <style>text { font-family: "Noto Serif SC", "Songti SC", serif; }</style>
-  <rect class="bg" width="360" height="640"/>
-  <rect class="panel-accent" x="20" y="16" width="320" height="52" rx="2"/>
-  <text class="t" x="180" y="48" text-anchor="middle" font-size="16">工作中的上下文</text>
-  <path class="line" d="M180 68 V88" marker-end="url(#arr-a)"/>
-  <text class="mono ta" x="192" y="84" font-size="11">三条并行</text>
-  <rect class="panel" x="20" y="100" width="320" height="112" rx="2"/>
-  <text class="mono ta" x="36" y="124" font-size="12">本地增量扫描</text>
-  <text class="t" x="36" y="150" font-size="15">可补已经落盘的历史</text>
-  <text class="tm" x="36" y="174" font-size="13">云端、未落盘、被截断的内容</text>
-  <text class="tm" x="36" y="194" font-size="13">不保证还在</text>
-  <rect class="panel" x="20" y="224" width="320" height="100" rx="2"/>
-  <text class="mono ta" x="36" y="248" font-size="12">Hooks / SDK</text>
-  <text class="t" x="36" y="274" font-size="15">看见正在发生的公开事件</text>
-  <text class="tm" x="36" y="298" font-size="13">不补安装之前的全部历史</text>
-  <rect class="panel" x="20" y="336" width="320" height="112" rx="2"/>
-  <text class="mono ta" x="36" y="360" font-size="12">API 网关（可选）</text>
-  <text class="t" x="36" y="386" font-size="15">只看见经过它的请求</text>
-  <text class="tm" x="36" y="410" font-size="13">文件变更和工具结果若没经过它</text>
-  <text class="tm" x="36" y="430" font-size="13">它就看不见</text>
-  <path class="line" d="M180 448 V472" marker-end="url(#arr-a)"/>
-  <rect class="panel-accent" x="20" y="480" width="320" height="136" rx="2"/>
-  <text class="mono ta" x="36" y="506" font-size="12">标准化事件</text>
-  <text class="t" x="36" y="534" font-size="15">标来源、去重、权限和缺失</text>
-  <text class="tm" x="36" y="560" font-size="13">不假定任何一条通道是完整的</text>
-  <text class="tm" x="36" y="584" font-size="13">缺了就标缺，不把空白补成事实</text>
+  <rect class="bg" width="360" height="620"/>
+  <rect class="panel-accent" x="48" y="12" width="264" height="44" rx="2"/>
+  <text class="t" x="180" y="40" text-anchor="middle" font-size="16">工作中的上下文</text>
+  <path class="line" d="M180 56 V72 H22 V342"/>
+  <path class="line" d="M22 134 H48" marker-end="url(#arr-a)"/>
+  <path class="line" d="M22 238 H48" marker-end="url(#arr-a)"/>
+  <path class="line" d="M22 342 H48" marker-end="url(#arr-a)"/>
+  <rect class="panel" x="48" y="84" width="264" height="100" rx="2"/>
+  <text class="mono ta" x="60" y="108" font-size="12">本地增量扫描</text>
+  <text class="t" x="60" y="132" font-size="14">可补已经落盘的历史</text>
+  <text class="tm" x="60" y="154" font-size="12">云端、未落盘、被截断的</text>
+  <text class="tm" x="60" y="172" font-size="12">内容不保证还在</text>
+  <rect class="panel" x="48" y="196" width="264" height="84" rx="2"/>
+  <text class="mono ta" x="60" y="220" font-size="12">Hooks / SDK</text>
+  <text class="t" x="60" y="244" font-size="14">看见正在发生的事件</text>
+  <text class="tm" x="60" y="266" font-size="12">不补安装之前的历史</text>
+  <rect class="panel" x="48" y="292" width="264" height="100" rx="2"/>
+  <text class="mono ta" x="60" y="316" font-size="12">API 网关（可选）</text>
+  <text class="t" x="60" y="340" font-size="14">只看见经过它的请求</text>
+  <text class="tm" x="60" y="362" font-size="12">没经过它的工具结果</text>
+  <text class="tm" x="60" y="380" font-size="12">它就看不见</text>
+  <path class="line" d="M312 134 H338 V342"/>
+  <path class="line" d="M312 238 H338"/>
+  <path class="line" d="M312 342 H338"/>
+  <path class="line" d="M338 342 V430 H180 V448" marker-end="url(#arr-a)"/>
+  <rect class="panel-accent" x="48" y="448" width="264" height="148" rx="2"/>
+  <text class="mono ta" x="60" y="474" font-size="12">标准化事件</text>
+  <text class="t" x="60" y="500" font-size="14">标来源、去重、权限、缺失</text>
+  <text class="tm" x="60" y="524" font-size="12">三条入口各自汇入</text>
+  <text class="tm" x="60" y="544" font-size="12">不假定任何一条是完整的</text>
+  <text class="tm" x="60" y="564" font-size="12">缺了就标缺，不补成事实</text>
 </svg>
 <figcaption><span class="fignum">图 A.</span>三条入口是互补的，不是三选一。网关放在本地还是云上，都改变不了它只能看见经过自己的那些调用。</figcaption>
 </figure>
@@ -204,62 +210,64 @@
 <h2 id="wiki">检索和整理，谁先谁后</h2>
 <p>原始记录上的搜索，是比较稳的底座。笔记或 wiki 是从这些记录派生出来的视图，可以重建，不该变成唯一的真相。反过来，原始记录也只证明当时说过或看到过，不自动等于外界事实。</p>
 <p>Anthropic 用 Stainless 的内部文档做了一组很小的试验：大约 35 万个文件、4.2 亿 tokens，一共 25 个问题。Opus 5 用 2 到 128 次会话去读材料、写和改 wiki、合并重复并回源核对。只靠 wiki 时，评分标准的合计分数从 13% 升到 48%。只给搜索工具是 53%。wiki 和搜索一起用，随着 wiki 变厚，从 54% 到 61%。一起用时，每题大约少 2 万 tokens。<a href="#src-anthropic">[1]</a></p>
-<p>这些百分比是评分细则的合计，不是“任务做成了多少”，更不是跨工具记忆的通用准确率。少掉的 2 万 tokens 也只是这一组问题里的读取开销，文章没有把后台整理的花费摊进去，所以不能把它当成每次聊天的净节省。</p>
+<p>这些百分比是评分细则的合计，不是“任务做成了多少”，更不是跨工具记忆的通用准确率。该实验中的每题 token 消耗差异，未在此给出后台构建/维护的完整摊销，所以不能把它当成每次聊天的净节省。</p>
 <p>同一篇文章里还有一个方向相反的例子。并购材料的 24 个问题里，超过一半要跨文档，不少还要判断或计算。在那些条目上，wiki 是 87%，只搜索是 73%。这不是 24 题的总平均。Harvey LAB 里另有一道题，多数标准从单篇文档就能检索到，wiki 没有明显好处。还有一道题，wiki 比原文还大。所以整理层是不是值得，要看任务，不能先站队。</p>
 
 <h2 id="inject">整理在后台，检索在眼前</h2>
 <p>后台整理不该挡住手头的工作。在线回答时，既要能查已经整理好的页面，也要能查还没整理的近期记录，并且让人看得出新旧。模型交回来的新证据和修正，再写回原始库。这个环不是让 wiki 自己证明自己是对的。</p>
 
 <figure class="fig">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 860" role="img" aria-labelledby="fig-c-title fig-c-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 560" role="img" aria-labelledby="fig-c-title fig-c-desc">
   <title id="fig-c-title">图 C. 后台整理和在线回填</title>
-  <desc id="fig-c-desc">原始证据库在后台做巩固，生成带来源的事实和 wiki。在线任务按身份和范围检索。检索同时使用 wiki，以及证据库里的直接搜索和近期记录。结果只通过各个工具支持的入口注入。新的证据和修正再回到证据库。</desc>
+  <desc id="fig-c-desc">原始证据进入异步巩固，再进入事实与 wiki，然后进入检索。尚未整理的近期记录也从原始证据进入检索。带身份和范围的在线任务同样进入检索。检索经过该工具支持的回填入口，到达具体 harness。新证据沿虚线回到原始证据库。</desc>
   <defs>
     <marker id="arr-c" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
       <path class="marker" d="M0 0 L8 4 L0 8 Z"/>
     </marker>
   </defs>
   <style>text { font-family: "Noto Serif SC", "Songti SC", serif; }</style>
-  <rect class="bg" width="360" height="860"/>
-  <rect class="panel-accent" x="20" y="16" width="320" height="56" rx="2"/>
-  <text class="t" x="180" y="50" text-anchor="middle" font-size="16">原始证据库</text>
-  <path class="line" d="M110 72 V104" marker-end="url(#arr-c)"/>
-  <path class="line" d="M250 72 V104"/>
-  <text class="mono ta" x="28" y="96" font-size="11">后台</text>
-  <text class="mono ta" x="196" y="96" font-size="11">也可直接搜</text>
-  <rect class="panel" x="20" y="112" width="150" height="88" rx="2"/>
-  <text class="t" x="32" y="144" font-size="14">异步巩固</text>
-  <text class="tm" x="32" y="168" font-size="13">核验、合并</text>
-  <text class="tm" x="32" y="186" font-size="13">不挡住当前工作</text>
-  <rect class="panel-muted" x="190" y="112" width="150" height="88" rx="2"/>
-  <text class="t" x="202" y="144" font-size="14">近期记录</text>
-  <text class="tm" x="202" y="168" font-size="13">还没进 wiki</text>
-  <text class="tm" x="202" y="186" font-size="13">也要能被搜到</text>
-  <path class="line" d="M95 200 V232" marker-end="url(#arr-c)"/>
-  <rect class="panel" x="20" y="240" width="150" height="80" rx="2"/>
-  <text class="t" x="32" y="272" font-size="14">事实与 wiki</text>
-  <text class="tm" x="32" y="296" font-size="13">带来源，可重建</text>
-  <rect class="panel" x="190" y="240" width="150" height="80" rx="2"/>
-  <text class="t" x="202" y="272" font-size="14">在线任务</text>
-  <text class="tm" x="202" y="296" font-size="13">带着身份和范围</text>
-  <path class="line" d="M95 320 V352" marker-end="url(#arr-c)"/>
-  <path class="line" d="M265 320 V340 H180 V352" marker-end="url(#arr-c)"/>
-  <rect class="panel-accent" x="20" y="360" width="320" height="72" rx="2"/>
-  <text class="t" x="36" y="390" font-size="15">检索和上下文组装</text>
-  <text class="tm" x="36" y="414" font-size="13">整理层和未整理的近期证据一起看</text>
-  <path class="line" d="M180 432 V456" marker-end="url(#arr-c)"/>
-  <rect class="panel" x="20" y="464" width="320" height="72" rx="2"/>
-  <text class="t" x="36" y="494" font-size="15">这个工具支持的回填入口</text>
-  <text class="tm" x="36" y="518" font-size="13">MCP、说明文件，或一段显式交接</text>
-  <path class="line" d="M180 536 V560" marker-end="url(#arr-c)"/>
-  <rect class="panel" x="20" y="568" width="320" height="64" rx="2"/>
-  <text class="t" x="36" y="596" font-size="15">Harness A 或 Harness B</text>
-  <text class="tm" x="36" y="616" font-size="13">各按自己的方式接收，不能通用硬塞</text>
-  <path class="loop" d="M340 600 H348 V44 H300" marker-end="url(#arr-c)"/>
-  <text class="mono ta" x="248" y="700" font-size="12">新证据和修正</text>
-  <text class="tm" x="248" y="720" font-size="13">回到证据库</text>
-  <text class="tm" x="20" y="780" font-size="13">虚线是反馈，不是让 wiki 自己证明自己正确。</text>
-  <text class="tm" x="20" y="804" font-size="13">注入之后，模型仍可能不用，也可能用错。</text>
+  <rect class="bg" width="360" height="560"/>
+  <rect class="panel-accent" x="12" y="8" width="220" height="48" rx="2"/>
+  <text class="t" x="122" y="38" text-anchor="middle" font-size="15">原始证据库</text>
+  <text class="mono ta" x="240" y="36" font-size="11">新证据、修正</text>
+  <text class="tm" x="240" y="52" font-size="12">沿虚线回到库</text>
+  <path class="line" d="M70 56 V78" marker-end="url(#arr-c)"/>
+  <path class="line" d="M160 56 V68 H268 V78" marker-end="url(#arr-c)"/>
+  <text class="mono ta" x="16" y="74" font-size="11">后台</text>
+  <text class="mono ta" x="188" y="64" font-size="11">未整理</text>
+  <rect class="panel" x="12" y="78" width="148" height="72" rx="2"/>
+  <text class="t" x="24" y="104" font-size="14">异步巩固</text>
+  <text class="tm" x="24" y="126" font-size="12">核验、合并</text>
+  <text class="tm" x="24" y="142" font-size="12">不挡住当前工作</text>
+  <rect class="panel-muted" x="188" y="78" width="148" height="72" rx="2"/>
+  <text class="t" x="200" y="104" font-size="14">近期记录</text>
+  <text class="tm" x="200" y="126" font-size="12">还没进 wiki</text>
+  <text class="tm" x="200" y="142" font-size="12">仍要能被检索</text>
+  <path class="line" d="M86 150 V168" marker-end="url(#arr-c)"/>
+  <path class="line" d="M336 114 H348 V248 H300 V260" marker-end="url(#arr-c)"/>
+  <rect class="panel" x="12" y="168" width="148" height="64" rx="2"/>
+  <text class="t" x="24" y="194" font-size="14">事实与 wiki</text>
+  <text class="tm" x="24" y="216" font-size="12">带来源，可重建</text>
+  <rect class="panel" x="188" y="168" width="148" height="64" rx="2"/>
+  <text class="t" x="200" y="194" font-size="14">在线任务</text>
+  <text class="tm" x="200" y="216" font-size="12">带着身份和范围</text>
+  <path class="line" d="M86 232 V260" marker-end="url(#arr-c)"/>
+  <path class="line" d="M262 232 V260" marker-end="url(#arr-c)"/>
+  <rect class="panel-accent" x="12" y="260" width="324" height="56" rx="2"/>
+  <text class="t" x="24" y="284" font-size="15">检索和上下文组装</text>
+  <text class="tm" x="24" y="304" font-size="12">wiki、近期原文、当前任务一起看</text>
+  <path class="line" d="M174 316 V332" marker-end="url(#arr-c)"/>
+  <rect class="panel" x="12" y="332" width="324" height="52" rx="2"/>
+  <text class="t" x="24" y="354" font-size="14">该工具支持的回填入口</text>
+  <text class="tm" x="24" y="374" font-size="12">MCP、说明文件，或显式交接</text>
+  <path class="line" d="M174 384 V400" marker-end="url(#arr-c)"/>
+  <rect class="panel" x="12" y="400" width="324" height="52" rx="2"/>
+  <text class="t" x="24" y="422" font-size="14">Harness A 或 Harness B</text>
+  <text class="tm" x="24" y="442" font-size="12">各按自己的方式接收</text>
+  <path class="loop" d="M336 426 H352 V18 H232" marker-end="url(#arr-c)"/>
+  <text class="tm" x="12" y="490" font-size="12">虚线只表示新证据回到原始库。</text>
+  <text class="tm" x="12" y="510" font-size="12">注入之后，模型仍可能不用或用错。</text>
+  <text class="tm" x="12" y="530" font-size="12">近期记录不经过在线任务，直接进入检索。</text>
 </svg>
 <figcaption><span class="fignum">图 C.</span>后台巩固和在线检索是两条速度不同的路。回填入口必须是该工具公开支持的那种，而不是假设所有工具都能动态注入。</figcaption>
 </figure>
