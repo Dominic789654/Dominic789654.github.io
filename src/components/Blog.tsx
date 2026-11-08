@@ -18,6 +18,19 @@ interface BlogPost {
 
 const posts: BlogPost[] = [
   {
+    id: "cross-harness-memory",
+    date: "Nov 2026",
+    title: "换了模型，不该重新认识我",
+    dek: "Personal context should survive a change of model, tool, account, or machine. A design note on evidence and handoff, not a new memory algorithm.",
+    links: [
+      {
+        label: "中文",
+        href: "blog/cross-harness-memory.zh.html",
+        lang: "zh-Hans",
+      },
+    ],
+  },
+  {
     id: "diffadapt-decisions",
     date: "Nov 2026",
     title: "The Free Lunch in Decision APIs: One Prefill, Two Uses",
