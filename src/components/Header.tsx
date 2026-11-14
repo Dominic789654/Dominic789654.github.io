@@ -27,7 +27,7 @@ const HIGHLIGHTS = [
   {
     title: "UniPat",
     description:
-      "Algorithm Research Intern since July 2026. Mind Lab internship ended July 2026.",
+      "Algorithm Research Intern since July 2026. SPU is out: a benchmark of hidden wet-lab outcomes for AI agents.",
   },
   {
     title: "NAACL 2027",

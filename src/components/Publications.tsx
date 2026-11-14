@@ -46,6 +46,7 @@ const TOPIC_OF: Record<number, (typeof TOPICS)[number]> = {
   10: "Model Compression & Efficient Training",
   21: "Model Compression & Efficient Training",
   // Evaluation & Benchmarks
+  51: "Evaluation & Benchmarks",
   50: "Evaluation & Benchmarks",
   42: "Evaluation & Benchmarks",
   23: "Evaluation & Benchmarks",
@@ -190,6 +191,21 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
 
   const preprints = [
     {
+      id: 51,
+      title: "Science Prediction Universe",
+      authors:
+        "Zengji Tu*, Xiang Liu*, Jiarui Sun, Ruoyu Wu, Zhihui Qi, Chengda Wu, Yutao Zhou, Bo Yang, Ziyan Zhang, Jialong Wu, Liang Chen, Kuan Li, et al.",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/abs/2611.15049",
+        code: "https://github.com/UniPat-AI/SPU",
+        project: "https://spu.unipat.ai",
+        dataset: "https://huggingface.co/datasets/UnipatAI/SPU",
+        blog: "https://unipat.ai/blog/SciencePredictionUniverse",
+        x: "https://x.com/Dominicliu12/status/2121113245989933177",
+      },
+    },
+    {
       id: 49,
       title:
         "Macaron-V1: Towards Open Continual Learning with Self-Improvement and Mixture-of-LoRA",
@@ -289,6 +305,21 @@ export const Publications: React.FC<PublicationsProps> = ({ part }) => {
   ];
 
   const fullPublications = [
+    {
+      id: 51,
+      title: "Science Prediction Universe",
+      authors:
+        "Zengji Tu*, Xiang Liu*, Jiarui Sun, Ruoyu Wu, Zhihui Qi, Chengda Wu, Yutao Zhou, Bo Yang, Ziyan Zhang, Jialong Wu, Liang Chen, Kuan Li, et al.",
+      venue: "arXiv preprint",
+      links: {
+        paper: "https://arxiv.org/abs/2611.15049",
+        code: "https://github.com/UniPat-AI/SPU",
+        project: "https://spu.unipat.ai",
+        dataset: "https://huggingface.co/datasets/UnipatAI/SPU",
+        blog: "https://unipat.ai/blog/SciencePredictionUniverse",
+        x: "https://x.com/Dominicliu12/status/2121113245989933177",
+      },
+    },
     {
       id: 50,
       title:

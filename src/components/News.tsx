@@ -17,6 +17,41 @@ export const News: React.FC = () => {
 
   const newsItems: NewsItem[] = [
     {
+      id: -13,
+      date: "Nov 2026",
+      content: (
+        <>
+          Science Prediction Universe (SPU) is now on arXiv: a UniPat AI
+          benchmark that asks agents to predict real wet-lab outcomes, with
+          100 public tasks and 16 private tasks from unpublished experiments.{" "}
+          <a
+            href="https://arxiv.org/abs/2611.15049"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Paper
+          </a>
+          {" · "}
+          <a
+            href="https://spu.unipat.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Project page
+          </a>
+          {" · "}
+          <a
+            href="https://huggingface.co/datasets/UnipatAI/SPU"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Dataset
+          </a>
+        </>
+      ),
+      isNew: true,
+    },
+    {
       id: -12,
       date: "Oct 2026",
       content: (

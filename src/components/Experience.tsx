@@ -18,8 +18,10 @@ export const Experience: React.FC = () => {
     {
       id: 6,
       organization: "UniPat",
+      url: "https://www.unipat.ai/",
       period: "2026–Present",
-      description: "Algorithm Research Intern."
+      description:
+        "Algorithm Research Intern. Co-first author of Science Prediction Universe (SPU)."
     },
     {
       id: 5,

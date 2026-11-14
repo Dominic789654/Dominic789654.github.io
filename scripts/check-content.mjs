@@ -94,6 +94,36 @@ test('NestedKV, CondenseVLM, and EVOQUANT preserve their main/workshop distincti
   assert.equal(paper(48).venue, 'FinNLP 2026 (EMNLP Workshop), Poster');
 });
 
+test('SPU stays a locked co-first preprint and is not selected', () => {
+  const spu = paper(51);
+  assert.equal(spu.title, 'Science Prediction Universe');
+  assert.equal(spu.venue, 'arXiv preprint');
+  assert.equal(spu.authors, 'Zengji Tu*, Xiang Liu*, Jiarui Sun, Ruoyu Wu, Zhihui Qi, Chengda Wu, Yutao Zhou, Bo Yang, Ziyan Zhang, Jialong Wu, Liang Chen, Kuan Li, et al.');
+  assert.deepEqual(preprints[0], spu);
+  assert.equal(fullPublications[0], spu);
+  assert.equal(selectedPublications.some((entry) => entry.id === 51), false);
+  assert.equal(TOPIC_OF[51], 'Evaluation & Benchmarks');
+  assert.deepEqual(spu.links, {
+    paper: 'https://arxiv.org/abs/2611.15049',
+    code: 'https://github.com/UniPat-AI/SPU',
+    project: 'https://spu.unipat.ai',
+    dataset: 'https://huggingface.co/datasets/UnipatAI/SPU',
+    blog: 'https://unipat.ai/blog/SciencePredictionUniverse',
+    x: 'https://x.com/Dominicliu12/status/2121113245989933177',
+  });
+  assert.equal((bib.match(/@misc\{spu2026,/g) || []).length, 1);
+  assert.equal((bib.match(/eprint\s*=\s*\{2611\.15049\}/g) || []).length, 1);
+  assert.match(bib, /% LOCK[^\n]*\n@misc\{spu2026,/);
+  assert.ok(bib.includes('primaryClass  = {cs.AI}'));
+  assert.ok(bib.includes('Yaokai Fu'));
+  assert.ok(bib.includes('note          = {Project page: https://spu.unipat.ai}'));
+  const copy = ['News', 'About', 'Header', 'FeaturedPapers', 'Research', 'Experience', 'Publications']
+    .map((name) => read(`src/components/${name}.tsx`))
+    .join('\n');
+  assert.match(copy, /Science Prediction Universe \(SPU\) is now on arXiv/);
+  assert.doesNotMatch(copy, /0\.486|0\.525|task-adjusted/);
+});
+
 test('one AGI vision remains, experience uses years, and dated news is newest-first', () => {
   const copy = ['Header', 'About', 'Research'].map((name) => read(`src/components/${name}.tsx`)).join('\n');
   assert.equal((copy.match(/accelerating the arrival of AGI/g) ?? []).length, 1);
