@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
 import { SectionTitle } from './SectionTitle';
+import spuFig from '../assets/images/papers/spu.png';
 import dmemFig from '../assets/images/papers/dmem.png';
 import nestedkvFig from '../assets/images/papers/nestedkv.png';
 import condenseFig from '../assets/images/papers/condensevlm.png';
@@ -24,6 +25,15 @@ interface FeaturedPaper {
 }
 
 const featured: FeaturedPaper[] = [
+  {
+    id: 'spu',
+    title: 'Science Prediction Universe',
+    venue: 'arXiv preprint',
+    oneliner:
+      'A UniPat AI benchmark of hidden wet-lab outcomes. Agents predict and rank real experimental results on 100 public tasks and 16 private tasks from unpublished experiments.',
+    figure: spuFig,
+    link: 'https://spu.unipat.ai',
+  },
   {
     id: 'dmem',
     title: 'δ-mem: Efficient Online Memory for Large Language Models',

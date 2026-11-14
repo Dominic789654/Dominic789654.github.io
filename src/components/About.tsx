@@ -18,6 +18,23 @@ export const About: React.FC = () => {
       ),
     },
     {
+      id: 4,
+      content: (
+        <>
+          At UniPat AI, I also work on evaluating whether language-model agents
+          can predict real wet-lab experimental outcomes, including the{" "}
+          <a
+            href="https://spu.unipat.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Science Prediction Universe (SPU)
+          </a>{" "}
+          benchmark.
+        </>
+      ),
+    },
+    {
       id: 2,
       content: (
         <>

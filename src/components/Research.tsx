@@ -22,6 +22,11 @@ export const Research: React.FC = () => {
             online memory, retrieval, and continual learning for agents that
             improve through interaction.
           </li>
+          <li>
+            <strong className="font-medium text-ink dark:text-[#E8E4DC]">AI for science:</strong>{" "}
+            wet-lab outcome prediction, including whether language-model agents
+            can rank real experimental results.
+          </li>
         </ul>
       </div>
     </section>

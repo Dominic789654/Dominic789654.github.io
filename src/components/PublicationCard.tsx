@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { FileText, Code, BookOpen, ExternalLink } from 'lucide-react';
+import { FileText, Code, BookOpen, ExternalLink, Globe, Database, Twitter } from 'lucide-react';
 import { prepare, layout } from '@chenglou/pretext';
 import { useCitations } from '../contexts/CitationContext';
 import { getCitationCountForPaper } from '../contexts/citationUtils';
@@ -13,7 +13,10 @@ interface Publication {
   links: {
     paper?: string;
     code?: string;
+    project?: string;
+    dataset?: string;
     blog?: string;
+    x?: string;
   };
 }
 
@@ -232,53 +235,32 @@ export const PublicationCard: React.FC<PublicationCardProps> = ({
           transition={{ duration: 0.4 }}
           className="mt-4 flex flex-wrap gap-2.5"
         >
-          {publication.links.paper && (
-            <motion.a
-              href={publication.links.paper}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              className={`no-underline inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.paper.bg} ${linkVariants.paper.bgHover} ${linkVariants.paper.text} ${linkVariants.paper.border} transition-all`}
-              style={{ borderBottom: '1px solid' }}
-            >
-              <FileText size={14} />
-              Paper
-              <ExternalLink size={11} className="opacity-60" />
-            </motion.a>
-          )}
-
-          {publication.links.code && (
-            <motion.a
-              href={publication.links.code}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              className={`no-underline inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.code.bg} ${linkVariants.code.bgHover} ${linkVariants.code.text} ${linkVariants.code.border} transition-all`}
-              style={{ borderBottom: '1px solid' }}
-            >
-              <Code size={14} />
-              Code
-              <ExternalLink size={11} className="opacity-60" />
-            </motion.a>
-          )}
-
-          {publication.links.blog && (
-            <motion.a
-              href={publication.links.blog}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              className={`no-underline inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${linkVariants.blog.bg} ${linkVariants.blog.bgHover} ${linkVariants.blog.text} ${linkVariants.blog.border} transition-all`}
-              style={{ borderBottom: '1px solid' }}
-            >
-              <BookOpen size={14} />
-              Blog
-              <ExternalLink size={11} className="opacity-60" />
-            </motion.a>
-          )}
+          {[
+            { href: publication.links.paper, label: 'Paper', icon: FileText, variant: linkVariants.paper },
+            { href: publication.links.code, label: 'Code', icon: Code, variant: linkVariants.code },
+            { href: publication.links.project, label: 'Project', icon: Globe, variant: linkVariants.blog },
+            { href: publication.links.dataset, label: 'Dataset', icon: Database, variant: linkVariants.code },
+            { href: publication.links.blog, label: 'Blog', icon: BookOpen, variant: linkVariants.blog },
+            { href: publication.links.x, label: 'X', icon: Twitter, variant: linkVariants.code },
+          ].filter((item): item is typeof item & { href: string } => Boolean(item.href)).map((item) => {
+            const Icon = item.icon;
+            return (
+              <motion.a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className={`no-underline inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 border border-b-0 ${item.variant.bg} ${item.variant.bgHover} ${item.variant.text} ${item.variant.border} transition-all`}
+                style={{ borderBottom: '1px solid' }}
+              >
+                <Icon size={14} />
+                {item.label}
+                <ExternalLink size={11} className="opacity-60" />
+              </motion.a>
+            );
+          })}
         </motion.div>
       </motion.div>
     </div>
